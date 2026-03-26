@@ -343,19 +343,19 @@
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
           <!-- Treasury Total -->
-          <div class="card card-top-orange bg-white dark:bg-[#1a1d27] p-4 space-y-3">
+          <div class="card card-top-orange bg-white dark:bg-[#1a1d27] p-4 flex flex-col">
             <div class="flex items-center justify-between">
               <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">Treasury Total</span>
               <div class="w-7 h-7 rounded-lg bg-orange-50 dark:bg-orange-500/10 flex items-center justify-center">
                 <i data-lucide="landmark" class="w-3.5 h-3.5 text-orange-500"></i>
               </div>
             </div>
-            <div>
+            <div class="mt-2">
               <p class="font-grotesk font-semibold text-2xl text-gray-900 dark:text-white">$500,000</p>
               <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">NT$15,925,000</p>
             </div>
             <!-- Per-pool breakdown -->
-            <div class="space-y-1 pt-0.5">
+            <div class="space-y-1 pt-2 mt-2 border-t border-gray-50 dark:border-white/5">
               <div class="flex items-center justify-between text-[11px]">
                 <span class="flex items-center gap-1 text-gray-500 dark:text-gray-400"><span class="w-1.5 h-1.5 rounded-full bg-blue-400 inline-block"></span>USDC · ETH</span>
                 <span class="font-medium text-gray-700 dark:text-gray-300">250,000 <span class="text-gray-400 font-normal">USDC</span></span>
@@ -376,205 +376,105 @@
           </div>
 
           <!-- Pending Bills (AP) -->
-          <div class="card card-top-violet bg-white dark:bg-[#1a1d27] p-4 space-y-3">
+          <div class="card card-top-violet bg-white dark:bg-[#1a1d27] p-4 flex flex-col">
             <div class="flex items-center justify-between">
-              <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">Pending Bills</span>
+              <div class="flex items-center gap-2">
+                <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">Pending Bills</span>
+                <span class="w-5 h-5 rounded-full bg-violet-500 text-white flex items-center justify-center text-[10px] font-bold">4</span>
+              </div>
               <div class="w-7 h-7 rounded-lg bg-violet-50 dark:bg-violet-500/10 flex items-center justify-center">
                 <i data-lucide="arrow-up-circle" class="w-3.5 h-3.5 text-violet-500"></i>
               </div>
             </div>
-            <div>
-              <p class="font-grotesk font-semibold text-2xl text-gray-900 dark:text-white">4</p>
-              <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">Bills pending approval or signature</p>
+            <!-- Inline list -->
+            <div class="mt-2 flex-1 divide-y divide-gray-50 dark:divide-white/4">
+              <div onclick="openApprovalDrawer('PAY-20260318-001')" class="flex items-center justify-between px-0 py-1.5 hover:bg-gray-50/60 dark:hover:bg-white/3 rounded-lg cursor-pointer transition-colors">
+                <div class="flex-1 min-w-0">
+                  <p class="text-[11px] font-mono text-gray-400 truncate">PAY-20260318-001</p>
+                  <p class="text-xs font-medium text-gray-800 dark:text-gray-200 truncate">Vendor Inc · 30,000 USDC</p>
+                </div>
+                <span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 shrink-0 ml-2">Pending Mgr</span>
+              </div>
+              <div onclick="openApprovalDrawer('PAY-20260316-002')" class="flex items-center justify-between px-0 py-1.5 hover:bg-gray-50/60 dark:hover:bg-white/3 rounded-lg cursor-pointer transition-colors">
+                <div class="flex-1 min-w-0">
+                  <p class="text-[11px] font-mono text-gray-400 truncate">PAY-20260316-002</p>
+                  <p class="text-xs font-medium text-gray-800 dark:text-gray-200 truncate">Shenzhen Parts · 75,000 USDT</p>
+                </div>
+                <span class="badge bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-400 shrink-0 ml-2">Pending CFO</span>
+              </div>
+              <div onclick="openApprovalDrawer('PAY-20260315-003')" class="flex items-center justify-between px-0 py-1.5 hover:bg-gray-50/60 dark:hover:bg-white/3 rounded-lg cursor-pointer transition-colors">
+                <div class="flex-1 min-w-0">
+                  <p class="text-[11px] font-mono text-gray-400 truncate">PAY-20260315-003</p>
+                  <p class="text-xs font-medium text-gray-800 dark:text-gray-200 truncate">Global Imports · 120,000 USDC</p>
+                </div>
+                <span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 shrink-0 ml-2">Pending Mgr</span>
+              </div>
+              <div onclick="openApprovalDrawer('PAY-20260313-004')" class="flex items-center justify-between px-0 py-1.5 hover:bg-gray-50/60 dark:hover:bg-white/3 rounded-lg cursor-pointer transition-colors">
+                <div class="flex-1 min-w-0">
+                  <p class="text-[11px] font-mono text-gray-400 truncate">PAY-20260313-004</p>
+                  <p class="text-xs font-medium text-gray-800 dark:text-gray-200 truncate">SaaS Corp · 5,000 USDT</p>
+                </div>
+                <div class="flex items-center gap-1 shrink-0 ml-2">
+                  <span class="badge bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-400">Awaiting Sig.</span>
+                  <button onclick="event.stopPropagation();openApprovalDrawer('PAY-20260313-004')" class="px-2 py-0.5 rounded-md bg-orange-500 hover:bg-orange-600 text-white text-[10px] font-medium transition-colors">Sign</button>
+                </div>
+              </div>
             </div>
-            <div class="flex items-center gap-3 text-[11px]">
-              <span class="flex items-center gap-1 text-amber-600 dark:text-amber-400"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block"></span>3 awaiting approval</span>
-              <span class="flex items-center gap-1 text-violet-600 dark:text-violet-400"><span class="w-1.5 h-1.5 rounded-full bg-violet-400 inline-block"></span>1 awaiting sig.</span>
+            <div class="pt-2 mt-1 border-t border-gray-50 dark:border-white/5">
+              <button onclick="showPage('payments')" class="text-xs text-orange-500 hover:text-orange-600 font-medium flex items-center gap-1">
+                View all <i data-lucide="arrow-right" class="w-3 h-3"></i>
+              </button>
             </div>
-            <button onclick="showPage('payments')" class="text-xs text-orange-500 hover:text-orange-600 font-medium flex items-center gap-1">
-              Review <i data-lucide="arrow-right" class="w-3 h-3"></i>
-            </button>
           </div>
 
-          <!-- Unmatched Transactions -->
-          <div class="card card-top-red bg-white dark:bg-[#1a1d27] p-4 space-y-3">
+          <!-- Reconciliation -->
+          <div class="card card-top-red bg-white dark:bg-[#1a1d27] p-4 flex flex-col">
             <div class="flex items-center justify-between">
-              <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">Unmatched Transactions</span>
+              <div class="flex items-center gap-2">
+                <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">Reconciliation</span>
+                <span class="w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center text-[10px] font-bold">3</span>
+              </div>
               <div class="w-7 h-7 rounded-lg bg-red-50 dark:bg-red-500/10 flex items-center justify-center">
                 <i data-lucide="git-merge" class="w-3.5 h-3.5 text-red-500"></i>
               </div>
             </div>
-            <div>
-              <p class="font-grotesk font-semibold text-2xl text-gray-900 dark:text-white">3</p>
-              <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">On-chain transactions without invoice match</p>
+            <!-- Inline list -->
+            <div class="mt-2 flex-1 divide-y divide-gray-50 dark:divide-white/4">
+              <div onclick="showPage('reconciliation')" class="flex items-center justify-between px-0 py-1.5 hover:bg-gray-50/60 dark:hover:bg-white/3 rounded-lg cursor-pointer transition-colors">
+                <div class="flex-1 min-w-0">
+                  <p class="text-[11px] font-mono text-gray-400 truncate">0x7f3a…c91e</p>
+                  <p class="text-xs font-medium text-gray-800 dark:text-gray-200 truncate">+4,900 USDC · Expected 5,000</p>
+                </div>
+                <span class="badge bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-400 shrink-0 ml-2">Discrepancy</span>
+              </div>
+              <div onclick="showPage('reconciliation')" class="flex items-center justify-between px-0 py-1.5 hover:bg-gray-50/60 dark:hover:bg-white/3 rounded-lg cursor-pointer transition-colors">
+                <div class="flex-1 min-w-0">
+                  <p class="text-[11px] font-mono text-gray-400 truncate">0xb2d1…44fa</p>
+                  <p class="text-xs font-medium text-gray-800 dark:text-gray-200 truncate">+8,200 USDC</p>
+                </div>
+                <span class="badge bg-gray-100 dark:bg-white/8 text-gray-600 dark:text-gray-400 shrink-0 ml-2">No Match</span>
+              </div>
+              <div onclick="showPage('reconciliation')" class="flex items-center justify-between px-0 py-1.5 hover:bg-gray-50/60 dark:hover:bg-white/3 rounded-lg cursor-pointer transition-colors">
+                <div class="flex-1 min-w-0">
+                  <p class="text-[11px] font-mono text-gray-400 truncate">TQsun…rise9</p>
+                  <p class="text-xs font-medium text-gray-800 dark:text-gray-200 truncate">+15,000 USDT</p>
+                </div>
+                <span class="badge bg-gray-100 dark:bg-white/8 text-gray-600 dark:text-gray-400 shrink-0 ml-2">No Match</span>
+              </div>
             </div>
-            <div class="flex items-center gap-3 text-[11px]">
-              <span class="flex items-center gap-1 text-red-600 dark:text-red-400"><span class="w-1.5 h-1.5 rounded-full bg-red-400 inline-block"></span>1 discrepancy</span>
-              <span class="flex items-center gap-1 text-gray-500 dark:text-gray-400"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-gray-600 inline-block"></span>2 no match</span>
+            <div class="pt-2 mt-1 border-t border-gray-50 dark:border-white/5">
+              <button onclick="showPage('reconciliation')" class="text-xs text-orange-500 hover:text-orange-600 font-medium flex items-center gap-1">
+                Reconcile <i data-lucide="arrow-right" class="w-3 h-3"></i>
+              </button>
             </div>
-            <button onclick="showPage('reconciliation')" class="text-xs text-orange-500 hover:text-orange-600 font-medium flex items-center gap-1">
-              Reconcile <i data-lucide="arrow-right" class="w-3 h-3"></i>
-            </button>
           </div>
         </div>
 
-        <!-- Row 2: Tasks (1/3) · Bills to Pay (2/3) -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <!-- Row 3: In & Out chart (full width) -->
+        <div class="grid grid-cols-1 gap-4">
 
-          <!-- Tasks -->
-          <div class="card bg-white dark:bg-[#1a1d27] p-4 flex flex-col">
-            <div class="flex items-center gap-2 mb-3">
-              <h3 class="font-grotesk font-semibold text-sm text-gray-900 dark:text-white flex-1">Tasks</h3>
-              <span class="w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center text-[10px] font-bold">3</span>
-            </div>
-            <div class="space-y-1.5 flex-1">
-              <button onclick="showPage('reconciliation')" class="w-full flex items-center gap-2.5 p-2.5 rounded-lg border border-red-100 dark:border-red-500/15 bg-red-50/50 dark:bg-red-500/5 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors group text-left">
-                <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-red-500 shrink-0"></i>
-                <div class="flex-1 min-w-0">
-                  <p class="text-xs font-semibold text-red-700 dark:text-red-400">Amount Mismatch <span class="font-mono font-normal">INV-003</span></p>
-                  <p class="text-[11px] text-red-600/80 dark:text-red-400 truncate">Expected 5,000 · received 4,900 USDC</p>
-                </div>
-                <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-gray-300 dark:text-gray-600 shrink-0 group-hover:text-red-400 transition-colors"></i>
-              </button>
-              <button onclick="openApprovalDrawer('PAY-20260318-001')" class="w-full flex items-center gap-2.5 p-2.5 rounded-lg border border-amber-100 dark:border-amber-500/15 bg-amber-50/50 dark:bg-amber-500/5 hover:bg-amber-50 dark:hover:bg-amber-500/10 transition-colors group text-left">
-                <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-500 shrink-0"></i>
-                <div class="flex-1 min-w-0">
-                  <p class="text-xs font-semibold text-amber-700 dark:text-amber-400">Pending Approval</p>
-                  <p class="text-[11px] text-amber-500/80 dark:text-amber-500 truncate">PAY-20260318-001 · Vendor Inc · 30,000 USDC</p>
-                </div>
-                <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-gray-300 dark:text-gray-600 shrink-0 group-hover:text-amber-400 transition-colors"></i>
-              </button>
-              <button onclick="openApprovalDrawer('PAY-20260313-004')" class="w-full flex items-center gap-2.5 p-2.5 rounded-lg border border-violet-100 dark:border-violet-500/15 bg-violet-50/50 dark:bg-violet-500/5 hover:bg-violet-50 dark:hover:bg-violet-500/10 transition-colors group text-left">
-                <i data-lucide="pen-tool" class="w-3.5 h-3.5 text-violet-500 shrink-0"></i>
-                <div class="flex-1 min-w-0">
-                  <p class="text-xs font-semibold text-violet-700 dark:text-violet-400">Awaiting Signature</p>
-                  <p class="text-[11px] text-violet-600/80 dark:text-violet-400 truncate">PAY-20260313-004 · SaaS Corp · 5,000 USDT</p>
-                </div>
-                <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-gray-300 dark:text-gray-600 shrink-0 group-hover:text-violet-400 transition-colors"></i>
-              </button>
-            </div>
-            <div class="pt-2.5 mt-2 text-center border-t border-gray-50 dark:border-white/5">
-              <p class="text-[10px] text-gray-400 dark:text-gray-600">All KYT checks passed today</p>
-            </div>
-          </div>
-
-          <!-- Bills to Pay (AP) — spans 2 cols -->
-          <div class="card bg-white dark:bg-[#1a1d27] flex flex-col overflow-hidden lg:col-span-2">
-            <div class="px-5 py-3.5 border-b border-gray-50 dark:border-white/5 flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <div class="w-6 h-6 rounded-md bg-violet-50 dark:bg-violet-500/10 flex items-center justify-center shrink-0">
-                  <i data-lucide="arrow-up-circle" class="w-3.5 h-3.5 text-violet-500"></i>
-                </div>
-                <div>
-                  <p class="text-sm font-semibold text-gray-900 dark:text-white font-grotesk">Bills to Pay</p>
-                  <p class="text-[10px] text-gray-400">Accounts Payable · pending action</p>
-                </div>
-              </div>
-              <div class="text-right shrink-0">
-                <p class="font-grotesk font-semibold text-base amt-out">$105,800</p>
-                <p class="text-[10px] text-gray-400">3 pending payments</p>
-              </div>
-            </div>
-            <!-- Header row -->
-            <div class="px-5 py-2 grid grid-cols-[1fr_auto_auto_auto] gap-4 text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold border-b border-gray-50 dark:border-white/5">
-              <span>Payee</span><span class="text-right">Amount</span><span>Status</span><span></span>
-            </div>
-            <div class="divide-y divide-gray-50 dark:divide-white/4 flex-1">
-              <div class="px-5 py-2.5 grid grid-cols-[1fr_auto_auto_auto] gap-4 items-center hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" onclick="openApprovalDrawer('PAY-20260318-001')">
-                <div>
-                  <p class="text-[10px] font-mono text-gray-400">PAY-20260318-001</p>
-                  <p class="text-sm font-medium text-gray-800 dark:text-gray-200">Vendor Inc</p>
-                </div>
-                <div class="text-right">
-                  <p class="text-sm font-semibold amt-out">30,000</p>
-                  <span class="pool-tag pool-eth"><span class="pool-dot pool-dot-eth"></span>USDC</span>
-                </div>
-                <span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 whitespace-nowrap"><i data-lucide="clock" class="w-2.5 h-2.5"></i> Pending Mgr</span>
-                <button onclick="event.stopPropagation();openApprovalDrawer('PAY-20260318-001')" class="text-xs text-orange-500 hover:text-orange-600 font-medium">Review</button>
-              </div>
-              <div class="px-5 py-2.5 grid grid-cols-[1fr_auto_auto_auto] gap-4 items-center hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" onclick="openApprovalDrawer('PAY-20260316-002')">
-                <div>
-                  <p class="text-[10px] font-mono text-gray-400">PAY-20260316-002</p>
-                  <p class="text-sm font-medium text-gray-800 dark:text-gray-200">Shenzhen Parts Ltd</p>
-                </div>
-                <div class="text-right">
-                  <p class="text-sm font-semibold amt-out">75,000</p>
-                  <span class="pool-tag pool-trx"><span class="pool-dot pool-dot-trx"></span>USDT</span>
-                </div>
-                <span class="badge bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-400 whitespace-nowrap"><i data-lucide="clock" class="w-2.5 h-2.5"></i> Pending CFO</span>
-                <button onclick="event.stopPropagation();openApprovalDrawer('PAY-20260316-002')" class="text-xs text-orange-500 hover:text-orange-600 font-medium">Review</button>
-              </div>
-              <div class="px-5 py-2.5 grid grid-cols-[1fr_auto_auto_auto] gap-4 items-center hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" onclick="openApprovalDrawer('PAY-20260313-004')">
-                <div>
-                  <p class="text-[10px] font-mono text-gray-400">PAY-20260313-004</p>
-                  <p class="text-sm font-medium text-gray-800 dark:text-gray-200">SaaS Corp</p>
-                </div>
-                <div class="text-right">
-                  <p class="text-sm font-semibold amt-out">5,000</p>
-                  <span class="pool-tag pool-pol"><span class="pool-dot pool-dot-pol"></span>USDT</span>
-                </div>
-                <span class="badge bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-400 whitespace-nowrap"><i data-lucide="pen-tool" class="w-2.5 h-2.5"></i> Awaiting Sig.</span>
-                <button onclick="event.stopPropagation();openApprovalDrawer('PAY-20260313-004')" class="px-2.5 py-1 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-xs font-medium transition-colors">Sign</button>
-              </div>
-            </div>
-            <div class="px-5 py-2.5 border-t border-gray-50 dark:border-white/5">
-              <button onclick="showPage('payments')" class="text-xs text-orange-500 hover:text-orange-600 font-medium flex items-center gap-1">
-                View all bills <i data-lucide="arrow-right" class="w-3 h-3"></i>
-              </button>
-            </div>
-          </div>
-
-        </div><!-- /row 2 -->
-
-        <!-- Row 3: Treasury Pools (1/3 left) · In & Out chart (2/3 right) -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-
-          <!-- Treasury Pools compact (1 col) -->
-          <div class="card bg-white dark:bg-[#1a1d27] p-4">
-            <div class="flex items-center justify-between mb-3">
-              <h3 class="font-grotesk font-semibold text-sm text-gray-900 dark:text-white">Treasury Pools</h3>
-              <button onclick="showPage('treasury')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5">
-                All <i data-lucide="arrow-right" class="w-2.5 h-2.5"></i>
-              </button>
-            </div>
-            <div class="space-y-3">
-              <div>
-                <div class="flex items-center justify-between mb-1">
-                  <span class="pool-tag pool-eth text-[11px]"><span class="pool-dot pool-dot-eth"></span>USDC</span>
-                  <span class="text-xs font-semibold text-gray-900 dark:text-white">$250k</span>
-                </div>
-                <div class="h-1.5 rounded-full bg-gray-100 dark:bg-white/6 overflow-hidden"><div class="pool-bar h-full rounded-full bg-blue-400" style="width:50%"></div></div>
-              </div>
-              <div>
-                <div class="flex items-center justify-between mb-1">
-                  <span class="pool-tag pool-pol text-[11px]"><span class="pool-dot pool-dot-pol"></span>USDC</span>
-                  <span class="text-xs font-semibold text-gray-900 dark:text-white">$100k</span>
-                </div>
-                <div class="h-1.5 rounded-full bg-gray-100 dark:bg-white/6 overflow-hidden"><div class="pool-bar h-full rounded-full bg-violet-400" style="width:20%"></div></div>
-              </div>
-              <div>
-                <div class="flex items-center justify-between mb-1">
-                  <span class="pool-tag pool-sol text-[11px]"><span class="pool-dot pool-dot-sol"></span>USDC</span>
-                  <span class="text-xs font-semibold text-gray-900 dark:text-white">$65k</span>
-                </div>
-                <div class="h-1.5 rounded-full bg-gray-100 dark:bg-white/6 overflow-hidden"><div class="pool-bar h-full rounded-full bg-emerald-400" style="width:13%"></div></div>
-              </div>
-              <div>
-                <div class="flex items-center justify-between mb-1">
-                  <span class="pool-tag pool-trx text-[11px]"><span class="pool-dot pool-dot-trx"></span>USDT</span>
-                  <span class="text-xs font-semibold text-gray-900 dark:text-white">$85k</span>
-                </div>
-                <div class="h-1.5 rounded-full bg-gray-100 dark:bg-white/6 overflow-hidden"><div class="pool-bar h-full rounded-full bg-amber-400" style="width:17%"></div></div>
-              </div>
-            </div>
-            <div class="mt-3 pt-2.5 border-t border-gray-50 dark:border-white/5 flex items-center justify-between text-[10px] text-gray-400">
-              <span>Total</span>
-              <span class="font-semibold text-gray-700 dark:text-gray-300">$500,000</span>
-            </div>
-          </div>
-
-          <!-- In & Out Chart (2 cols) -->
-          <div class="lg:col-span-2 card bg-white dark:bg-[#1a1d27] p-5">
+          <!-- In & Out Chart -->
+          <div class="card bg-white dark:bg-[#1a1d27] p-5">
             <div class="flex items-center justify-between mb-5">
               <div>
                 <h3 class="font-grotesk font-semibold text-sm text-gray-900 dark:text-white">In &amp; Out</h3>
@@ -1079,12 +979,6 @@
             <option value="rejected">Rejected</option>
             <option value="executed">Executed</option>
           </select>
-          <select id="apv-filter-doa" onchange="filterApprovalTable()" class="filter-select">
-            <option value="">All DOA</option>
-            <option value="auto">Auto</option>
-            <option value="manager">Manager</option>
-            <option value="manager + cfo">Manager + CFO</option>
-          </select>
           <select id="apv-sort" onchange="filterApprovalTable()" class="filter-select">
             <option value="newest">Newest first</option>
             <option value="oldest">Oldest first</option>
@@ -1094,102 +988,94 @@
         </div>
 
         <div class="card bg-white dark:bg-[#1a1d27] !overflow-x-auto">
-          <table class="w-full min-w-[900px]">
+          <table class="w-full min-w-[800px]">
             <thead class="border-b border-gray-50 dark:border-white/5">
               <tr>
                 <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">ID</th>
                 <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Payee</th>
                 <th class="px-5 py-3 text-right text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Amount</th>
                 <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Purpose</th>
-                <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">DOA</th>
                 <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Status</th>
-                <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Pending On</th>
+                <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Deadline</th>
                 <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Created</th>
                 <th class="px-5 py-3"></th>
               </tr>
             </thead>
             <tbody id="apv-tbody" class="divide-y divide-gray-50 dark:divide-white/4">
 
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="pending manager" data-doa="manager" data-date="2026-03-18" data-amount="30000" onclick="openApprovalDrawer('PAY-20260318-001')">
+              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="pending manager" data-doa="manager" data-date="2026-03-18" data-amount="30000" data-deadline="Mar 25, 2026" onclick="openApprovalDrawer('PAY-20260318-001')">
                 <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260318-001</td>
                 <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">Vendor Inc</td>
                 <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">30,000</p><span class="pool-tag pool-eth"><span class="pool-dot pool-dot-eth"></span>USDC</span></td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Software License</td>
-                <td class="px-5 py-3.5"><span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400">Manager</span></td>
                 <td class="px-5 py-3.5"><span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400"><i data-lucide="clock" class="w-2.5 h-2.5"></i> Pending Manager</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-700 dark:text-gray-300">Wei-Ling Chang</td>
+                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 25, 2026</td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 18, 2026</td>
                 <td class="px-5 py-3.5 text-right"><button class="text-xs text-orange-500 hover:text-orange-600 font-medium">Review</button></td>
               </tr>
 
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="pending cfo" data-doa="manager + cfo" data-date="2026-03-16" data-amount="75000" onclick="openApprovalDrawer('PAY-20260316-002')">
+              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="pending cfo" data-doa="manager + cfo" data-date="2026-03-16" data-amount="75000" data-deadline="Mar 22, 2026" onclick="openApprovalDrawer('PAY-20260316-002')">
                 <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260316-002</td>
                 <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">Shenzhen Parts Ltd</td>
                 <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">75,000</p><span class="pool-tag pool-trx"><span class="pool-dot pool-dot-trx"></span>USDT</span></td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Raw Materials</td>
-                <td class="px-5 py-3.5"><span class="badge bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-300">Manager + CFO</span></td>
                 <td class="px-5 py-3.5"><span class="badge bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-400"><i data-lucide="clock" class="w-2.5 h-2.5"></i> Pending CFO</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-700 dark:text-gray-300">James Liu</td>
+                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 22, 2026</td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 16, 2026</td>
                 <td class="px-5 py-3.5 text-right"><button class="text-xs text-orange-500 hover:text-orange-600 font-medium">Review</button></td>
               </tr>
 
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="pending manager" data-doa="manager + cfo" data-date="2026-03-15" data-amount="120000" onclick="openApprovalDrawer('PAY-20260315-003')">
+              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="pending manager" data-doa="manager + cfo" data-date="2026-03-15" data-amount="120000" data-deadline="Mar 20, 2026" onclick="openApprovalDrawer('PAY-20260315-003')">
                 <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260315-003</td>
                 <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">Global Imports Ltd</td>
                 <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">120,000</p><span class="pool-tag pool-pol"><span class="pool-dot pool-dot-pol"></span>USDC</span></td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Q1 Inventory Purchase</td>
-                <td class="px-5 py-3.5"><span class="badge bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-300">Manager + CFO</span></td>
                 <td class="px-5 py-3.5"><span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400"><i data-lucide="clock" class="w-2.5 h-2.5"></i> Pending Manager</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-700 dark:text-gray-300">Wei-Ling Chang</td>
+                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 20, 2026</td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 15, 2026</td>
                 <td class="px-5 py-3.5 text-right"><button class="text-xs text-orange-500 hover:text-orange-600 font-medium">Review</button></td>
               </tr>
 
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="awaiting sig" data-doa="manager" data-date="2026-03-13" data-amount="5000" onclick="openApprovalDrawer('PAY-20260313-004')">
+              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="awaiting sig" data-doa="manager" data-date="2026-03-13" data-amount="5000" data-deadline="Mar 18, 2026" onclick="openApprovalDrawer('PAY-20260313-004')">
                 <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260313-004</td>
                 <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">SaaS Corp</td>
                 <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">5,000</p><span class="pool-tag pool-pol"><span class="pool-dot pool-dot-pol"></span>USDT</span></td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Annual Subscription</td>
-                <td class="px-5 py-3.5"><span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400">Manager</span></td>
                 <td class="px-5 py-3.5"><span class="badge bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-400"><i data-lucide="pen-tool" class="w-2.5 h-2.5"></i> Awaiting Sig.</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-400">—</td>
+                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 18, 2026</td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 13, 2026</td>
                 <td class="px-5 py-3.5 text-right"><button onclick="event.stopPropagation();openApprovalDrawer('PAY-20260313-004')" class="px-3 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-xs font-medium transition-colors">Sign</button></td>
               </tr>
 
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="rejected" data-doa="manager" data-date="2026-03-12" data-amount="8000" onclick="openApprovalDrawer('PAY-20260312-005')">
+              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="rejected" data-doa="manager" data-date="2026-03-12" data-amount="8000" data-deadline="" onclick="openApprovalDrawer('PAY-20260312-005')">
                 <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260312-005</td>
                 <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">Unknown Vendor</td>
                 <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">8,000</p><span class="pool-tag pool-eth"><span class="pool-dot pool-dot-eth"></span>USDC</span></td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Consulting Fee</td>
-                <td class="px-5 py-3.5"><span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400">Manager</span></td>
                 <td class="px-5 py-3.5"><span class="badge bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-300"><i data-lucide="x-circle" class="w-2.5 h-2.5"></i> Rejected</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-400">—</td>
+                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">—</td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 12, 2026</td>
                 <td class="px-5 py-3.5 text-right"><button class="text-xs text-orange-500 hover:text-orange-600 font-medium">View</button></td>
               </tr>
 
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="executed" data-doa="auto" data-date="2026-03-14" data-amount="450" onclick="openApprovalDrawer('PAY-20260314-006')">
+              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="executed" data-doa="auto" data-date="2026-03-14" data-amount="450" data-deadline="" onclick="openApprovalDrawer('PAY-20260314-006')">
                 <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260314-006</td>
                 <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">Office Depot</td>
                 <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">450</p><span class="pool-tag pool-eth"><span class="pool-dot pool-dot-eth"></span>USDC</span></td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Office Supplies</td>
-                <td class="px-5 py-3.5"><span class="badge bg-gray-100 dark:bg-white/8 text-gray-600 dark:text-gray-400">Auto</span></td>
                 <td class="px-5 py-3.5"><span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"><i data-lucide="check-circle-2" class="w-2.5 h-2.5"></i> Executed</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-400">—</td>
+                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">—</td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 14, 2026</td>
                 <td class="px-5 py-3.5 text-right"><button class="text-xs text-orange-500 hover:text-orange-600 font-medium">View</button></td>
               </tr>
 
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="approved" data-doa="manager" data-date="2026-03-10" data-amount="2200" onclick="openApprovalDrawer('PAY-20260310-007')">
+              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="approved" data-doa="manager" data-date="2026-03-10" data-amount="2200" data-deadline="Mar 15, 2026" onclick="openApprovalDrawer('PAY-20260310-007')">
                 <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260310-007</td>
                 <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">AWS Services</td>
                 <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">2,200</p><span class="pool-tag pool-eth"><span class="pool-dot pool-dot-eth"></span>USDC</span></td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Cloud Infrastructure</td>
-                <td class="px-5 py-3.5"><span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400">Manager</span></td>
                 <td class="px-5 py-3.5"><span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"><i data-lucide="check" class="w-2.5 h-2.5"></i> Approved</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-400">—</td>
+                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 15, 2026</td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 10, 2026</td>
                 <td class="px-5 py-3.5 text-right"><button onclick="event.stopPropagation()" class="text-xs text-orange-500 hover:text-orange-600 font-medium">Execute</button></td>
               </tr>
@@ -1200,155 +1086,7 @@
       </div><!-- /payments -->
 
       <!-- ══ PAGE: APPROVALS (redirected to Bills) ══ -->
-      <div id="page-approvals" class="page hidden">
-        <div>
-          <h2 class="font-grotesk font-semibold text-lg text-gray-900 dark:text-white">Approvals</h2>
-          <p class="text-xs text-gray-400 mt-0.5">Review and approve pending payment requests</p>
-        </div>
-
-        <!-- Auditor / non-approver read-only banner -->
-        <div id="auditor-banner" class="hidden card bg-amber-50 dark:bg-amber-500/8 border border-amber-100 dark:border-amber-500/15 px-5 py-4 flex items-center gap-3">
-          <i data-lucide="eye" class="w-4 h-4 text-amber-500 shrink-0"></i>
-          <p class="text-xs text-amber-700 dark:text-amber-400">Read-only — your role cannot approve or reject. Switch to Manager or CFO to take action.</p>
-        </div>
-
-        <!-- Filters + sort -->
-        <div class="flex items-center gap-3 flex-wrap">
-          <select id="apv-filter-status" onchange="filterApprovalTable()" class="filter-select">
-            <option value="">All Status</option>
-            <option value="pending manager">Pending Manager</option>
-            <option value="pending cfo">Pending CFO</option>
-            <option value="awaiting sig">Awaiting Signature</option>
-            <option value="approved">Approved</option>
-            <option value="rejected">Rejected</option>
-            <option value="executed">Executed</option>
-          </select>
-          <select id="apv-filter-doa" onchange="filterApprovalTable()" class="filter-select">
-            <option value="">All DOA</option>
-            <option value="auto">Auto</option>
-            <option value="manager">Manager</option>
-            <option value="manager + cfo">Manager + CFO</option>
-          </select>
-          <select id="apv-sort" onchange="filterApprovalTable()" class="filter-select">
-            <option value="newest">Newest first</option>
-            <option value="oldest">Oldest first</option>
-            <option value="amount-desc">Amount ↓</option>
-            <option value="amount-asc">Amount ↑</option>
-          </select>
-        </div>
-
-        <div class="card bg-white dark:bg-[#1a1d27] !overflow-x-auto">
-          <table class="w-full min-w-[900px]">
-            <thead class="border-b border-gray-50 dark:border-white/5">
-              <tr>
-                <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">ID</th>
-                <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Payee</th>
-                <th class="px-5 py-3 text-right text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Amount</th>
-                <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Purpose</th>
-                <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">DOA</th>
-                <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Status</th>
-                <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Pending On</th>
-                <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Created</th>
-                <th class="px-5 py-3"></th>
-              </tr>
-            </thead>
-            <tbody id="apv-tbody" class="divide-y divide-gray-50 dark:divide-white/4">
-
-              <!-- Pending Manager -->
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="pending manager" data-doa="manager" data-date="2026-03-18" data-amount="30000" onclick="openApprovalDrawer('PAY-20260318-001')">
-                <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260318-001</td>
-                <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">Vendor Inc</td>
-                <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">30,000</p><span class="pool-tag pool-eth"><span class="pool-dot pool-dot-eth"></span>USDC</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Software License</td>
-                <td class="px-5 py-3.5"><span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400">Manager</span></td>
-                <td class="px-5 py-3.5"><span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400"><i data-lucide="clock" class="w-2.5 h-2.5"></i> Pending Manager</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-700 dark:text-gray-300">Wei-Ling Chang</td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 18, 2026</td>
-                <td class="px-5 py-3.5 text-right"><button class="text-xs text-orange-500 hover:text-orange-600 font-medium">Review</button></td>
-              </tr>
-
-              <!-- Pending CFO (Manager already approved) -->
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="pending cfo" data-doa="manager + cfo" data-date="2026-03-16" data-amount="75000" onclick="openApprovalDrawer('PAY-20260316-002')">
-                <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260316-002</td>
-                <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">Shenzhen Parts Ltd</td>
-                <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">75,000</p><span class="pool-tag pool-trx"><span class="pool-dot pool-dot-trx"></span>USDT</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Raw Materials</td>
-                <td class="px-5 py-3.5"><span class="badge bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-300">Manager + CFO</span></td>
-                <td class="px-5 py-3.5"><span class="badge bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-400"><i data-lucide="clock" class="w-2.5 h-2.5"></i> Pending CFO</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-700 dark:text-gray-300">James Liu</td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 16, 2026</td>
-                <td class="px-5 py-3.5 text-right"><button class="text-xs text-orange-500 hover:text-orange-600 font-medium">Review</button></td>
-              </tr>
-
-              <!-- Pending Manager (large, Manager+CFO required) -->
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="pending manager" data-doa="manager + cfo" data-date="2026-03-15" data-amount="120000" onclick="openApprovalDrawer('PAY-20260315-003')">
-                <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260315-003</td>
-                <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">Global Imports Ltd</td>
-                <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">120,000</p><span class="pool-tag pool-pol"><span class="pool-dot pool-dot-pol"></span>USDC</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Q1 Inventory Purchase</td>
-                <td class="px-5 py-3.5"><span class="badge bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-300">Manager + CFO</span></td>
-                <td class="px-5 py-3.5"><span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400"><i data-lucide="clock" class="w-2.5 h-2.5"></i> Pending Manager</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-700 dark:text-gray-300">Wei-Ling Chang</td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 15, 2026</td>
-                <td class="px-5 py-3.5 text-right"><button class="text-xs text-orange-500 hover:text-orange-600 font-medium">Review</button></td>
-              </tr>
-
-              <!-- Awaiting Signature -->
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="awaiting sig" data-doa="manager" data-date="2026-03-13" data-amount="5000" onclick="openApprovalDrawer('PAY-20260313-004')">
-                <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260313-004</td>
-                <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">SaaS Corp</td>
-                <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">5,000</p><span class="pool-tag pool-pol"><span class="pool-dot pool-dot-pol"></span>USDT</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Annual Subscription</td>
-                <td class="px-5 py-3.5"><span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400">Manager</span></td>
-                <td class="px-5 py-3.5"><span class="badge bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-400"><i data-lucide="pen-tool" class="w-2.5 h-2.5"></i> Awaiting Sig.</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-400">—</td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 13, 2026</td>
-                <td class="px-5 py-3.5 text-right"><button class="text-xs text-orange-500 hover:text-orange-600 font-medium">Sign</button></td>
-              </tr>
-
-              <!-- Rejected -->
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="rejected" data-doa="manager" data-date="2026-03-12" data-amount="8000" onclick="openApprovalDrawer('PAY-20260312-005')">
-                <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260312-005</td>
-                <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">Unknown Vendor</td>
-                <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">8,000</p><span class="pool-tag pool-eth"><span class="pool-dot pool-dot-eth"></span>USDC</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Consulting Fee</td>
-                <td class="px-5 py-3.5"><span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400">Manager</span></td>
-                <td class="px-5 py-3.5"><span class="badge bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-300"><i data-lucide="x-circle" class="w-2.5 h-2.5"></i> Rejected</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-400">—</td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 12, 2026</td>
-                <td class="px-5 py-3.5 text-right"><button class="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 font-medium">View</button></td>
-              </tr>
-
-              <!-- Auto-executed (no approval needed) -->
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="executed" data-doa="auto" data-date="2026-03-14" data-amount="450" onclick="openApprovalDrawer('PAY-20260314-006')">
-                <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260314-006</td>
-                <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">Office Depot</td>
-                <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">450</p><span class="pool-tag pool-eth"><span class="pool-dot pool-dot-eth"></span>USDC</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Office Supplies</td>
-                <td class="px-5 py-3.5"><span class="badge bg-gray-100 dark:bg-white/8 text-gray-600 dark:text-gray-400">Auto</span></td>
-                <td class="px-5 py-3.5"><span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"><i data-lucide="check-circle-2" class="w-2.5 h-2.5"></i> Executed</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-400">—</td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 14, 2026</td>
-                <td class="px-5 py-3.5 text-right"><button class="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 font-medium">View</button></td>
-              </tr>
-
-              <!-- Approved (ready to execute) -->
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="approved" data-doa="manager" data-date="2026-03-10" data-amount="2200" onclick="openApprovalDrawer('PAY-20260310-007')">
-                <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260310-007</td>
-                <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">AWS Services</td>
-                <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">2,200</p><span class="pool-tag pool-eth"><span class="pool-dot pool-dot-eth"></span>USDC</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Cloud Infrastructure</td>
-                <td class="px-5 py-3.5"><span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400">Manager</span></td>
-                <td class="px-5 py-3.5"><span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"><i data-lucide="check" class="w-2.5 h-2.5"></i> Approved</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-400">—</td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 10, 2026</td>
-                <td class="px-5 py-3.5 text-right"><button class="text-xs text-orange-500 hover:text-orange-600 font-medium">Execute</button></td>
-              </tr>
-
-            </tbody>
-          </table>
-        </div>
-      </div><!-- /approvals -->
+      <div id="page-approvals" class="page hidden"></div>
 
       <!-- ══ PAGE: AUDIT ══ -->
       <div id="page-audit" class="page hidden p-6 space-y-5">
@@ -2450,7 +2188,7 @@
 
       <!-- Amount + Currency (right below company selector) -->
       <div class="space-y-1.5">
-        <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Amount <span class="text-orange-500">*</span></label>
+        <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Payment Amount <span class="text-orange-500">*</span></label>
         <div class="flex gap-2">
           <input id="pay-amount" type="number" min="1" placeholder="30000" required
             oninput="updatePayCurrency()"
@@ -2458,7 +2196,7 @@
           <select id="pay-currency" onchange="updatePayCurrency()"
             class="w-40 px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition shrink-0">
             <option value="NTD">NTD · Taiwan $</option>
-            <option value="USD">USD · US Dollar</option>
+            <option value="USD" selected>USD · US Dollar</option>
             <option value="USDC_ETH">USDC · Ethereum</option>
             <option value="USDC_POL">USDC · Polygon</option>
             <option value="USDC_SOL">USDC · Solana</option>
@@ -2478,7 +2216,7 @@
           class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
       </div>
 
-      <div class="space-y-1.5">
+      <div id="pay-address-row" class="space-y-1.5">
         <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Wallet Address <span class="text-orange-500">*</span></label>
         <div class="relative">
           <input id="pay-address" type="text" placeholder="0x… (auto-filled from whitelist)" required
@@ -2561,8 +2299,8 @@
 
       <div class="flex gap-3 pt-1">
         <button type="button" onclick="closeModal('payment')" class="flex-1 px-4 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Cancel</button>
-        <button type="submit" class="flex-1 px-4 py-2.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium transition-colors flex items-center justify-center gap-2">
-          <i data-lucide="send" class="w-4 h-4"></i> Submit Payment
+        <button id="pay-submit-btn" type="submit" class="flex-1 px-4 py-2.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium transition-colors flex items-center justify-center gap-2">
+          <i data-lucide="send" class="w-4 h-4"></i> Submit for Approval
         </button>
       </div>
     </form>
@@ -3320,6 +3058,9 @@
     if (!sel.value || sel.value === '__manual__') {
       payPayee.value = '';
       payAddress.value = '';
+      const addrRow = document.getElementById('pay-address-row');
+      if (addrRow) addrRow.classList.remove('hidden');
+      payAddress.setAttribute('required', '');
       wlStatus.classList.add('hidden');
       if (sel.value === '__manual__') {
         wlStatus.innerHTML = `<div class="p-2.5 rounded-lg bg-amber-50 dark:bg-amber-500/8 border border-amber-100 dark:border-amber-500/15 flex items-center gap-2">
@@ -3336,6 +3077,10 @@
     if (!entry) return;
     payPayee.value = entry.name;
     payAddress.value = entry.address;
+    // Hide address field when whitelist entry selected (address known)
+    const addrRow = document.getElementById('pay-address-row');
+    if (addrRow) addrRow.classList.add('hidden');
+    payAddress.removeAttribute('required');
     // Set currency dropdown to match whitelist entry's pool
     const payCurrency = document.getElementById('pay-currency');
     if (payCurrency) Array.from(payCurrency.options).forEach(o => { o.selected = o.value === entry.pool; });
@@ -3699,6 +3444,7 @@
       amount: '30,000', currency: 'USDC', pool: 'eth',
       purpose: 'Software License',
       address: '0x9f8e7d6c5b4a3f2e1d0c9e8f7a6b5c4d3e2f1a0b',
+      deadline: 'Mar 25, 2026',
       createdBy: '陳琳達', createdAt: 'Mar 18, 2026 · 14:02',
       statusLabel: 'Pending Manager',
       statusColor: 'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400',
@@ -3715,6 +3461,7 @@
       amount: '75,000', currency: 'USDT', pool: 'trx',
       purpose: 'Raw Materials',
       address: 'TXyz1234abcd5678efgh9012ijkl3456mnop7890',
+      deadline: 'Mar 22, 2026',
       createdBy: '陳琳達', createdAt: 'Mar 16, 2026 · 09:15',
       statusLabel: 'Pending CFO',
       statusColor: 'bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-400',
@@ -3731,6 +3478,7 @@
       amount: '120,000', currency: 'USDC', pool: 'pol',
       purpose: 'Q1 Inventory Purchase',
       address: '0x3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d',
+      deadline: 'Mar 20, 2026',
       createdBy: '陳琳達', createdAt: 'Mar 15, 2026 · 16:45',
       statusLabel: 'Pending Manager',
       statusColor: 'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400',
@@ -3747,6 +3495,7 @@
       amount: '5,000', currency: 'USDT', pool: 'pol',
       purpose: 'Annual Subscription',
       address: '0xaa1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b',
+      deadline: 'Mar 18, 2026',
       createdBy: '陳琳達', createdAt: 'Mar 13, 2026 · 10:00',
       statusLabel: 'Awaiting Signature',
       statusColor: 'bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-400',
@@ -3763,6 +3512,7 @@
       amount: '8,000', currency: 'USDC', pool: 'eth',
       purpose: 'Consulting Fee',
       address: '0xdeadbeef1234567890abcdef1234567890abcdef',
+      deadline: null,
       createdBy: '陳琳達', createdAt: 'Mar 12, 2026 · 11:30',
       statusLabel: 'Rejected',
       statusColor: 'bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-300',
@@ -3779,6 +3529,7 @@
       amount: '450', currency: 'USDC', pool: 'eth',
       purpose: 'Office Supplies',
       address: '0x1111222233334444555566667777888899990000',
+      deadline: null,
       createdBy: '陳琳達', createdAt: 'Mar 14, 2026 · 08:55',
       statusLabel: 'Executed',
       statusColor: 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400',
@@ -3795,6 +3546,7 @@
       amount: '2,200', currency: 'USDC', pool: 'eth',
       purpose: 'Cloud Infrastructure',
       address: '0x9988776655443322110099887766554433221100',
+      deadline: 'Mar 15, 2026',
       createdBy: '陳琳達', createdAt: 'Mar 10, 2026 · 13:20',
       statusLabel: 'Approved',
       statusColor: 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400',
@@ -3828,6 +3580,7 @@
       { label: 'Amount', value: `<span class="font-semibold amt-out">${data.amount}</span> ${poolTag}` },
       { label: 'Purpose', value: data.purpose },
       { label: 'Created', value: `${data.createdAt} · by ${data.createdBy}` },
+      { label: 'Approval Deadline', value: data.deadline || '—' },
       { label: 'To Address', value: `<div class="flex items-start gap-2"><span class="font-mono text-[11px] break-all flex-1">${data.address}</span>${apvAddrCopy}</div><div class="mt-2 flex items-end gap-3">${apvAddrQR}<button onclick="showToast('QR copied','success')" class="text-[10px] text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 flex items-center gap-1 transition-colors mb-0.5"><i data-lucide="copy" class="w-3 h-3"></i> Copy QR</button></div>`, full: true },
     ];
 
@@ -3935,15 +3688,13 @@
   // ── Approval table filter ──
   function filterApprovalTable() {
     const status = (document.getElementById('apv-filter-status')?.value || '').toLowerCase();
-    const doa    = (document.getElementById('apv-filter-doa')?.value || '').toLowerCase();
     const sort   = document.getElementById('apv-sort')?.value || 'newest';
     const tbody  = document.getElementById('apv-tbody');
     if (!tbody) return;
     const rows = Array.from(tbody.querySelectorAll('tr'));
     rows.forEach(r => {
       const rs = (r.dataset.status || '').toLowerCase();
-      const rd = (r.dataset.doa || '').toLowerCase();
-      const hide = (status && rs !== status) || (doa && rd !== doa);
+      const hide = (status && rs !== status);
       r.style.display = hide ? 'none' : '';
     });
     const visible = rows.filter(r => r.style.display !== 'none');
@@ -4061,6 +3812,7 @@
     const badge = document.getElementById('doa-badge');
     const note = document.getElementById('policy-note');
 
+    const amountForDoa = amount;
     if (amount < 1000) {
       badge.className = 'badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400';
       badge.innerHTML = '<i data-lucide="zap" class="w-2.5 h-2.5"></i> DoA: Auto Execute';
@@ -4073,6 +3825,14 @@
       badge.className = 'badge bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400';
       badge.innerHTML = '<i data-lucide="users" class="w-2.5 h-2.5"></i> DoA: Manager + CFO';
       note.textContent = 'Amount > $50,000 — requires dual approval from Manager and CFO.';
+    }
+    const submitBtn = document.getElementById('pay-submit-btn');
+    if (submitBtn) {
+      const isAuto = amountForDoa < 1000;
+      submitBtn.innerHTML = isAuto
+        ? '<i data-lucide="send" class="w-4 h-4"></i> Submit Payment'
+        : '<i data-lucide="send" class="w-4 h-4"></i> Submit for Approval';
+      lucide.createIcons();
     }
     lucide.createIcons();
   }
@@ -4163,20 +3923,27 @@
     const now = new Date();
     const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
+    // Get deadline
+    const deadlineRaw = document.getElementById('pay-deadline')?.value || '';
+    let deadlineDisp = '—';
+    if (deadlineRaw) {
+      deadlineDisp = new Date(deadlineRaw).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
     // Determine DoA level
-    let doaLabel, doaClass, statusLabel, statusClass, pendingOn, actionBtn;
+    let doaLabel, statusLabel, statusClass, actionBtn;
     if (amountUSD < 1000) {
-      doaLabel = 'Auto'; doaClass = 'bg-gray-100 dark:bg-white/8 text-gray-600 dark:text-gray-400';
+      doaLabel = 'Auto';
       statusLabel = 'Executed'; statusClass = 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400';
-      pendingOn = '—'; actionBtn = `<button class="text-xs text-orange-500 hover:text-orange-600 font-medium">View</button>`;
+      actionBtn = `<button class="text-xs text-orange-500 hover:text-orange-600 font-medium">View</button>`;
     } else if (amountUSD <= 50000) {
-      doaLabel = 'Manager'; doaClass = 'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400';
+      doaLabel = 'Manager';
       statusLabel = 'Pending Manager'; statusClass = 'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400';
-      pendingOn = 'Wei-Ling Chang'; actionBtn = `<button class="text-xs text-orange-500 hover:text-orange-600 font-medium">Review</button>`;
+      actionBtn = `<button class="text-xs text-orange-500 hover:text-orange-600 font-medium">Review</button>`;
     } else {
-      doaLabel = 'Manager + CFO'; doaClass = 'bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-300';
+      doaLabel = 'Manager + CFO';
       statusLabel = 'Pending Manager'; statusClass = 'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400';
-      pendingOn = 'Wei-Ling Chang'; actionBtn = `<button class="text-xs text-orange-500 hover:text-orange-600 font-medium">Review</button>`;
+      actionBtn = `<button class="text-xs text-orange-500 hover:text-orange-600 font-medium">Review</button>`;
     }
 
     const tbody = document.getElementById('apv-tbody');
@@ -4186,14 +3953,14 @@
     row.dataset.doa = doaLabel.toLowerCase();
     row.dataset.date = now.toISOString().split('T')[0];
     row.dataset.amount = Math.round(amountUSD);
+    row.dataset.deadline = deadlineRaw;
     row.innerHTML = `
       <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">${id}</td>
       <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">${payee}</td>
       <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">${amountRaw.toLocaleString()}</p><span class="pool-tag pool-${displayPool}"><span class="pool-dot pool-dot-${displayPool}"></span>${displayCurrency}</span></td>
       <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">${purpose}</td>
-      <td class="px-5 py-3.5"><span class="badge ${doaClass}">${doaLabel}</span></td>
       <td class="px-5 py-3.5"><span class="badge ${statusClass}">${statusLabel}</span></td>
-      <td class="px-5 py-3.5 text-xs text-gray-700 dark:text-gray-300">${pendingOn}</td>
+      <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">${deadlineDisp}</td>
       <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">${dateStr}</td>
       <td class="px-5 py-3.5 text-right">${actionBtn}</td>
     `;
