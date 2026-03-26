@@ -177,8 +177,8 @@
       <span class="font-grotesk font-700 text-[15px] tracking-tight text-gray-900 dark:text-white" style="font-weight:700">Orgstar</span>
     </div>
 
-    <!-- Role badge -->
-    <div class="mx-4 mb-4">
+    <!-- Role badge (hidden from UI, label kept for JS role-switching logic) -->
+    <div class="mx-4 mb-4 hidden">
       <div class="px-3 py-1.5 rounded-lg bg-orange-50 dark:bg-orange-500/10 flex items-center gap-2">
         <div class="w-1.5 h-1.5 rounded-full bg-orange-500"></div>
         <span class="text-xs font-medium text-orange-600 dark:text-orange-400" id="roleLabel">Finance</span>
@@ -299,7 +299,7 @@
 
     <!-- Top Bar -->
     <header class="h-14 shrink-0 bg-white dark:bg-[#13161e] border-b border-gray-100 dark:border-white/5 flex items-center px-6 gap-4">
-      <h1 id="pageTitle" class="font-grotesk font-semibold text-base text-gray-900 dark:text-white flex-1">Overview</h1>
+      <h1 id="pageTitle" class="font-grotesk font-semibold text-base text-gray-900 dark:text-white flex-1">Nexora Technology Co., Ltd.</h1>
 
       <!-- Alert bell -->
       <button class="relative w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-white/8 transition-colors">
@@ -331,11 +331,6 @@
           <div>
             <h2 class="font-grotesk font-semibold text-lg text-gray-900 dark:text-white">Overview</h2>
             <p class="text-xs text-gray-400 mt-0.5">Your financial snapshot</p>
-          </div>
-          <div class="flex items-center gap-2">
-            <button onclick="openModal('payment')" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium transition-colors">
-              <i data-lucide="arrow-up-circle" class="w-4 h-4"></i> New Bill
-            </button>
           </div>
         </div>
 
@@ -540,11 +535,8 @@
             <p class="text-xs text-gray-400 mt-0.5">Real-time stablecoin fund pools across networks</p>
           </div>
           <div class="flex items-center gap-2">
-            <button onclick="openDepositWithdraw('withdraw')" class="flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-white/8 transition-colors">
-              <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-red-400"></i> Withdraw
-            </button>
-            <button onclick="openDepositWithdraw('deposit')" class="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium transition-colors">
-              <i data-lucide="arrow-down-left" class="w-3.5 h-3.5"></i> Deposit
+            <button onclick="openModal('change-wallet')" class="flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-white/8 transition-colors">
+              <i data-lucide="wallet" class="w-3.5 h-3.5 text-gray-500"></i> Change Wallet
             </button>
           </div>
         </div>
@@ -991,92 +983,92 @@
           <table class="w-full min-w-[800px]">
             <thead class="border-b border-gray-50 dark:border-white/5">
               <tr>
+                <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Created</th>
                 <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">ID</th>
                 <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Payee</th>
                 <th class="px-5 py-3 text-right text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Amount</th>
                 <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Purpose</th>
                 <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Status</th>
-                <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Deadline</th>
-                <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Created</th>
+                <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Approval Deadline</th>
                 <th class="px-5 py-3"></th>
               </tr>
             </thead>
             <tbody id="apv-tbody" class="divide-y divide-gray-50 dark:divide-white/4">
 
               <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="pending manager" data-doa="manager" data-date="2026-03-18" data-amount="30000" data-deadline="Mar 25, 2026" onclick="openApprovalDrawer('PAY-20260318-001')">
+                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 18, 2026</td>
                 <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260318-001</td>
                 <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">Vendor Inc</td>
                 <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">30,000</p><span class="pool-tag pool-eth"><span class="pool-dot pool-dot-eth"></span>USDC</span></td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Software License</td>
                 <td class="px-5 py-3.5"><span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400"><i data-lucide="clock" class="w-2.5 h-2.5"></i> Pending Manager</span></td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 25, 2026</td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 18, 2026</td>
                 <td class="px-5 py-3.5 text-right"><button class="text-xs text-orange-500 hover:text-orange-600 font-medium">Review</button></td>
               </tr>
 
               <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="pending cfo" data-doa="manager + cfo" data-date="2026-03-16" data-amount="75000" data-deadline="Mar 22, 2026" onclick="openApprovalDrawer('PAY-20260316-002')">
+                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 16, 2026</td>
                 <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260316-002</td>
                 <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">Shenzhen Parts Ltd</td>
                 <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">75,000</p><span class="pool-tag pool-trx"><span class="pool-dot pool-dot-trx"></span>USDT</span></td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Raw Materials</td>
                 <td class="px-5 py-3.5"><span class="badge bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-400"><i data-lucide="clock" class="w-2.5 h-2.5"></i> Pending CFO</span></td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 22, 2026</td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 16, 2026</td>
                 <td class="px-5 py-3.5 text-right"><button class="text-xs text-orange-500 hover:text-orange-600 font-medium">Review</button></td>
               </tr>
 
               <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="pending manager" data-doa="manager + cfo" data-date="2026-03-15" data-amount="120000" data-deadline="Mar 20, 2026" onclick="openApprovalDrawer('PAY-20260315-003')">
+                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 15, 2026</td>
                 <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260315-003</td>
                 <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">Global Imports Ltd</td>
                 <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">120,000</p><span class="pool-tag pool-pol"><span class="pool-dot pool-dot-pol"></span>USDC</span></td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Q1 Inventory Purchase</td>
                 <td class="px-5 py-3.5"><span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400"><i data-lucide="clock" class="w-2.5 h-2.5"></i> Pending Manager</span></td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 20, 2026</td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 15, 2026</td>
                 <td class="px-5 py-3.5 text-right"><button class="text-xs text-orange-500 hover:text-orange-600 font-medium">Review</button></td>
               </tr>
 
               <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="awaiting sig" data-doa="manager" data-date="2026-03-13" data-amount="5000" data-deadline="Mar 18, 2026" onclick="openApprovalDrawer('PAY-20260313-004')">
+                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 13, 2026</td>
                 <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260313-004</td>
                 <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">SaaS Corp</td>
                 <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">5,000</p><span class="pool-tag pool-pol"><span class="pool-dot pool-dot-pol"></span>USDT</span></td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Annual Subscription</td>
                 <td class="px-5 py-3.5"><span class="badge bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-400"><i data-lucide="pen-tool" class="w-2.5 h-2.5"></i> Awaiting Sig.</span></td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 18, 2026</td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 13, 2026</td>
                 <td class="px-5 py-3.5 text-right"><button onclick="event.stopPropagation();openApprovalDrawer('PAY-20260313-004')" class="px-3 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-xs font-medium transition-colors">Sign</button></td>
               </tr>
 
               <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="rejected" data-doa="manager" data-date="2026-03-12" data-amount="8000" data-deadline="" onclick="openApprovalDrawer('PAY-20260312-005')">
+                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 12, 2026</td>
                 <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260312-005</td>
                 <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">Unknown Vendor</td>
                 <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">8,000</p><span class="pool-tag pool-eth"><span class="pool-dot pool-dot-eth"></span>USDC</span></td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Consulting Fee</td>
                 <td class="px-5 py-3.5"><span class="badge bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-300"><i data-lucide="x-circle" class="w-2.5 h-2.5"></i> Rejected</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">—</td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 12, 2026</td>
+                <td class="px-5 py-3.5 text-xs text-gray-400">—</td>
                 <td class="px-5 py-3.5 text-right"><button class="text-xs text-orange-500 hover:text-orange-600 font-medium">View</button></td>
               </tr>
 
               <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="executed" data-doa="auto" data-date="2026-03-14" data-amount="450" data-deadline="" onclick="openApprovalDrawer('PAY-20260314-006')">
+                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 14, 2026</td>
                 <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260314-006</td>
                 <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">Office Depot</td>
                 <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">450</p><span class="pool-tag pool-eth"><span class="pool-dot pool-dot-eth"></span>USDC</span></td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Office Supplies</td>
                 <td class="px-5 py-3.5"><span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"><i data-lucide="check-circle-2" class="w-2.5 h-2.5"></i> Executed</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">—</td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 14, 2026</td>
+                <td class="px-5 py-3.5 text-xs text-gray-400">—</td>
                 <td class="px-5 py-3.5 text-right"><button class="text-xs text-orange-500 hover:text-orange-600 font-medium">View</button></td>
               </tr>
 
               <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="approved" data-doa="manager" data-date="2026-03-10" data-amount="2200" data-deadline="Mar 15, 2026" onclick="openApprovalDrawer('PAY-20260310-007')">
+                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 10, 2026</td>
                 <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260310-007</td>
                 <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">AWS Services</td>
                 <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">2,200</p><span class="pool-tag pool-eth"><span class="pool-dot pool-dot-eth"></span>USDC</span></td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Cloud Infrastructure</td>
                 <td class="px-5 py-3.5"><span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"><i data-lucide="check" class="w-2.5 h-2.5"></i> Approved</span></td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 15, 2026</td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 10, 2026</td>
                 <td class="px-5 py-3.5 text-right"><button onclick="event.stopPropagation()" class="text-xs text-orange-500 hover:text-orange-600 font-medium">Execute</button></td>
               </tr>
 
@@ -1455,18 +1447,21 @@
 
         <!-- ═══ TAB: RECONCILE ═══ -->
         <div id="rtab-content-reconcile">
-          <div class="space-y-4">
+          <div class="space-y-4" id="reconcile-pairs">
 
-            <!-- Pair: Exact suggestion — Acme Corp (5,000 USDC) -->
-            <div class="card bg-white dark:bg-[#1a1d27] overflow-hidden">
+            <!-- PAIR 1: Suggested Exact Match — Acme Corp -->
+            <div class="card bg-white dark:bg-[#1a1d27] overflow-hidden" id="pair-acme">
               <div class="px-4 py-2.5 border-b border-gray-50 dark:border-white/5 flex items-center gap-2">
                 <span class="badge bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px]"><i data-lucide="zap" class="w-2.5 h-2.5"></i> Suggested Match</span>
-                <span class="text-[10px] text-gray-400 flex-1">Same amount &amp; network detected — please confirm</span>
+                <span class="text-[10px] text-gray-400 flex-1">Same amount &amp; network — please confirm or change</span>
               </div>
               <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-50 dark:divide-white/5">
                 <!-- Left: Invoice -->
-                <div class="p-5 space-y-2">
-                  <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400 mb-2">Invoice (Expected)</p>
+                <div class="p-5 space-y-2" id="pair-acme-inv">
+                  <div class="flex items-center justify-between mb-1">
+                    <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Invoice (Expected)</p>
+                    <button onclick="openChangeInvoiceModal('pair-acme')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
+                  </div>
                   <div class="flex items-start justify-between">
                     <div>
                       <p class="text-[10px] font-mono text-gray-400">INV-20260318-001</p>
@@ -1479,8 +1474,11 @@
                   <p class="text-[10px] text-gray-400">≈ NT$159,250 · ETH Network</p>
                 </div>
                 <!-- Right: Transaction -->
-                <div class="p-5 space-y-2">
-                  <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400 mb-2">Transaction (Received)</p>
+                <div class="p-5 space-y-2" id="pair-acme-tx">
+                  <div class="flex items-center justify-between mb-1">
+                    <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Transaction (Received)</p>
+                    <button onclick="openChangeTxModal('pair-acme')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
+                  </div>
                   <div class="flex items-start justify-between">
                     <div>
                       <p class="text-[11px] font-mono text-gray-500 dark:text-gray-400 truncate max-w-[200px]" title="0x5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f">0x5e6f7a8b9c0d1e2f…</p>
@@ -1492,11 +1490,10 @@
                   <p class="text-[10px] text-gray-400">Gas: 1.4 USDC · Block #19,502,874</p>
                 </div>
               </div>
-              <!-- Action row -->
               <div class="px-5 py-3 border-t border-gray-50 dark:border-white/5 flex items-center justify-between gap-3 bg-gray-50/50 dark:bg-white/2">
                 <p class="text-[11px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Exact match — 5,000 USDC on same network</p>
                 <div class="flex items-center gap-2">
-                  <button onclick="reconDecline('pair-acme')" class="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 text-xs font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/8 transition-colors">Decline</button>
+                  <button onclick="reconDecline('pair-acme')" class="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 text-xs font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/8 transition-colors">Skip</button>
                   <button onclick="reconConfirm('pair-acme','INV-20260318-001','0x5e6f7a8b…',5000,'USDC','Acme Corp')" class="px-3 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold transition-colors flex items-center gap-1.5">
                     <i data-lucide="check" class="w-3 h-3"></i> Confirm Match
                   </button>
@@ -1504,16 +1501,18 @@
               </div>
             </div>
 
-            <!-- Pair: Discrepancy — Sunrise Imports (4,900 vs 5,000) -->
+            <!-- PAIR 2: Discrepancy — Sunrise Imports (4,900 vs 5,000) -->
             <div class="card bg-white dark:bg-[#1a1d27] overflow-hidden border border-amber-100 dark:border-amber-500/15" id="pair-sunrise">
               <div class="px-4 py-2.5 border-b border-amber-50 dark:border-amber-500/10 flex items-center gap-2 bg-amber-50/50 dark:bg-amber-500/5">
                 <span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 text-[10px]"><i data-lucide="alert-triangle" class="w-2.5 h-2.5"></i> Discrepancy</span>
-                <span class="text-[10px] text-amber-700 dark:text-amber-400 flex-1">Amount differs by −$100 (−2%). Is this the right invoice?</span>
+                <span class="text-[10px] text-amber-700 dark:text-amber-400 flex-1">Amount differs by −$100 (−2%). Confirm partial or change match.</span>
               </div>
               <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-amber-50 dark:divide-amber-500/10">
-                <!-- Left: Invoice -->
-                <div class="p-5 space-y-2">
-                  <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400 mb-2">Invoice (Expected)</p>
+                <div class="p-5 space-y-2" id="pair-sunrise-inv">
+                  <div class="flex items-center justify-between mb-1">
+                    <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Invoice (Expected)</p>
+                    <button onclick="openChangeInvoiceModal('pair-sunrise')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
+                  </div>
                   <div class="flex items-start justify-between">
                     <div>
                       <p class="text-[10px] font-mono text-gray-400">INV-20260316-003</p>
@@ -1523,14 +1522,16 @@
                     <span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 text-[10px]"><i data-lucide="alert-triangle" class="w-2 h-2"></i> Short</span>
                   </div>
                   <p class="text-sm font-semibold text-gray-900 dark:text-white mt-1">5,000 <span class="font-normal text-gray-400 text-xs">USDC expected</span></p>
-                  <p class="text-[10px] text-red-500 font-medium">Short by −100 USDC (−$100)</p>
+                  <p class="text-[10px] text-red-500 font-medium">Short by −100 USDC</p>
                 </div>
-                <!-- Right: Transaction -->
-                <div class="p-5 space-y-2">
-                  <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400 mb-2">Transaction (Received)</p>
+                <div class="p-5 space-y-2" id="pair-sunrise-tx">
+                  <div class="flex items-center justify-between mb-1">
+                    <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Transaction (Received)</p>
+                    <button onclick="openChangeTxModal('pair-sunrise')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
+                  </div>
                   <div class="flex items-start justify-between">
                     <div>
-                      <p class="text-[11px] font-mono text-gray-500 dark:text-gray-400 truncate max-w-[200px]" title="0x9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b">0x9a8b7c6d5e4f3a2b…</p>
+                      <p class="text-[11px] font-mono text-gray-500 dark:text-gray-400 truncate max-w-[200px]">0x9a8b7c6d5e4f3a2b…</p>
                       <p class="text-[10px] text-gray-400 mt-0.5">Mar 16 · 11:02 UTC</p>
                     </div>
                     <span class="net-chip net-eth">ETH · USDC</span>
@@ -1539,11 +1540,10 @@
                   <p class="text-[10px] text-gray-400">Gas: 1.5 USDC · Block #19,489,201</p>
                 </div>
               </div>
-              <!-- Action row -->
               <div class="px-5 py-3 border-t border-amber-50 dark:border-amber-500/10 flex items-center justify-between gap-3 bg-amber-50/30 dark:bg-amber-500/3">
-                <p class="text-[11px] text-amber-600 dark:text-amber-400 flex items-center gap-1"><i data-lucide="info" class="w-3.5 h-3.5"></i> Partial payment — confirm to accept with discrepancy noted</p>
+                <p class="text-[11px] text-amber-600 dark:text-amber-400 flex items-center gap-1"><i data-lucide="info" class="w-3.5 h-3.5"></i> Partial — accept with discrepancy noted, or change the match</p>
                 <div class="flex items-center gap-2">
-                  <button onclick="reconDecline('pair-sunrise')" class="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 text-xs font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/8 transition-colors">Decline</button>
+                  <button onclick="reconDecline('pair-sunrise')" class="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 text-xs font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/8 transition-colors">Skip</button>
                   <button onclick="reconConfirm('pair-sunrise','INV-20260316-003','0x9a8b7c6d…',4900,'USDC','Sunrise Imports',100)" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold transition-colors flex items-center gap-1.5">
                     <i data-lucide="check" class="w-3 h-3"></i> Confirm Partial
                   </button>
@@ -1551,7 +1551,88 @@
               </div>
             </div>
 
-            <!-- Empty state (shown after all pairs confirmed) -->
+            <!-- PAIR 3: Transaction with NO matching invoice -->
+            <div class="card bg-white dark:bg-[#1a1d27] overflow-hidden border border-gray-100 dark:border-white/8" id="pair-no-inv">
+              <div class="px-4 py-2.5 border-b border-gray-50 dark:border-white/5 flex items-center gap-2">
+                <span class="badge bg-gray-100 dark:bg-white/8 text-gray-600 dark:text-gray-400 text-[10px]"><i data-lucide="search" class="w-2.5 h-2.5"></i> No Invoice Found</span>
+                <span class="text-[10px] text-gray-400 flex-1">Transaction received but no matching invoice in the system</span>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-50 dark:divide-white/5">
+                <!-- Left: No invoice -->
+                <div class="p-5 flex flex-col items-center justify-center min-h-[120px] text-center bg-gray-50/40 dark:bg-white/2 space-y-3" id="pair-no-inv-inv">
+                  <div class="w-9 h-9 rounded-full bg-gray-100 dark:bg-white/8 flex items-center justify-center">
+                    <i data-lucide="file-question" class="w-4 h-4 text-gray-400"></i>
+                  </div>
+                  <p class="text-xs text-gray-400">No invoice matched</p>
+                  <button onclick="openChangeInvoiceModal('pair-no-inv')" class="px-3 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold transition-colors flex items-center gap-1.5">
+                    <i data-lucide="search" class="w-3 h-3"></i> Find Invoice
+                  </button>
+                </div>
+                <!-- Right: Transaction details -->
+                <div class="p-5 space-y-2" id="pair-no-inv-tx">
+                  <div class="flex items-center justify-between mb-1">
+                    <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Transaction (Received)</p>
+                    <button onclick="openChangeTxModal('pair-no-inv')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
+                  </div>
+                  <div class="flex items-start justify-between">
+                    <div>
+                      <p class="text-[11px] font-mono text-gray-500 dark:text-gray-400 truncate max-w-[200px]">0xb2d144fa…</p>
+                      <p class="text-[10px] text-gray-400 mt-0.5">Mar 20 · 09:15 UTC</p>
+                    </div>
+                    <span class="net-chip net-eth">ETH · USDC</span>
+                  </div>
+                  <p class="text-sm font-semibold amt-in mt-1">+8,200 <span class="font-normal text-gray-400 text-xs">USDC</span></p>
+                  <p class="text-[10px] text-gray-400">Gas: 1.8 USDC · Block #19,521,004</p>
+                </div>
+              </div>
+              <div class="px-5 py-3 border-t border-gray-50 dark:border-white/5 flex items-center justify-between gap-3 bg-gray-50/30 dark:bg-white/1">
+                <p class="text-[11px] text-gray-500 dark:text-gray-400 flex items-center gap-1"><i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> Select an invoice above to enable confirmation</p>
+                <button disabled class="px-3 py-1.5 rounded-lg bg-gray-200 dark:bg-white/10 text-gray-400 text-xs font-semibold cursor-not-allowed">Confirm Match</button>
+              </div>
+            </div>
+
+            <!-- PAIR 4: Invoice with NO matching transaction -->
+            <div class="card bg-white dark:bg-[#1a1d27] overflow-hidden border border-gray-100 dark:border-white/8" id="pair-no-tx">
+              <div class="px-4 py-2.5 border-b border-gray-50 dark:border-white/5 flex items-center gap-2">
+                <span class="badge bg-gray-100 dark:bg-white/8 text-gray-600 dark:text-gray-400 text-[10px]"><i data-lucide="clock" class="w-2.5 h-2.5"></i> Awaiting Payment</span>
+                <span class="text-[10px] text-gray-400 flex-1">Invoice uploaded — no on-chain transaction detected yet</span>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-50 dark:divide-white/5">
+                <!-- Left: Invoice -->
+                <div class="p-5 space-y-2" id="pair-no-tx-inv">
+                  <div class="flex items-center justify-between mb-1">
+                    <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Invoice (Expected)</p>
+                    <button onclick="openChangeInvoiceModal('pair-no-tx')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
+                  </div>
+                  <div class="flex items-start justify-between">
+                    <div>
+                      <p class="text-[10px] font-mono text-gray-400">INV-20260322-004</p>
+                      <p class="text-sm font-semibold text-gray-900 dark:text-white mt-0.5">Delta Components</p>
+                      <p class="text-xs text-gray-400 mt-0.5">Q1 Parts Order · Due Apr 5, 2026</p>
+                    </div>
+                    <span class="badge bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px]"><i data-lucide="clock" class="w-2 h-2"></i> Pending</span>
+                  </div>
+                  <p class="text-sm font-semibold amt-in mt-1">3,500 <span class="font-normal text-gray-400 text-xs">USDT</span></p>
+                  <p class="text-[10px] text-gray-400">≈ NT$111,475 · Tron Network</p>
+                </div>
+                <!-- Right: No transaction -->
+                <div class="p-5 flex flex-col items-center justify-center min-h-[120px] text-center bg-gray-50/40 dark:bg-white/2 space-y-3" id="pair-no-tx-tx">
+                  <div class="w-9 h-9 rounded-full bg-gray-100 dark:bg-white/8 flex items-center justify-center">
+                    <i data-lucide="wifi-off" class="w-4 h-4 text-gray-400"></i>
+                  </div>
+                  <p class="text-xs text-gray-400">No transaction detected</p>
+                  <button onclick="openChangeTxModal('pair-no-tx')" class="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 text-xs font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center gap-1.5">
+                    <i data-lucide="search" class="w-3 h-3"></i> Find Transaction
+                  </button>
+                </div>
+              </div>
+              <div class="px-5 py-3 border-t border-gray-50 dark:border-white/5 flex items-center justify-between gap-3 bg-gray-50/30 dark:bg-white/1">
+                <p class="text-[11px] text-gray-500 dark:text-gray-400 flex items-center gap-1"><i data-lucide="info" class="w-3.5 h-3.5"></i> Select a transaction above to enable confirmation</p>
+                <button disabled class="px-3 py-1.5 rounded-lg bg-gray-200 dark:bg-white/10 text-gray-400 text-xs font-semibold cursor-not-allowed">Confirm Match</button>
+              </div>
+            </div>
+
+            <!-- Empty state -->
             <div id="reconcile-empty" class="hidden card bg-white dark:bg-[#1a1d27] p-10 text-center">
               <div class="w-12 h-12 rounded-full bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center mx-auto mb-3">
                 <i data-lucide="check-circle-2" class="w-6 h-6 text-emerald-500"></i>
@@ -2798,7 +2879,158 @@
       </button>
     </div>
   </div>
-</div>
+</div><!-- /modal-receipt -->
+
+      <!-- ══ MODAL: CHANGE WALLET ══ -->
+      <div id="modal-change-wallet" class="modal-backdrop hidden" onclick="if(event.target===this)closeModal('change-wallet')">
+        <div class="modal-box w-full max-w-md" onclick="event.stopPropagation()">
+          <div class="px-6 py-4 border-b border-gray-100 dark:border-white/8 flex items-center justify-between">
+            <div>
+              <h3 class="font-grotesk font-semibold text-base text-gray-900 dark:text-white">Change Tracking Wallet</h3>
+              <p class="text-xs text-gray-400 mt-0.5">Update the wallet address monitored for incoming transactions</p>
+            </div>
+            <button onclick="closeModal('change-wallet')" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-white/8 transition-colors">
+              <i data-lucide="x" class="w-4 h-4 text-gray-400"></i>
+            </button>
+          </div>
+          <div class="px-6 py-5 space-y-4">
+            <!-- Network selector -->
+            <div class="space-y-1.5">
+              <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Network</label>
+              <select id="cw-network" class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition">
+                <option value="eth">USDC · Ethereum</option>
+                <option value="pol">USDC · Polygon</option>
+                <option value="sol">USDC · Solana</option>
+                <option value="trx">USDT · Tron</option>
+              </select>
+            </div>
+            <!-- Current address (read-only) -->
+            <div class="space-y-1.5">
+              <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Current Address</label>
+              <div class="px-3 py-2.5 rounded-lg bg-gray-100 dark:bg-white/4 text-xs font-mono text-gray-500 dark:text-gray-400 break-all select-all">0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b</div>
+            </div>
+            <!-- New address input -->
+            <div class="space-y-1.5">
+              <label class="text-xs font-medium text-gray-600 dark:text-gray-400">New Address <span class="text-orange-500">*</span></label>
+              <input id="cw-new-address" type="text" placeholder="0x… or TQ… or Sol…"
+                class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm font-mono text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
+            </div>
+            <!-- Confirmation note -->
+            <div class="flex items-start gap-2 p-3 rounded-lg bg-amber-50 dark:bg-amber-500/8 border border-amber-100 dark:border-amber-500/15">
+              <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5"></i>
+              <p class="text-[11px] text-amber-700 dark:text-amber-400">Changing the tracking address will stop monitoring the previous wallet. Ensure the new address is correct before saving.</p>
+            </div>
+            <div class="flex gap-3 pt-1">
+              <button type="button" onclick="closeModal('change-wallet')" class="flex-1 px-4 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Cancel</button>
+              <button type="button" onclick="saveWalletAddress()" class="flex-1 px-4 py-2.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium transition-colors">Save Address</button>
+            </div>
+          </div>
+        </div>
+      </div><!-- /modal-change-wallet -->
+
+      <!-- ══ MODAL: CHANGE INVOICE (Reconciliation) ══ -->
+      <div id="modal-change-invoice" class="modal-backdrop hidden" onclick="if(event.target===this)closeModal('change-invoice')">
+        <div class="modal-box w-full max-w-lg" onclick="event.stopPropagation()">
+          <div class="px-6 py-4 border-b border-gray-100 dark:border-white/8 flex items-center justify-between">
+            <div>
+              <h3 class="font-grotesk font-semibold text-base text-gray-900 dark:text-white">Select Invoice</h3>
+              <p class="text-xs text-gray-400 mt-0.5">Choose from unmatched invoices to replace this pairing</p>
+            </div>
+            <button onclick="closeModal('change-invoice')" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-white/8 transition-colors">
+              <i data-lucide="x" class="w-4 h-4 text-gray-400"></i>
+            </button>
+          </div>
+          <div class="px-6 py-4 max-h-[60vh] overflow-y-auto">
+            <table class="w-full">
+              <thead>
+                <tr class="border-b border-gray-100 dark:border-white/8">
+                  <th class="pb-2 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Invoice</th>
+                  <th class="pb-2 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Client</th>
+                  <th class="pb-2 text-right text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Amount</th>
+                  <th class="pb-2 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Due</th>
+                  <th class="pb-2"></th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-50 dark:divide-white/5" id="change-invoice-list">
+                <tr class="hover:bg-gray-50 dark:hover:bg-white/4 cursor-pointer transition-colors" onclick="selectReconInvoice('INV-20260318-001','Acme Corp',5000,'USDC')">
+                  <td class="py-2.5 text-xs font-mono text-gray-500 dark:text-gray-400">INV-20260318-001</td>
+                  <td class="py-2.5 text-xs text-gray-800 dark:text-gray-200">Acme Corp</td>
+                  <td class="py-2.5 text-xs font-semibold text-right amt-in">5,000 USDC</td>
+                  <td class="py-2.5 text-xs text-gray-400">Apr 1</td>
+                  <td class="py-2.5 text-right"><button class="text-[10px] text-orange-500 font-medium">Select</button></td>
+                </tr>
+                <tr class="hover:bg-gray-50 dark:hover:bg-white/4 cursor-pointer transition-colors" onclick="selectReconInvoice('INV-20260316-003','Sunrise Imports',5000,'USDC')">
+                  <td class="py-2.5 text-xs font-mono text-gray-500 dark:text-gray-400">INV-20260316-003</td>
+                  <td class="py-2.5 text-xs text-gray-800 dark:text-gray-200">Sunrise Imports</td>
+                  <td class="py-2.5 text-xs font-semibold text-right amt-in">5,000 USDC</td>
+                  <td class="py-2.5 text-xs text-gray-400">Mar 28</td>
+                  <td class="py-2.5 text-right"><button class="text-[10px] text-orange-500 font-medium">Select</button></td>
+                </tr>
+                <tr class="hover:bg-gray-50 dark:hover:bg-white/4 cursor-pointer transition-colors" onclick="selectReconInvoice('INV-20260322-004','Delta Components',3500,'USDT')">
+                  <td class="py-2.5 text-xs font-mono text-gray-500 dark:text-gray-400">INV-20260322-004</td>
+                  <td class="py-2.5 text-xs text-gray-800 dark:text-gray-200">Delta Components</td>
+                  <td class="py-2.5 text-xs font-semibold text-right amt-in">3,500 USDT</td>
+                  <td class="py-2.5 text-xs text-gray-400">Apr 5</td>
+                  <td class="py-2.5 text-right"><button class="text-[10px] text-orange-500 font-medium">Select</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div><!-- /modal-change-invoice -->
+
+      <!-- ══ MODAL: CHANGE TRANSACTION (Reconciliation) ══ -->
+      <div id="modal-change-tx" class="modal-backdrop hidden" onclick="if(event.target===this)closeModal('change-tx')">
+        <div class="modal-box w-full max-w-lg" onclick="event.stopPropagation()">
+          <div class="px-6 py-4 border-b border-gray-100 dark:border-white/8 flex items-center justify-between">
+            <div>
+              <h3 class="font-grotesk font-semibold text-base text-gray-900 dark:text-white">Select Transaction</h3>
+              <p class="text-xs text-gray-400 mt-0.5">Choose from unmatched on-chain transactions</p>
+            </div>
+            <button onclick="closeModal('change-tx')" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-white/8 transition-colors">
+              <i data-lucide="x" class="w-4 h-4 text-gray-400"></i>
+            </button>
+          </div>
+          <div class="px-6 py-4 max-h-[60vh] overflow-y-auto">
+            <table class="w-full">
+              <thead>
+                <tr class="border-b border-gray-100 dark:border-white/8">
+                  <th class="pb-2 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Tx Hash</th>
+                  <th class="pb-2 text-right text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Amount</th>
+                  <th class="pb-2 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Time</th>
+                  <th class="pb-2"></th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-50 dark:divide-white/5" id="change-tx-list">
+                <tr class="hover:bg-gray-50 dark:hover:bg-white/4 cursor-pointer transition-colors" onclick="selectReconTx('0x5e6f7a8b…',5000,'USDC','ETH')">
+                  <td class="py-2.5 text-xs font-mono text-gray-500 dark:text-gray-400">0x5e6f7a8b…</td>
+                  <td class="py-2.5 text-xs font-semibold text-right amt-in">+5,000 USDC</td>
+                  <td class="py-2.5 text-xs text-gray-400">Mar 18 · 14:20</td>
+                  <td class="py-2.5 text-right"><button class="text-[10px] text-orange-500 font-medium">Select</button></td>
+                </tr>
+                <tr class="hover:bg-gray-50 dark:hover:bg-white/4 cursor-pointer transition-colors" onclick="selectReconTx('0x9a8b7c6d…',4900,'USDC','ETH')">
+                  <td class="py-2.5 text-xs font-mono text-gray-500 dark:text-gray-400">0x9a8b7c6d…</td>
+                  <td class="py-2.5 text-xs font-semibold text-right text-amber-500">+4,900 USDC</td>
+                  <td class="py-2.5 text-xs text-gray-400">Mar 16 · 11:02</td>
+                  <td class="py-2.5 text-right"><button class="text-[10px] text-orange-500 font-medium">Select</button></td>
+                </tr>
+                <tr class="hover:bg-gray-50 dark:hover:bg-white/4 cursor-pointer transition-colors" onclick="selectReconTx('0xb2d144fa…',8200,'USDC','ETH')">
+                  <td class="py-2.5 text-xs font-mono text-gray-500 dark:text-gray-400">0xb2d144fa…</td>
+                  <td class="py-2.5 text-xs font-semibold text-right amt-in">+8,200 USDC</td>
+                  <td class="py-2.5 text-xs text-gray-400">Mar 20 · 09:15</td>
+                  <td class="py-2.5 text-right"><button class="text-[10px] text-orange-500 font-medium">Select</button></td>
+                </tr>
+                <tr class="hover:bg-gray-50 dark:hover:bg-white/4 cursor-pointer transition-colors" onclick="selectReconTx('TQsunrise9…',15000,'USDT','TRX')">
+                  <td class="py-2.5 text-xs font-mono text-gray-500 dark:text-gray-400">TQsunrise9…</td>
+                  <td class="py-2.5 text-xs font-semibold text-right amt-in">+15,000 USDT</td>
+                  <td class="py-2.5 text-xs text-gray-400">Mar 21 · 16:44</td>
+                  <td class="py-2.5 text-right"><button class="text-[10px] text-orange-500 font-medium">Select</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div><!-- /modal-change-tx -->
 
 <!-- ══════════ PAGE: TAX FILING ══════════ -->
 <!-- (injected into #page-tax via showPage routing — defined as a hidden page div below) -->
@@ -2859,15 +3091,15 @@
   // Page routing
   const pages = ['dashboard', 'treasury', 'invoices', 'payments', 'approvals', 'reconciliation', 'audit', 'whitelist', 'tax'];
   const titles = {
-    dashboard: 'Overview',
-    treasury: 'Treasury',
-    invoices: 'Payment Links',
-    payments: 'Bills',
-    approvals: 'Approvals',
-    reconciliation: 'Reconciliation',
-    audit: 'Audit Trail',
-    whitelist: 'Whitelist',
-    tax: 'Tax Filing (TW)',
+    dashboard: 'Nexora Technology Co., Ltd.',
+    treasury: 'Nexora Technology Co., Ltd.',
+    invoices: 'Nexora Technology Co., Ltd.',
+    payments: 'Nexora Technology Co., Ltd.',
+    approvals: 'Nexora Technology Co., Ltd.',
+    reconciliation: 'Nexora Technology Co., Ltd.',
+    audit: 'Nexora Technology Co., Ltd.',
+    whitelist: 'Nexora Technology Co., Ltd.',
+    tax: 'Nexora Technology Co., Ltd.',
   };
 
   function showPage(name) {
@@ -3596,7 +3828,6 @@
       { label: 'Amount', value: `<span class="font-semibold amt-out">${data.amount}</span> ${poolTag}` },
       { label: 'Purpose', value: data.purpose },
       { label: 'Created', value: `${data.createdAt} · by ${data.createdBy}` },
-      { label: 'Approval Deadline', value: data.deadline || '—' },
       { label: 'To Address', value: `<div class="flex items-start gap-2"><span class="font-mono text-[11px] break-all flex-1">${data.address}</span>${apvAddrCopy}</div><div class="mt-2 flex items-end gap-3">${apvAddrQR}<button onclick="showToast('QR copied','success')" class="text-[10px] text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 flex items-center gap-1 transition-colors mb-0.5"><i data-lucide="copy" class="w-3 h-3"></i> Copy QR</button></div>`, full: true },
     ];
 
@@ -3650,7 +3881,15 @@
             </div>
           </div>
         `).join('')}
-      </div>`;
+      </div>
+      ${data.deadline ? `
+      <div class="mt-4 pt-4 border-t border-gray-50 dark:border-white/5">
+        <p class="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-1">Approval Deadline</p>
+        <div class="flex items-center gap-2">
+          <i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-amber-500 shrink-0"></i>
+          <span class="text-sm font-medium text-amber-700 dark:text-amber-400">${data.deadline}</span>
+        </div>
+      </div>` : ''}`;
 
     // Footer — Sign mode (awaiting on-chain signature) or Approve mode
     const isSignMode = data.statusLabel === 'Awaiting Signature';
@@ -4233,6 +4472,81 @@
       lucide.createIcons();
     }
     showToast(`${payId} signed & submitted on-chain${memo ? ' · "' + memo.slice(0, 40) + '"' : ''}`, 'success');
+  }
+
+  // ── Change Wallet ──
+  function saveWalletAddress() {
+    const addr = document.getElementById('cw-new-address')?.value?.trim();
+    if (!addr) { showToast('Please enter a wallet address', 'error'); return; }
+    closeModal('change-wallet');
+    showToast('Tracking wallet updated · monitoring new address', 'success');
+  }
+
+  // ── Reconciliation: Change Invoice / Change Tx modals ──
+  let _reconChangePairId = null;
+
+  function openChangeInvoiceModal(pairId) {
+    _reconChangePairId = pairId;
+    openModal('change-invoice');
+  }
+
+  function openChangeTxModal(pairId) {
+    _reconChangePairId = pairId;
+    openModal('change-tx');
+  }
+
+  function selectReconInvoice(invId, client, amount, currency) {
+    if (!_reconChangePairId) return;
+    const invPanel = document.getElementById(_reconChangePairId + '-inv');
+    if (invPanel) {
+      invPanel.innerHTML = `
+        <div class="flex items-center justify-between mb-1">
+          <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Invoice (Expected)</p>
+          <button onclick="openChangeInvoiceModal('${_reconChangePairId}')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
+        </div>
+        <p class="text-[10px] font-mono text-gray-400">${invId}</p>
+        <p class="text-sm font-semibold text-gray-900 dark:text-white mt-0.5">${client}</p>
+        <p class="text-sm font-semibold amt-in mt-1">${amount.toLocaleString()} <span class="font-normal text-gray-400 text-xs">${currency}</span></p>
+        <span class="badge bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px] mt-1">Updated</span>`;
+      // Enable confirm button
+      const footer = invPanel.closest('.card')?.querySelector('button[disabled]');
+      if (footer) {
+        footer.removeAttribute('disabled');
+        footer.className = 'px-3 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold transition-colors flex items-center gap-1.5';
+        footer.innerHTML = '<i data-lucide="check" class="w-3 h-3"></i> Confirm Match';
+        footer.onclick = () => reconConfirm(_reconChangePairId, invId, '—', amount, currency, client);
+      }
+      lucide.createIcons();
+    }
+    closeModal('change-invoice');
+    showToast(`Invoice ${invId} selected for ${_reconChangePairId}`, 'success');
+  }
+
+  function selectReconTx(txHash, amount, currency, network) {
+    if (!_reconChangePairId) return;
+    const txPanel = document.getElementById(_reconChangePairId + '-tx');
+    if (txPanel) {
+      txPanel.innerHTML = `
+        <div class="flex items-center justify-between mb-1">
+          <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Transaction (Received)</p>
+          <button onclick="openChangeTxModal('${_reconChangePairId}')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
+        </div>
+        <p class="text-[11px] font-mono text-gray-500 dark:text-gray-400">${txHash}</p>
+        <p class="text-sm font-semibold amt-in mt-1">+${amount.toLocaleString()} <span class="font-normal text-gray-400 text-xs">${currency}</span></p>
+        <span class="net-chip net-${network.toLowerCase().slice(0,3)} mt-1">${network} · ${currency}</span>
+        <span class="badge bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px] mt-1 ml-1">Updated</span>`;
+      // Enable confirm button
+      const footer = txPanel.closest('.card')?.querySelector('button[disabled]');
+      if (footer) {
+        footer.removeAttribute('disabled');
+        footer.className = 'px-3 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold transition-colors flex items-center gap-1.5';
+        footer.innerHTML = '<i data-lucide="check" class="w-3 h-3"></i> Confirm Match';
+        footer.onclick = () => reconConfirm(_reconChangePairId, '—', txHash, amount, currency, '—');
+      }
+      lucide.createIcons();
+    }
+    closeModal('change-tx');
+    showToast(`Transaction ${txHash} selected for ${_reconChangePairId}`, 'success');
   }
 
   // ── Journal Entry (#5) ──
