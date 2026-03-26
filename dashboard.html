@@ -1004,6 +1004,7 @@
           <button id="bills-tab-todo" onclick="switchBillsTab('todo')" class="px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 -mb-px transition-colors">To-do <span class="ml-1 px-1.5 py-0.5 rounded-full bg-orange-100 dark:bg-orange-500/15 text-orange-600 dark:text-orange-400 text-[10px] font-semibold" id="badge-todo">1</span></button>
           <button id="bills-tab-waiting" onclick="switchBillsTab('waiting')" class="px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 -mb-px transition-colors">Waiting Signature <span class="ml-1 px-1.5 py-0.5 rounded-full bg-violet-100 dark:bg-violet-500/15 text-violet-600 dark:text-violet-400 text-[10px] font-semibold" id="badge-waiting">3</span></button>
           <button id="bills-tab-paid" onclick="switchBillsTab('paid')" class="px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 -mb-px transition-colors">Paid</button>
+          <button id="bills-tab-rejected" onclick="switchBillsTab('rejected')" class="px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 -mb-px transition-colors">Rejected</button>
         </div>
 
         <!-- Sort only (status filter removed) -->
@@ -1076,7 +1077,7 @@
                 <td class="px-5 py-3.5 text-right"><button onclick="event.stopPropagation();openApprovalDrawer('PAY-20260313-004')" class="px-3 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-xs font-medium transition-colors">Sign</button></td>
               </tr>
 
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="rejected" data-doa="manager" data-date="2026-03-12" data-amount="8000" data-deadline="" onclick="openApprovalDrawer('PAY-20260312-005')">
+              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="rejected" data-tab="rejected" data-doa="manager" data-date="2026-03-12" data-amount="8000" data-deadline="" onclick="openApprovalDrawer('PAY-20260312-005')">
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 12, 2026</td>
                 <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260312-005</td>
                 <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">Unknown Vendor</td>
@@ -1497,10 +1498,10 @@
               </div>
               <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-50 dark:divide-white/5">
                 <!-- Left: Invoice -->
-                <div class="p-5 space-y-2" id="pair-acme-inv">
+                <div class="p-5 space-y-2 cursor-pointer hover:bg-orange-50/30 dark:hover:bg-orange-500/4 transition-colors" id="pair-acme-inv" onclick="openDrawer('INV-20260318-001')">
                   <div class="flex items-center justify-between mb-1">
-                    <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Invoice (Expected)</p>
-                    <button onclick="openChangeInvoiceModal('pair-acme')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
+                    <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Invoice (Expected) <span class="normal-case tracking-normal font-normal text-gray-300 dark:text-gray-600">· click to view</span></p>
+                    <button onclick="event.stopPropagation();openChangeInvoiceModal('pair-acme')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
                   </div>
                   <div class="flex items-start justify-between">
                     <div>
@@ -1514,10 +1515,10 @@
                   <p class="text-[10px] text-gray-400">≈ NT$159,250 · ETH Network</p>
                 </div>
                 <!-- Right: Transaction -->
-                <div class="p-5 space-y-2" id="pair-acme-tx">
+                <div class="p-5 space-y-2 cursor-pointer hover:bg-blue-50/20 dark:hover:bg-blue-500/4 transition-colors" id="pair-acme-tx" onclick="openReconTxDrawer('0x5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f',5000,'USDC','eth','Mar 18, 2026 · 14:20 UTC','19,502,874','1.4')">
                   <div class="flex items-center justify-between mb-1">
-                    <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Transaction (Received)</p>
-                    <button onclick="openChangeTxModal('pair-acme')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
+                    <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Transaction (Received) <span class="normal-case tracking-normal font-normal text-gray-300 dark:text-gray-600">· click to view</span></p>
+                    <button onclick="event.stopPropagation();openChangeTxModal('pair-acme')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
                   </div>
                   <div class="flex items-start justify-between">
                     <div>
@@ -1548,10 +1549,10 @@
                 <span class="text-[10px] text-amber-700 dark:text-amber-400 flex-1">Amount differs by −$100 (−2%). Confirm partial or change match.</span>
               </div>
               <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-amber-50 dark:divide-amber-500/10">
-                <div class="p-5 space-y-2" id="pair-sunrise-inv">
+                <div class="p-5 space-y-2 cursor-pointer hover:bg-orange-50/30 dark:hover:bg-orange-500/4 transition-colors" id="pair-sunrise-inv" onclick="openDrawer('INV-20260316-003')">
                   <div class="flex items-center justify-between mb-1">
-                    <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Invoice (Expected)</p>
-                    <button onclick="openChangeInvoiceModal('pair-sunrise')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
+                    <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Invoice (Expected) <span class="normal-case tracking-normal font-normal text-gray-300 dark:text-gray-600">· click to view</span></p>
+                    <button onclick="event.stopPropagation();openChangeInvoiceModal('pair-sunrise')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
                   </div>
                   <div class="flex items-start justify-between">
                     <div>
@@ -1564,10 +1565,10 @@
                   <p class="text-sm font-semibold text-gray-900 dark:text-white mt-1">5,000 <span class="font-normal text-gray-400 text-xs">USDC expected</span></p>
                   <p class="text-[10px] text-red-500 font-medium">Short by −100 USDC</p>
                 </div>
-                <div class="p-5 space-y-2" id="pair-sunrise-tx">
+                <div class="p-5 space-y-2 cursor-pointer hover:bg-blue-50/20 dark:hover:bg-blue-500/4 transition-colors" id="pair-sunrise-tx" onclick="openReconTxDrawer('0x9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b',4900,'USDC','eth','Mar 16, 2026 · 11:02 UTC','19,489,201','1.5')">
                   <div class="flex items-center justify-between mb-1">
-                    <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Transaction (Received)</p>
-                    <button onclick="openChangeTxModal('pair-sunrise')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
+                    <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Transaction (Received) <span class="normal-case tracking-normal font-normal text-gray-300 dark:text-gray-600">· click to view</span></p>
+                    <button onclick="event.stopPropagation();openChangeTxModal('pair-sunrise')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
                   </div>
                   <div class="flex items-start justify-between">
                     <div>
@@ -1661,10 +1662,10 @@
                   </button>
                 </div>
                 <!-- Right: Transaction details -->
-                <div class="p-5 space-y-2" id="pair-no-inv-tx">
+                <div class="p-5 space-y-2 cursor-pointer hover:bg-blue-50/20 dark:hover:bg-blue-500/4 transition-colors" id="pair-no-inv-tx" onclick="openReconTxDrawer('0xb2d144fa9e3c8b71a05f2d6e4c9b1a3f7e5d2c8b',8200,'USDC','eth','Mar 20, 2026 · 09:15 UTC','19,521,004','1.8')">
                   <div class="flex items-center justify-between mb-1">
-                    <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Transaction (Received)</p>
-                    <button onclick="openChangeTxModal('pair-no-inv')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
+                    <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Transaction (Received) <span class="normal-case tracking-normal font-normal text-gray-300 dark:text-gray-600">· click to view</span></p>
+                    <button onclick="event.stopPropagation();openChangeTxModal('pair-no-inv')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
                   </div>
                   <div class="flex items-start justify-between">
                     <div>
@@ -1691,10 +1692,10 @@
               </div>
               <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-50 dark:divide-white/5">
                 <!-- Left: Invoice -->
-                <div class="p-5 space-y-2" id="pair-no-tx-inv">
+                <div class="p-5 space-y-2 cursor-pointer hover:bg-orange-50/30 dark:hover:bg-orange-500/4 transition-colors" id="pair-no-tx-inv" onclick="openDrawer('INV-20260322-004')">
                   <div class="flex items-center justify-between mb-1">
-                    <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Invoice (Expected)</p>
-                    <button onclick="openChangeInvoiceModal('pair-no-tx')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
+                    <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Invoice (Expected) <span class="normal-case tracking-normal font-normal text-gray-300 dark:text-gray-600">· click to view</span></p>
+                    <button onclick="event.stopPropagation();openChangeInvoiceModal('pair-no-tx')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
                   </div>
                   <div class="flex items-start justify-between">
                     <div>
@@ -3742,6 +3743,17 @@
         { date: 'Mar 17, 09:40', event: 'Funds swept — Completed', icon: 'check-circle-2', color: 'text-emerald-500' },
       ],
     },
+    'INV-20260322-004': {
+      id: 'INV-20260322-004', client: 'Delta Components', amount: '3,500', currency: 'USDT', pool: 'trx',
+      status: 'Pending', statusColor: 'bg-gray-100 dark:bg-white/8 text-gray-600 dark:text-gray-400',
+      due: 'Apr 5, 2026', created: 'Mar 22, 2026', createdBy: '陳琳達',
+      address: 'TAzrQf9bXd1234TronNetwork5678XyZ90abcde',
+      purpose: 'Q1 Parts Order',
+      timeline: [
+        { date: 'Mar 22, 09:10', event: 'Invoice created — address generated', icon: 'file-plus', color: 'text-blue-500' },
+        { date: 'Mar 22, 09:10', event: 'Awaiting on-chain payment · Tron Network', icon: 'clock', color: 'text-gray-400' },
+      ],
+    },
     'INV-20260316-003': {
       id: 'INV-20260316-003', client: 'Sunrise Imports', amount: '5,000', receivedAmount: '4,900', currency: 'USDC', pool: 'eth',
       status: 'Abnormal', statusColor: 'bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400',
@@ -3850,6 +3862,60 @@
   function closeDrawer() {
     document.getElementById('drawer').classList.remove('open');
     document.getElementById('drawer-overlay').classList.remove('open');
+  }
+
+  // ── Reconciliation: on-chain transaction detail drawer ──
+  function openReconTxDrawer(hash, amount, currency, pool, timestamp, block, gas) {
+    const poolMap = { eth: { label: 'Ethereum', color: 'pool-eth' }, pol: { label: 'Polygon', color: 'pool-pol' }, trx: { label: 'Tron', color: 'pool-trx' }, sol: { label: 'Solana', color: 'pool-sol' } };
+    const net = poolMap[pool] || { label: pool, color: 'pool-eth' };
+    const shortHash = hash.slice(0, 14) + '…' + hash.slice(-8);
+    document.getElementById('drawer-id').textContent = shortHash;
+    document.getElementById('drawer-title').textContent = 'On-chain Transaction';
+    const badge = document.getElementById('drawer-badge');
+    badge.className = 'badge bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400';
+    badge.textContent = net.label + ' · ' + currency;
+    const poolTag = `<span class="pool-tag pool-${pool}"><span class="pool-dot pool-dot-${pool}"></span>${currency}</span>`;
+    const detailItems = [
+      { label: 'Amount Received', value: `<span class="text-xl font-bold amt-in text-emerald-600 dark:text-emerald-400">+${Number(amount).toLocaleString()}</span> ${poolTag}` },
+      { label: 'Network', value: net.label },
+      { label: 'Timestamp', value: timestamp },
+      { label: 'Block', value: `<span class="font-mono text-xs">#${block}</span>` },
+      { label: 'Gas Fee', value: `<span class="text-gray-500">${gas} ${currency}</span>` },
+      { label: 'Tx Hash', value: `<span class="font-mono text-[11px] break-all text-gray-500 dark:text-gray-400">${hash}</span>`, full: true },
+    ];
+    document.getElementById('drawer-details').innerHTML = detailItems.map(d =>
+      `<div class="${d.full ? 'col-span-2' : ''}">
+        <p class="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-1">${d.label}</p>
+        <div class="text-sm text-gray-600 dark:text-gray-300">${d.value}</div>
+      </div>`
+    ).join('');
+    document.getElementById('drawer-timeline').innerHTML = `
+      <p class="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-3">On-chain Activity</p>
+      <div class="space-y-3">
+        <div class="flex items-start gap-3">
+          <div class="w-8 h-8 rounded-full bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center shrink-0">
+            <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-500"></i>
+          </div>
+          <div>
+            <p class="text-xs font-semibold text-gray-800 dark:text-gray-200">Transaction confirmed</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">${timestamp}</p>
+            <p class="text-[10px] text-gray-400 mt-0.5 italic">Block #${block} · Gas: ${gas} ${currency}</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <div class="w-8 h-8 rounded-full bg-amber-50 dark:bg-amber-500/10 flex items-center justify-center shrink-0">
+            <i data-lucide="git-merge" class="w-3.5 h-3.5 text-amber-500"></i>
+          </div>
+          <div>
+            <p class="text-xs font-semibold text-gray-800 dark:text-gray-200">Pending reconciliation</p>
+            <p class="text-[10px] text-gray-400 mt-0.5 italic">Match this transaction to an invoice to clear AR</p>
+          </div>
+        </div>
+      </div>`;
+    document.getElementById('drawer-footer').innerHTML = `<button onclick="closeDrawer()" class="flex-1 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Close</button>`;
+    document.getElementById('drawer').classList.add('open');
+    document.getElementById('drawer-overlay').classList.add('open');
+    lucide.createIcons();
   }
 
   // ── Approval drawer data ──
@@ -4132,7 +4198,7 @@
   let _billsActiveTab = 'all';
   function switchBillsTab(tab) {
     _billsActiveTab = tab;
-    ['all','todo','waiting','paid'].forEach(t => {
+    ['all','todo','waiting','paid','rejected'].forEach(t => {
       const btn = document.getElementById('bills-tab-' + t);
       if (!btn) return;
       if (t === tab) {
@@ -4157,6 +4223,7 @@
       if (tab === 'todo') show = t === 'todo';
       else if (tab === 'waiting') show = t === 'waiting';
       else if (tab === 'paid') show = s === 'paid' || s === 'executed' || t === 'paid';
+      else if (tab === 'rejected') show = s === 'rejected' || t === 'rejected';
       tr.classList.toggle('hidden', !show);
     });
     // Update dynamic badges
