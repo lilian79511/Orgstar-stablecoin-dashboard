@@ -1541,11 +1541,63 @@
                 </div>
               </div>
               <div class="px-5 py-3 border-t border-amber-50 dark:border-amber-500/10 flex items-center justify-between gap-3 bg-amber-50/30 dark:bg-amber-500/3">
-                <p class="text-[11px] text-amber-600 dark:text-amber-400 flex items-center gap-1"><i data-lucide="info" class="w-3.5 h-3.5"></i> Partial — accept with discrepancy noted, or change the match</p>
+                <p class="text-[11px] text-amber-600 dark:text-amber-400 flex items-center gap-1"><i data-lucide="info" class="w-3.5 h-3.5"></i> Partial — categorise the difference before confirming</p>
                 <div class="flex items-center gap-2">
                   <button onclick="reconDecline('pair-sunrise')" class="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 text-xs font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/8 transition-colors">Skip</button>
-                  <button onclick="reconConfirm('pair-sunrise','INV-20260316-003','0x9a8b7c6d…',4900,'USDC','Sunrise Imports',100)" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold transition-colors flex items-center gap-1.5">
+                  <button onclick="openDiscrepancyPicker('pair-sunrise','INV-20260316-003','0x9a8b7c6d…',4900,5000,'USDC','Sunrise Imports',100)" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold transition-colors flex items-center gap-1.5">
                     <i data-lucide="check" class="w-3 h-3"></i> Confirm Partial
+                  </button>
+                </div>
+              </div>
+              <!-- ── Discrepancy category picker (slides in) ── -->
+              <div id="disc-picker-pair-sunrise" class="hidden border-t-2 border-amber-200 dark:border-amber-500/30 bg-amber-50/40 dark:bg-amber-500/5 px-5 py-4 space-y-3.5">
+                <!-- Summary row -->
+                <div class="grid grid-cols-3 gap-2 text-xs">
+                  <div class="p-2.5 rounded-lg bg-white dark:bg-white/5 text-center border border-gray-100 dark:border-white/8">
+                    <p class="text-[10px] text-gray-400 mb-0.5">Expected</p>
+                    <p class="font-semibold text-gray-900 dark:text-white">5,000 USDC</p>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-white dark:bg-white/5 text-center border border-gray-100 dark:border-white/8">
+                    <p class="text-[10px] text-gray-400 mb-0.5">Received</p>
+                    <p class="font-semibold text-amber-600 dark:text-amber-400">4,900 USDC</p>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-red-50 dark:bg-red-500/10 text-center border border-red-100 dark:border-red-500/15">
+                    <p class="text-[10px] text-red-400 mb-0.5">Difference</p>
+                    <p class="font-semibold text-red-600 dark:text-red-400">−100 USDC</p>
+                  </div>
+                </div>
+                <!-- Category picker -->
+                <div class="space-y-1.5">
+                  <label class="text-[10px] uppercase tracking-wider font-semibold text-gray-500 dark:text-gray-400">Post this difference to <span class="text-orange-500">*</span></label>
+                  <select id="disc-cat-pair-sunrise" onchange="discCategoryChanged('pair-sunrise')"
+                    class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-white/4 text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition">
+                    <option value="">— Select accounting category —</option>
+                    <option value="Bank / Gas Charges">Bank / Gas Charges</option>
+                    <option value="FX Loss">FX Loss</option>
+                    <option value="FX Gain">FX Gain</option>
+                    <option value="Write-off / Bad Debt">Write-off / Bad Debt</option>
+                    <option value="Discount Allowed">Discount Allowed</option>
+                    <option value="Other">Other (add note)</option>
+                  </select>
+                  <input id="disc-note-pair-sunrise" type="text" placeholder="Describe the reason for this difference…"
+                    class="hidden w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-white/4 text-xs text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
+                </div>
+                <!-- Journal preview -->
+                <div class="p-3 rounded-lg bg-white dark:bg-[#13161e] border border-blue-100 dark:border-blue-500/20 font-mono text-[11px] leading-5">
+                  <p class="text-[10px] uppercase tracking-wider font-semibold text-blue-600 dark:text-blue-400 mb-2 font-sans not-italic">📒 Journal Entry Preview</p>
+                  <div class="space-y-0.5 text-gray-600 dark:text-gray-300">
+                    <p>Dr. Cash / Stablecoin &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +4,900 USDC</p>
+                    <p>Dr. <span id="disc-debit-pair-sunrise" class="text-gray-400 italic">[ awaiting category ]</span> &nbsp; +100 USDC</p>
+                    <p>Cr. Accounts Receivable (AR) &nbsp; −5,000 USDC</p>
+                  </div>
+                </div>
+                <!-- Confirm/Cancel -->
+                <div class="flex gap-2 pt-0.5">
+                  <button onclick="closeDiscrepancyPicker('pair-sunrise')" class="flex-1 px-3 py-2 rounded-lg border border-gray-200 dark:border-white/10 text-xs font-medium text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-white/5 transition-colors">Cancel</button>
+                  <button id="disc-confirm-pair-sunrise" disabled
+                    onclick="reconConfirmWithCategory('pair-sunrise','INV-20260316-003','0x9a8b7c6d…',4900,5000,'USDC','Sunrise Imports',100)"
+                    class="flex-1 px-3 py-2 rounded-lg bg-gray-200 dark:bg-white/10 text-gray-400 text-xs font-semibold cursor-not-allowed transition-colors flex items-center justify-center gap-1.5">
+                    <i data-lucide="book-open" class="w-3 h-3"></i> Confirm &amp; Post Journal
                   </button>
                 </div>
               </div>
@@ -1700,16 +1752,25 @@
                     </div>
                     <button onclick="event.stopPropagation();openReceipt('INV-20260317-002')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-1 transition-colors mt-1"><i data-lucide="file-text" class="w-3 h-3"></i> 水單</button>
                   </div>
-                  <div class="p-4 space-y-2 bg-amber-50/30 dark:bg-amber-500/3 cursor-pointer hover:bg-amber-50/60 dark:hover:bg-amber-500/5 transition-colors" id="recon-inv-003">
-                    <p class="text-[10px] font-mono text-gray-400">INV-20260316-003</p>
-                    <p class="text-xs font-semibold text-gray-900 dark:text-white">Sunrise Imports</p>
-                    <p class="text-[10px] text-gray-400">Q1 Merchandise · Mar 28</p>
-                    <div class="flex items-center justify-between mt-1">
+                  <div class="p-4 space-y-2.5 bg-amber-50/30 dark:bg-amber-500/3 cursor-pointer hover:bg-amber-50/60 dark:hover:bg-amber-500/5 transition-colors" id="recon-inv-003">
+                    <div class="flex items-start justify-between">
                       <div>
-                        <p class="text-xs font-semibold text-amber-600 dark:text-amber-400">4,900 <span class="text-[10px] text-gray-400 font-normal">/ 5,000 USDC</span></p>
-                        <p class="text-[10px] text-red-400">Short −$100</p>
+                        <p class="text-[10px] font-mono text-gray-400">INV-20260316-003</p>
+                        <p class="text-xs font-semibold text-gray-900 dark:text-white mt-0.5">Sunrise Imports</p>
+                        <p class="text-[10px] text-gray-400">Q1 Merchandise · Mar 28</p>
                       </div>
-                      <span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 text-[10px]"><i data-lucide="alert-triangle" class="w-2 h-2"></i> Discrepancy</span>
+                      <span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 text-[10px] shrink-0"><i data-lucide="circle-half-stroke" class="w-2 h-2"></i> Partial</span>
+                    </div>
+                    <!-- Progress bar -->
+                    <div class="space-y-1">
+                      <div class="flex items-center justify-between">
+                        <span class="text-[11px] font-semibold text-amber-600 dark:text-amber-400">4,900 <span class="font-normal text-gray-400">/ 5,000 USDC</span></span>
+                        <span class="text-[10px] text-gray-400">98%</span>
+                      </div>
+                      <div class="h-1.5 rounded-full bg-gray-100 dark:bg-white/8 overflow-hidden">
+                        <div class="h-full rounded-full bg-amber-400 transition-all" style="width:98%"></div>
+                      </div>
+                      <p class="text-[10px] text-red-400 font-medium">Outstanding: 100 USDC · awaiting remainder</p>
                     </div>
                   </div>
                 </div>
@@ -1823,8 +1884,24 @@
                 <p class="text-[10px] text-emerald-600 dark:text-emerald-400">FX diff: −NT$360 (−0.09%)</p>
               </div>
             </div>
-            <div class="px-5 pb-4 flex items-center gap-2 justify-end">
-              <button onclick="openJournalEntry('INV-20260317-002')" class="text-xs px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-600 dark:text-gray-300 font-medium flex items-center gap-1.5 transition-colors"><i data-lucide="book-open" class="w-3 h-3"></i> 分錄</button>
+            <!-- Collapsible Journal Entry -->
+            <details class="group border-t border-gray-50 dark:border-white/5">
+              <summary class="px-5 py-2.5 flex items-center gap-2 cursor-pointer select-none list-none hover:bg-gray-50/50 dark:hover:bg-white/2 transition-colors">
+                <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-gray-400 transition-transform group-open:rotate-90 shrink-0"></i>
+                <i data-lucide="book-open" class="w-3 h-3 text-blue-500 shrink-0"></i>
+                <span class="text-[11px] font-medium text-gray-500 dark:text-gray-400">Journal Entry auto-generated</span>
+                <span class="ml-auto text-[10px] text-blue-500 font-medium">JE-001</span>
+              </summary>
+              <div class="px-5 pb-3 pt-1">
+                <div class="p-3 rounded-lg bg-blue-50/60 dark:bg-blue-500/6 border border-blue-100 dark:border-blue-500/15 font-mono text-[11px] leading-5 text-gray-700 dark:text-gray-300">
+                  <p>Dr. Cash / Stablecoin &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +12,000 USDT</p>
+                  <p>Cr. Accounts Receivable (AR) &nbsp; −12,000 USDT</p>
+                </div>
+                <p class="text-[10px] text-gray-400 mt-1.5">Auto-generated on match confirmation · Mar 17 · 14:38</p>
+              </div>
+            </details>
+            <div class="px-5 py-3 border-t border-gray-50 dark:border-white/5 flex items-center gap-2 justify-end">
+              <button onclick="openJournalEntry('INV-20260317-002','')" class="text-xs px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-600 dark:text-gray-300 font-medium flex items-center gap-1.5 transition-colors"><i data-lucide="book-open" class="w-3 h-3"></i> 分錄</button>
               <button onclick="openReceipt('INV-20260317-002')" class="text-xs px-3 py-1.5 rounded-lg border border-orange-200 dark:border-orange-500/30 text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/8 font-medium flex items-center gap-1.5 transition-colors"><i data-lucide="file-text" class="w-3 h-3"></i> 水單 Receipt</button>
             </div>
           </div>
@@ -2530,133 +2607,6 @@
   </div>
 </div>
 
-      <!-- ══ MODAL: JOURNAL ENTRY ══ -->
-      <div id="modal-journal-entry" class="modal-backdrop hidden" onclick="if(event.target===this)closeModal('journal-entry')">
-        <div class="modal-box w-full max-w-2xl" onclick="event.stopPropagation()">
-          <div class="px-6 py-4 border-b border-gray-100 dark:border-white/8 flex items-center justify-between">
-            <div>
-              <div class="flex items-center gap-2 mb-0.5">
-                <h3 class="font-grotesk font-semibold text-base text-gray-900 dark:text-white">Journal Entry 分錄</h3>
-                <span id="je-status-badge" class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400">Draft</span>
-              </div>
-              <p id="je-ref-label" class="text-xs text-gray-400">JE-20260317-001 · Auto-generated from INV-20260317-002</p>
-            </div>
-            <button onclick="closeModal('journal-entry')" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-white/8 transition-colors">
-              <i data-lucide="x" class="w-4 h-4 text-gray-400"></i>
-            </button>
-          </div>
-
-          <div class="px-6 pt-5 pb-4 space-y-4 max-h-[75vh] overflow-y-auto">
-
-            <!-- Meta row -->
-            <div class="grid grid-cols-3 gap-3">
-              <div class="space-y-1">
-                <label class="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Posting Date</label>
-                <input id="je-date" type="date" value="2026-03-17"
-                  class="w-full px-3 py-1.5 text-xs rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition" />
-              </div>
-              <div class="space-y-1 col-span-2">
-                <label class="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Description</label>
-                <input id="je-desc" type="text"
-                  class="w-full px-3 py-1.5 text-xs rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition"
-                  value="Settlement received — INV-20260317-002 / Global Trade Ltd" />
-              </div>
-            </div>
-
-            <!-- Journal lines table -->
-            <div class="overflow-x-auto rounded-xl border border-gray-100 dark:border-white/8">
-              <table class="w-full min-w-[520px]">
-                <thead class="bg-gray-50 dark:bg-white/4 border-b border-gray-100 dark:border-white/8">
-                  <tr>
-                    <th class="px-4 py-2.5 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold w-8">#</th>
-                    <th class="px-4 py-2.5 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Account</th>
-                    <th class="px-4 py-2.5 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Name</th>
-                    <th class="px-4 py-2.5 text-right text-[10px] uppercase tracking-wider text-gray-400 font-semibold">借 Debit</th>
-                    <th class="px-4 py-2.5 text-right text-[10px] uppercase tracking-wider text-gray-400 font-semibold">貸 Credit</th>
-                  </tr>
-                </thead>
-                <tbody id="je-lines" class="divide-y divide-gray-50 dark:divide-white/5">
-                  <tr>
-                    <td class="px-4 py-2.5 text-[10px] text-gray-400">1</td>
-                    <td class="px-4 py-2.5 text-xs font-mono text-gray-600 dark:text-gray-400">1121</td>
-                    <td class="px-4 py-2.5 text-xs text-gray-800 dark:text-gray-200">數位資產—USDT (Polygon)</td>
-                    <td class="px-4 py-2.5 text-right text-xs font-semibold amt-in">12,000.00</td>
-                    <td class="px-4 py-2.5 text-right text-xs text-gray-300 dark:text-gray-600">—</td>
-                  </tr>
-                  <tr>
-                    <td class="px-4 py-2.5 text-[10px] text-gray-400">2</td>
-                    <td class="px-4 py-2.5 text-xs font-mono text-gray-600 dark:text-gray-400">1131</td>
-                    <td class="px-4 py-2.5 text-xs text-gray-800 dark:text-gray-200">應收帳款—Global Trade Ltd</td>
-                    <td class="px-4 py-2.5 text-right text-xs text-gray-300 dark:text-gray-600">—</td>
-                    <td class="px-4 py-2.5 text-right text-xs font-semibold amt-out">12,000.00</td>
-                  </tr>
-                  <tr>
-                    <td class="px-4 py-2.5 text-[10px] text-gray-400">3</td>
-                    <td class="px-4 py-2.5 text-xs font-mono text-gray-600 dark:text-gray-400">6272</td>
-                    <td class="px-4 py-2.5 text-xs text-gray-800 dark:text-gray-200">數位手續費（Gas Fee）</td>
-                    <td class="px-4 py-2.5 text-right text-xs font-semibold text-gray-700 dark:text-gray-300">1.80</td>
-                    <td class="px-4 py-2.5 text-right text-xs text-gray-300 dark:text-gray-600">—</td>
-                  </tr>
-                  <tr>
-                    <td class="px-4 py-2.5 text-[10px] text-gray-400">4</td>
-                    <td class="px-4 py-2.5 text-xs font-mono text-gray-600 dark:text-gray-400">1121</td>
-                    <td class="px-4 py-2.5 text-xs text-gray-800 dark:text-gray-200">數位資產—USDT (Polygon)</td>
-                    <td class="px-4 py-2.5 text-right text-xs text-gray-300 dark:text-gray-600">—</td>
-                    <td class="px-4 py-2.5 text-right text-xs font-semibold text-gray-700 dark:text-gray-300">1.80</td>
-                  </tr>
-                  <!-- FX diff line -->
-                  <tr class="bg-amber-50/30 dark:bg-amber-500/5">
-                    <td class="px-4 py-2.5 text-[10px] text-gray-400">5</td>
-                    <td class="px-4 py-2.5 text-xs font-mono text-gray-600 dark:text-gray-400">6273</td>
-                    <td class="px-4 py-2.5 text-xs text-gray-800 dark:text-gray-200">匯兌損益（FX Rate Diff）</td>
-                    <td class="px-4 py-2.5 text-right text-xs font-semibold text-amber-600 dark:text-amber-400">360.00 <span class="text-[10px] font-normal text-gray-400">NT$</span></td>
-                    <td class="px-4 py-2.5 text-right text-xs text-gray-300 dark:text-gray-600">—</td>
-                  </tr>
-                  <tr class="bg-amber-50/30 dark:bg-amber-500/5">
-                    <td class="px-4 py-2.5 text-[10px] text-gray-400">6</td>
-                    <td class="px-4 py-2.5 text-xs font-mono text-gray-600 dark:text-gray-400">1131</td>
-                    <td class="px-4 py-2.5 text-xs text-gray-800 dark:text-gray-200">應收帳款—匯兌調整</td>
-                    <td class="px-4 py-2.5 text-right text-xs text-gray-300 dark:text-gray-600">—</td>
-                    <td class="px-4 py-2.5 text-right text-xs font-semibold text-amber-600 dark:text-amber-400">360.00 <span class="text-[10px] font-normal text-gray-400">NT$</span></td>
-                  </tr>
-                </tbody>
-                <!-- Totals row -->
-                <tfoot class="bg-gray-50 dark:bg-white/4 border-t border-gray-100 dark:border-white/8">
-                  <tr>
-                    <td colspan="3" class="px-4 py-2.5 text-xs font-semibold text-gray-700 dark:text-gray-300 text-right">Total (USDT)</td>
-                    <td class="px-4 py-2.5 text-right text-xs font-bold text-gray-900 dark:text-white">12,001.80</td>
-                    <td class="px-4 py-2.5 text-right text-xs font-bold text-gray-900 dark:text-white">12,001.80</td>
-                  </tr>
-                  <tr>
-                    <td colspan="5" class="px-4 py-2 text-right">
-                      <span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
-                        <i data-lucide="check-circle-2" class="w-2.5 h-2.5"></i> Balanced
-                      </span>
-                    </td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-
-            <!-- Memo -->
-            <div class="space-y-1">
-              <label class="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Memo <span class="normal-case tracking-normal font-normal text-gray-400">(optional — for internal reference)</span></label>
-              <textarea id="je-memo" rows="2" placeholder="e.g. Q1 settlement confirmed per email ref. #2026-GLT-089"
-                class="w-full px-3 py-2 text-xs rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 resize-none transition"></textarea>
-            </div>
-
-          </div>
-
-          <!-- Footer -->
-          <div class="px-6 py-4 border-t border-gray-100 dark:border-white/8 flex gap-2">
-            <button onclick="saveJournalDraft()" class="flex-1 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Save Draft</button>
-            <button onclick="postJournalEntry()" class="flex-1 px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium flex items-center justify-center gap-1.5 transition-colors">
-              <i data-lucide="check" class="w-3.5 h-3.5"></i> Post to Ledger
-            </button>
-          </div>
-        </div>
-      </div>
-
       <!-- ══ MODAL: UPLOAD INVOICE ══ -->
       <div id="modal-upload-invoice" class="modal-backdrop hidden" onclick="if(event.target===this)closeModal('upload-invoice')">
         <div class="modal-box w-full max-w-md" onclick="event.stopPropagation()">
@@ -3031,6 +2981,74 @@
           </div>
         </div>
       </div><!-- /modal-change-tx -->
+
+      <!-- ══ MODAL: JOURNAL ENTRY 分錄 ══ -->
+      <div id="modal-journal-entry" class="modal-backdrop hidden" onclick="if(event.target===this)closeModal('journal-entry')">
+        <div class="modal-box w-full max-w-lg" onclick="event.stopPropagation()">
+          <div class="px-6 py-4 border-b border-gray-100 dark:border-white/8 flex items-center justify-between">
+            <div>
+              <h3 class="font-grotesk font-semibold text-base text-gray-900 dark:text-white">Journal Entry 分錄</h3>
+              <p class="text-xs text-gray-400 mt-0.5" id="je-modal-subtitle">Auto-generated double-entry bookkeeping record</p>
+            </div>
+            <button onclick="closeModal('journal-entry')" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-white/8 transition-colors">
+              <i data-lucide="x" class="w-4 h-4 text-gray-400"></i>
+            </button>
+          </div>
+          <div class="px-6 py-5 space-y-4">
+            <!-- JE metadata -->
+            <div class="grid grid-cols-3 gap-3 text-xs">
+              <div>
+                <p class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Entry #</p>
+                <p class="font-semibold text-gray-900 dark:text-white" id="je-number">JE-001</p>
+              </div>
+              <div>
+                <p class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Date</p>
+                <p class="font-semibold text-gray-900 dark:text-white" id="je-date">—</p>
+              </div>
+              <div>
+                <p class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Posted by</p>
+                <p class="font-semibold text-gray-900 dark:text-white">System (auto)</p>
+              </div>
+            </div>
+            <!-- Debit / Credit table -->
+            <div class="rounded-lg border border-gray-100 dark:border-white/8 overflow-hidden">
+              <table class="w-full text-xs">
+                <thead class="bg-gray-50 dark:bg-white/4 border-b border-gray-100 dark:border-white/8">
+                  <tr>
+                    <th class="px-4 py-2.5 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Account</th>
+                    <th class="px-4 py-2.5 text-right text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Debit 借</th>
+                    <th class="px-4 py-2.5 text-right text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Credit 貸</th>
+                  </tr>
+                </thead>
+                <tbody id="je-table-body" class="divide-y divide-gray-50 dark:divide-white/5">
+                  <!-- rows injected by openJournalEntry() -->
+                </tbody>
+                <tfoot class="border-t-2 border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4">
+                  <tr>
+                    <td class="px-4 py-2 text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total</td>
+                    <td class="px-4 py-2 text-right text-xs font-semibold text-gray-900 dark:text-white" id="je-total-dr">—</td>
+                    <td class="px-4 py-2 text-right text-xs font-semibold text-gray-900 dark:text-white" id="je-total-cr">—</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+            <!-- Trigger source -->
+            <div class="flex items-start gap-2 p-3 rounded-lg bg-gray-50 dark:bg-white/4 border border-gray-100 dark:border-white/8">
+              <i data-lucide="zap" class="w-3.5 h-3.5 text-blue-500 shrink-0 mt-0.5"></i>
+              <div>
+                <p class="text-[11px] font-medium text-gray-700 dark:text-gray-300">Triggered by: Payment match confirmed</p>
+                <p class="text-[10px] text-gray-400 mt-0.5" id="je-trigger-note">This entry was automatically created when the invoice was matched to an on-chain transaction.</p>
+              </div>
+            </div>
+            <div class="flex gap-3 pt-1">
+              <button onclick="closeModal('journal-entry')" class="flex-1 px-4 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Close</button>
+              <button onclick="exportJournalEntry();closeModal('journal-entry')" class="flex-1 px-4 py-2.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium transition-colors flex items-center justify-center gap-2">
+                <i data-lucide="download" class="w-4 h-4"></i> Export CSV
+              </button>
+            </div>
+          </div>
+        </div>
+      </div><!-- /modal-journal-entry -->
 
 <!-- ══════════ PAGE: TAX FILING ══════════ -->
 <!-- (injected into #page-tax via showPage routing — defined as a hidden page div below) -->
@@ -4549,32 +4567,116 @@
     showToast(`Transaction ${txHash} selected for ${_reconChangePairId}`, 'success');
   }
 
-  // ── Journal Entry (#5) ──
-  function openJournalEntry(invId) {
+  // ── Discrepancy category picker ──
+  function openDiscrepancyPicker(pairId, invId, txHash, received, expected, currency, counterparty, shortfall) {
+    const picker = document.getElementById('disc-picker-' + pairId);
+    if (picker) {
+      picker.classList.remove('hidden');
+      picker.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  function closeDiscrepancyPicker(pairId) {
+    const picker = document.getElementById('disc-picker-' + pairId);
+    if (picker) picker.classList.add('hidden');
+  }
+
+  function discCategoryChanged(pairId) {
+    const sel = document.getElementById('disc-cat-' + pairId);
+    const noteInput = document.getElementById('disc-note-' + pairId);
+    const debitLabel = document.getElementById('disc-debit-' + pairId);
+    const confirmBtn = document.getElementById('disc-confirm-' + pairId);
+    const val = sel?.value || '';
+
+    // Show note field for "Other"
+    if (noteInput) noteInput.classList.toggle('hidden', val !== 'Other');
+
+    // Update journal preview debit label
+    if (debitLabel) debitLabel.textContent = val || '[ awaiting category ]';
+    if (debitLabel) debitLabel.classList.toggle('italic', !val);
+    if (debitLabel) debitLabel.classList.toggle('text-gray-400', !val);
+    if (debitLabel) debitLabel.classList.toggle('text-gray-700', !!val);
+    if (debitLabel) debitLabel.classList.toggle('dark:text-gray-300', !!val);
+
+    // Enable/disable confirm button
+    const canConfirm = val && (val !== 'Other' || noteInput?.value?.trim());
+    if (confirmBtn) {
+      confirmBtn.disabled = !canConfirm;
+      if (canConfirm) {
+        confirmBtn.className = 'flex-1 px-3 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 cursor-pointer';
+      } else {
+        confirmBtn.className = 'flex-1 px-3 py-2 rounded-lg bg-gray-200 dark:bg-white/10 text-gray-400 text-xs font-semibold cursor-not-allowed transition-colors flex items-center justify-center gap-1.5';
+      }
+    }
+  }
+
+  function reconConfirmWithCategory(pairId, invId, txHash, amount, expected, currency, counterparty, shortfall) {
+    const sel = document.getElementById('disc-cat-' + pairId);
+    const category = sel?.value || 'Bank / Gas Charges';
+    closeDiscrepancyPicker(pairId);
+    reconConfirm(pairId, invId, txHash, amount, currency, counterparty, shortfall, category);
+  }
+
+  // ── Journal Entry modal ──
+  let _jeInvId = null;
+
+  function openJournalEntry(invId, discCategory) {
+    _jeInvId = invId;
+    const isPartial = !!discCategory;
     const data = INVOICE_DATA[invId] || {};
-    const jeNum = 'JE-' + (invId || 'NEW').replace('INV-','');
-    document.getElementById('je-ref-label').textContent = `${jeNum} · Auto-generated from ${invId || '—'} / ${data.client || ''}`;
-    document.getElementById('je-status-badge').textContent = 'Draft';
-    document.getElementById('je-status-badge').className = 'badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400';
-    document.getElementById('je-memo').value = '';
+    const amount = data.amount ? parseFloat(data.amount.replace(/,/g, '')) : 12000;
+    const currency = data.currency || 'USDT';
+    const shortfall = isPartial ? 100 : 0;
+    const totalAmt = isPartial ? amount + shortfall : amount;
+
+    document.getElementById('je-modal-subtitle').textContent = invId + (isPartial ? ' · Partial match with discrepancy' : ' · Full match');
+    document.getElementById('je-number').textContent = isPartial ? 'JE-003' : 'JE-001';
+    document.getElementById('je-date').textContent = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    document.getElementById('je-total-dr').textContent = totalAmt.toLocaleString() + ' ' + currency;
+    document.getElementById('je-total-cr').textContent = totalAmt.toLocaleString() + ' ' + currency;
+
+    const rows = isPartial
+      ? [
+          { account: 'Cash / Stablecoin Wallet', debit: amount.toLocaleString() + ' ' + currency, credit: '—', note: 'Received on-chain' },
+          { account: discCategory || 'Bank / Gas Charges', debit: shortfall + ' ' + currency, credit: '—', note: 'Difference posted' },
+          { account: 'Accounts Receivable (AR)', debit: '—', credit: totalAmt.toLocaleString() + ' ' + currency, note: invId + ' cleared' },
+        ]
+      : [
+          { account: 'Cash / Stablecoin Wallet', debit: amount.toLocaleString() + ' ' + currency, credit: '—', note: 'Received on-chain' },
+          { account: 'Accounts Receivable (AR)', debit: '—', credit: amount.toLocaleString() + ' ' + currency, note: invId + ' cleared' },
+        ];
+
+    document.getElementById('je-table-body').innerHTML = rows.map(r => `
+      <tr class="hover:bg-gray-50/50 dark:hover:bg-white/2 transition-colors">
+        <td class="px-4 py-2.5">
+          <p class="text-xs font-medium text-gray-800 dark:text-gray-200">${r.account}</p>
+          <p class="text-[10px] text-gray-400">${r.note}</p>
+        </td>
+        <td class="px-4 py-2.5 text-right text-xs font-mono ${r.debit !== '—' ? 'text-blue-600 dark:text-blue-400 font-semibold' : 'text-gray-300 dark:text-gray-600'}">${r.debit}</td>
+        <td class="px-4 py-2.5 text-right text-xs font-mono ${r.credit !== '—' ? 'text-orange-600 dark:text-orange-400 font-semibold' : 'text-gray-300 dark:text-gray-600'}">${r.credit}</td>
+      </tr>`).join('');
+
+    if (isPartial) {
+      document.getElementById('je-trigger-note').textContent = `Partial match confirmed — difference of ${shortfall} ${currency} posted to "${discCategory || 'Bank / Gas Charges'}". Invoice remains partially open.`;
+    } else {
+      document.getElementById('je-trigger-note').textContent = `Full match confirmed — invoice closed and AR cleared.`;
+    }
+
     openModal('journal-entry');
     lucide.createIcons();
   }
 
+  function exportJournalEntry() {
+    showToast('Journal entry exported as CSV', 'success');
+  }
+
   function saveJournalDraft() {
-    const badge = document.getElementById('je-status-badge');
-    badge.textContent = 'Draft Saved';
-    badge.className = 'badge bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400';
     showToast('Journal entry draft saved', 'success');
   }
 
   function postJournalEntry() {
-    const badge = document.getElementById('je-status-badge');
-    badge.textContent = 'Posted';
-    badge.className = 'badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400';
     closeModal('journal-entry');
-    // Append to audit trail
-    appendAuditLog({ type: 'JE', op: '陳琳達', action: '分錄過帳', details: `${document.getElementById('je-ref-label').textContent.split('·')[0].trim()} posted to ledger — Balanced` });
+    appendAuditLog({ type: 'JE', op: '陳琳達', action: '分錄過帳', details: `Journal entry posted to ledger — Balanced` });
     showToast('Journal entry posted to ledger', 'success');
   }
 
@@ -4807,7 +4909,7 @@
     });
   }
 
-  function reconConfirm(pairId, invId, txHash, amount, currency, counterparty, shortfall) {
+  function reconConfirm(pairId, invId, txHash, amount, currency, counterparty, shortfall, discCategory) {
     const card = document.getElementById(pairId);
     if (card) card.remove();
     const reconcileContent = document.getElementById('rtab-content-reconcile');
@@ -4817,8 +4919,17 @@
       if (empty) empty.classList.remove('hidden');
     }
     const isPartial = shortfall && shortfall > 0;
+    const dr1Label = isPartial ? 'Cash / Stablecoin' : 'Cash / Stablecoin';
+    const cr1Label = 'Accounts Receivable (AR)';
+    const journalLines = isPartial
+      ? `<p>Dr. Cash / Stablecoin &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +${amount.toLocaleString()} ${currency}</p>
+         <p>Dr. ${discCategory || 'Bank / Gas Charges'} &nbsp; +${shortfall} ${currency}</p>
+         <p>Cr. Accounts Receivable &nbsp;&nbsp;&nbsp;&nbsp; −${(amount + shortfall).toLocaleString()} ${currency}</p>`
+      : `<p>Dr. Cash / Stablecoin &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +${amount.toLocaleString()} ${currency}</p>
+         <p>Cr. Accounts Receivable (AR) &nbsp; −${amount.toLocaleString()} ${currency}</p>`;
+
     const matchedDiv = document.createElement('div');
-    matchedDiv.className = 'card bg-white dark:bg-[#1a1d27]';
+    matchedDiv.className = 'card bg-white dark:bg-[#1a1d27] overflow-hidden';
     matchedDiv.innerHTML = `
       <div class="px-5 py-3.5 border-b border-gray-50 dark:border-white/5 flex items-center gap-3 flex-wrap">
         <div class="flex items-center gap-2 text-xs flex-1 min-w-0">
@@ -4840,7 +4951,7 @@
         <div class="p-2.5 rounded-lg bg-gray-50 dark:bg-white/4">
           <p class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Received</p>
           <p class="text-sm font-semibold ${isPartial ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400'}">${amount.toLocaleString()} ${currency}</p>
-          ${isPartial ? `<p class="text-[10px] text-red-400">Short \u2212${shortfall} ${currency}</p>` : ''}
+          ${isPartial ? `<p class="text-[10px] text-red-400">Short −${shortfall} ${currency} → ${discCategory || 'Bank Charges'}</p>` : ''}
         </div>
         <div class="p-2.5 rounded-lg bg-gray-50 dark:bg-white/4">
           <p class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">FX @ Invoice</p>
@@ -4853,15 +4964,30 @@
           <p class="text-[10px] text-gray-400">by ${window._currentRole || 'Finance'}</p>
         </div>
       </div>
-      <div class="px-5 pb-4 flex items-center gap-2 justify-end">
-        <button onclick="openJournalEntry('${invId}')" class="text-xs px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-600 dark:text-gray-300 font-medium flex items-center gap-1.5 transition-colors"><i data-lucide="book-open" class="w-3 h-3"></i> \u5206\u9304</button>
-        <button onclick="openReceipt('${invId}')" class="text-xs px-3 py-1.5 rounded-lg border border-orange-200 dark:border-orange-500/30 text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/8 font-medium flex items-center gap-1.5 transition-colors"><i data-lucide="file-text" class="w-3 h-3"></i> \u6c34\u55ae Receipt</button>
+      <!-- Collapsible Journal Entry -->
+      <details class="group border-t border-gray-50 dark:border-white/5">
+        <summary class="px-5 py-2.5 flex items-center gap-2 cursor-pointer select-none list-none hover:bg-gray-50/50 dark:hover:bg-white/2 transition-colors">
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-gray-400 transition-transform group-open:rotate-90 shrink-0"></i>
+          <i data-lucide="book-open" class="w-3 h-3 text-blue-500 shrink-0"></i>
+          <span class="text-[11px] font-medium text-gray-500 dark:text-gray-400">Journal Entry auto-generated</span>
+          <span class="ml-auto text-[10px] text-blue-500 font-medium">${isPartial ? 'JE-003' : 'JE-00' + Math.floor(Math.random()*9+1)}</span>
+        </summary>
+        <div class="px-5 pb-4 pt-1">
+          <div class="p-3 rounded-lg bg-blue-50/60 dark:bg-blue-500/6 border border-blue-100 dark:border-blue-500/15 font-mono text-[11px] leading-5 text-gray-700 dark:text-gray-300">
+            ${journalLines}
+          </div>
+          <p class="text-[10px] text-gray-400 mt-1.5">Auto-generated on match confirmation · ${new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}</p>
+        </div>
+      </details>
+      <div class="px-5 py-3 border-t border-gray-50 dark:border-white/5 flex items-center gap-2 justify-end">
+        <button onclick="openJournalEntry('${invId}','${isPartial ? discCategory : ''}')" class="text-xs px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-600 dark:text-gray-300 font-medium flex items-center gap-1.5 transition-colors"><i data-lucide="book-open" class="w-3 h-3"></i> 分錄</button>
+        <button onclick="openReceipt('${invId}')" class="text-xs px-3 py-1.5 rounded-lg border border-orange-200 dark:border-orange-500/30 text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/8 font-medium flex items-center gap-1.5 transition-colors"><i data-lucide="file-text" class="w-3 h-3"></i> 水單 Receipt</button>
       </div>`;
     document.getElementById('matched-pairs-dynamic').prepend(matchedDiv);
     const badge = document.getElementById('matched-count-badge');
     if (badge) badge.textContent = parseInt(badge.textContent) + 1;
     switchReconTab('matched');
-    showToast(`${invId} reconciled${isPartial ? ' (partial \u2014 discrepancy noted)' : ''}`, 'success');
+    showToast(`${invId} reconciled${isPartial ? ' — journal posted' : ' — journal posted'}`, 'success');
     lucide.createIcons();
   }
 
