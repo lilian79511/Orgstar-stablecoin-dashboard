@@ -653,6 +653,23 @@
 
         </div>
 
+        <!-- ─ Month-End Revaluation Banner ─ -->
+        <div id="revaluation-banner" class="rounded-xl border border-amber-200 dark:border-amber-500/30 bg-amber-50/60 dark:bg-amber-500/6 px-5 py-4 flex items-start gap-4">
+          <div class="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-500/15 flex items-center justify-center shrink-0">
+            <i data-lucide="calendar-clock" class="w-4 h-4 text-amber-600 dark:text-amber-400"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-semibold text-amber-800 dark:text-amber-300">Month-End FX Revaluation Due</p>
+            <p class="text-xs text-amber-700/70 dark:text-amber-400/70 mt-0.5">TWD/USD moved from <strong>31.50 → 31.85</strong> since last revaluation (Mar 1). Unrealized gain: <strong>+NT$96,200</strong>. Post journal entry to book per IFRS 13.</p>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <button onclick="dismissRevalBanner()" class="text-xs text-amber-600 dark:text-amber-400 hover:underline">Dismiss</button>
+            <button onclick="postRevaluationJE()" class="px-3.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold transition-colors flex items-center gap-1.5">
+              <i data-lucide="book-open" class="w-3 h-3"></i> Post Revaluation JE
+            </button>
+          </div>
+        </div>
+
         <!-- ─ Fair Value Assessment ─ -->
         <div class="card bg-white dark:bg-[#1a1d27]">
           <div class="px-5 py-4 border-b border-gray-50 dark:border-white/5">
@@ -1390,6 +1407,9 @@
             </span>
             <button onclick="openModal('upload-invoice')" class="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-700 dark:text-gray-300 text-sm font-medium transition-colors">
               <i data-lucide="upload" class="w-4 h-4"></i> Upload Invoice
+            </button>
+            <button onclick="openModal('upload-remittance')" class="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-700 dark:text-gray-300 text-sm font-medium transition-colors">
+              <i data-lucide="mail-open" class="w-4 h-4 text-blue-500"></i> Remittance Advice
             </button>
             <button onclick="autoMatchAll()" class="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-700 dark:text-gray-300 text-sm font-medium transition-colors">
               <i data-lucide="wand-2" class="w-4 h-4 text-orange-500"></i> Auto-Match
@@ -3050,6 +3070,66 @@
         </div>
       </div><!-- /modal-journal-entry -->
 
+      <!-- ══ MODAL: UPLOAD REMITTANCE ADVICE ══ -->
+      <div id="modal-upload-remittance" class="modal-backdrop hidden" onclick="if(event.target===this)closeModal('upload-remittance')">
+        <div class="modal-box w-full max-w-xl" onclick="event.stopPropagation()">
+          <div class="px-6 py-4 border-b border-gray-100 dark:border-white/8 flex items-center justify-between">
+            <div>
+              <h3 class="font-grotesk font-semibold text-base text-gray-900 dark:text-white">Remittance Advice 匯款通知</h3>
+              <p class="text-xs text-gray-400 mt-0.5">Upload or paste a remittance slip — AI will extract invoice references and pre-fill matches</p>
+            </div>
+            <button onclick="closeModal('upload-remittance')" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-white/8 transition-colors">
+              <i data-lucide="x" class="w-4 h-4 text-gray-400"></i>
+            </button>
+          </div>
+          <div class="px-6 py-5 space-y-4">
+            <!-- Upload zone -->
+            <div class="border-2 border-dashed border-gray-200 dark:border-white/10 rounded-xl p-6 text-center hover:border-orange-300 dark:hover:border-orange-500/40 transition-colors cursor-pointer" onclick="document.getElementById('remittance-file-input').click()">
+              <input type="file" id="remittance-file-input" class="hidden" accept=".pdf,.png,.jpg,.xlsx,.csv" onchange="handleRemittanceFile(this)" />
+              <i data-lucide="mail-open" class="w-8 h-8 text-gray-300 dark:text-gray-600 mx-auto mb-2"></i>
+              <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Drop remittance advice PDF / image here</p>
+              <p class="text-xs text-gray-400 mt-0.5">or click to browse · supports PDF, PNG, JPG, XLSX, CSV</p>
+            </div>
+            <!-- Or paste reference numbers -->
+            <div>
+              <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5">Or paste invoice reference numbers <span class="text-gray-400 font-normal">(one per line)</span></label>
+              <textarea id="remittance-refs" rows="3" placeholder="INV-20260317-002&#10;INV-20260318-001&#10;ERP-2026-042" class="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 text-sm text-gray-800 dark:text-gray-200 placeholder-gray-300 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-300 dark:focus:ring-orange-500/40 resize-none transition-colors"></textarea>
+            </div>
+            <!-- Preview table (hidden until parse) -->
+            <div id="remittance-preview" class="hidden">
+              <p class="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-blue-500"></i> AI Parsed — 3 invoices identified</p>
+              <div class="rounded-lg border border-gray-100 dark:border-white/8 overflow-hidden">
+                <table class="w-full text-xs">
+                  <thead class="bg-gray-50 dark:bg-white/4">
+                    <tr>
+                      <th class="px-3 py-2.5 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Invoice Ref</th>
+                      <th class="px-3 py-2.5 text-right text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Amount</th>
+                      <th class="px-3 py-2.5 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Status</th>
+                      <th class="px-3 py-2.5 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Confidence</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-50 dark:divide-white/5">
+                    <tr><td class="px-3 py-2.5 font-mono text-gray-500 dark:text-gray-400">INV-20260317-002</td><td class="px-3 py-2.5 text-right font-semibold amt-in">12,000 USDT</td><td class="px-3 py-2.5"><span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">Matched</span></td><td class="px-3 py-2.5"><span class="text-emerald-600 dark:text-emerald-400 font-semibold">99%</span></td></tr>
+                    <tr><td class="px-3 py-2.5 font-mono text-gray-500 dark:text-gray-400">INV-20260318-001</td><td class="px-3 py-2.5 text-right font-semibold amt-in">5,000 USDC</td><td class="px-3 py-2.5"><span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400">Partial (98%)</span></td><td class="px-3 py-2.5"><span class="text-amber-600 dark:text-amber-400 font-semibold">94%</span></td></tr>
+                    <tr><td class="px-3 py-2.5 font-mono text-gray-500 dark:text-gray-400">ERP-2026-042</td><td class="px-3 py-2.5 text-right text-gray-400">—</td><td class="px-3 py-2.5"><span class="badge bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400">Not found</span></td><td class="px-3 py-2.5"><span class="text-gray-400">—</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="text-[10px] text-gray-400 mt-1.5">2 of 3 invoices identified · 1 reference could not be matched to an active invoice</p>
+            </div>
+            <div class="flex gap-3 pt-1">
+              <button onclick="closeModal('upload-remittance')" class="flex-1 px-4 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Cancel</button>
+              <button id="remittance-parse-btn" onclick="parseRemittance()" class="flex-1 px-4 py-2.5 rounded-lg border border-blue-200 dark:border-blue-500/30 text-blue-600 dark:text-blue-400 text-sm font-medium hover:bg-blue-50 dark:hover:bg-blue-500/8 transition-colors flex items-center justify-center gap-2">
+                <i data-lucide="sparkles" class="w-4 h-4"></i> Parse with AI
+              </button>
+              <button id="remittance-confirm-btn" onclick="confirmRemittanceBulk()" class="hidden flex-1 px-4 py-2.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium transition-colors flex items-center justify-center gap-2">
+                <i data-lucide="check-circle-2" class="w-4 h-4"></i> Confirm 2 Matches
+              </button>
+            </div>
+          </div>
+        </div>
+      </div><!-- /modal-upload-remittance -->
+
 <!-- ══════════ PAGE: TAX FILING ══════════ -->
 <!-- (injected into #page-tax via showPage routing — defined as a hidden page div below) -->
 
@@ -4489,6 +4569,12 @@
       row.dataset.status = 'executed';
       lucide.createIcons();
     }
+    appendAuditLog({
+      type: 'AP',
+      op: window._currentRole || '陳琳達',
+      action: 'On-chain 簽名',
+      details: `${payId} signed & submitted${memo ? ' · memo: "' + memo.slice(0, 60) + '"' : ''}`
+    });
     showToast(`${payId} signed & submitted on-chain${memo ? ' · "' + memo.slice(0, 40) + '"' : ''}`, 'success');
   }
 
@@ -4680,6 +4766,80 @@
     showToast('Journal entry posted to ledger', 'success');
   }
 
+  // ── Month-End Revaluation ──
+  function dismissRevalBanner() {
+    const banner = document.getElementById('revaluation-banner');
+    if (banner) banner.remove();
+    showToast('Revaluation reminder dismissed');
+  }
+
+  function postRevaluationJE() {
+    const banner = document.getElementById('revaluation-banner');
+    if (banner) banner.remove();
+    // Populate JE modal with revaluation entry
+    const now = new Date();
+    document.getElementById('je-number').textContent = 'JE-REV-' + now.toISOString().slice(2,7).replace('-','');
+    document.getElementById('je-date').textContent = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    document.getElementById('je-modal-subtitle').textContent = 'Month-end FX revaluation · IFRS 13 fair value adjustment';
+    document.getElementById('je-trigger-note').textContent = 'TWD/USD moved from 31.50 → 31.85. Unrealized gain of NT$96,200 booked to Fair Value Adjustment account per IFRS 13.';
+    const tbody = document.getElementById('je-table-body');
+    tbody.innerHTML = `
+      <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3">
+        <td class="px-4 py-3 text-xs text-gray-700 dark:text-gray-300">Digital Asset — Stablecoin Portfolio<p class="text-[10px] text-gray-400 mt-0.5">Revaluation at current rate 31.85</p></td>
+        <td class="px-4 py-3 text-right text-xs font-semibold text-blue-600 dark:text-blue-400">NT$96,200</td>
+        <td class="px-4 py-3 text-right text-xs text-gray-400">—</td>
+      </tr>
+      <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3">
+        <td class="px-4 py-3 text-xs text-gray-700 dark:text-gray-300">Fair Value Adjustment Reserve 公允價值調整<p class="text-[10px] text-gray-400 mt-0.5">OCI — unrealized gain</p></td>
+        <td class="px-4 py-3 text-right text-xs text-gray-400">—</td>
+        <td class="px-4 py-3 text-right text-xs font-semibold text-emerald-600 dark:text-emerald-400">NT$96,200</td>
+      </tr>`;
+    document.getElementById('je-total-dr').textContent = 'NT$96,200';
+    document.getElementById('je-total-cr').textContent = 'NT$96,200';
+    openModal('journal-entry');
+    appendAuditLog({ type: 'FV', op: window._currentRole || '陳琳達', action: '月底重估入帳', details: 'Month-end FX revaluation JE posted · TWD/USD 31.50→31.85 · Unrealized gain NT$96,200' });
+    showToast('Revaluation journal entry posted', 'success');
+  }
+
+  // ── Remittance Advice ──
+  function handleRemittanceFile(input) {
+    if (input.files && input.files[0]) {
+      showToast(`File "${input.files[0].name}" received — click Parse with AI`, 'success');
+    }
+  }
+
+  function parseRemittance() {
+    const refs = document.getElementById('remittance-refs').value.trim();
+    const parseBtn = document.getElementById('remittance-parse-btn');
+    parseBtn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Parsing…';
+    parseBtn.disabled = true;
+    lucide.createIcons();
+    setTimeout(() => {
+      document.getElementById('remittance-preview').classList.remove('hidden');
+      document.getElementById('remittance-confirm-btn').classList.remove('hidden');
+      document.getElementById('remittance-confirm-btn').classList.add('flex');
+      parseBtn.classList.add('hidden');
+      lucide.createIcons();
+      appendAuditLog({ type: 'AR', op: window._currentRole || '陳琳達', action: '匯款通知解析', details: 'Remittance advice parsed — 3 refs found, 2 matched, 1 unresolved' });
+    }, 1400);
+  }
+
+  function confirmRemittanceBulk() {
+    closeModal('upload-remittance');
+    // Reset modal for next use
+    setTimeout(() => {
+      document.getElementById('remittance-preview').classList.add('hidden');
+      document.getElementById('remittance-confirm-btn').classList.add('hidden');
+      document.getElementById('remittance-parse-btn').classList.remove('hidden');
+      document.getElementById('remittance-parse-btn').innerHTML = '<i data-lucide="sparkles" class="w-4 h-4"></i> Parse with AI';
+      document.getElementById('remittance-parse-btn').disabled = false;
+      document.getElementById('remittance-refs').value = '';
+      lucide.createIcons();
+    }, 500);
+    appendAuditLog({ type: 'RECON', op: window._currentRole || '陳琳達', action: '匯款通知確認', details: 'Bulk remittance match confirmed — INV-20260317-002 & INV-20260318-001 marked received' });
+    showToast('2 invoices marked received from remittance advice', 'success');
+  }
+
   // ── Fair Value (#6) ──
   function refreshFairValue() {
     const rates = { eth: 31.88, pol: 31.83, sol: 31.90, trx: 31.87 };
@@ -4810,6 +4970,12 @@
     closeModal('upload-invoice');
     // reset form
     ['uinv-ref','uinv-client','uinv-amount','uinv-due','uinv-note'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+    appendAuditLog({
+      type: 'AR',
+      op: window._currentRole || '陳琳達',
+      action: 'Invoice 新增',
+      details: `${id} · ${client} · ${amount.toLocaleString()} ${pool.currency} · ref: ${ref}`
+    });
     showToast(`Invoice ${ref} added to Awaiting`, 'success');
     lucide.createIcons();
   }
@@ -4987,7 +5153,13 @@
     const badge = document.getElementById('matched-count-badge');
     if (badge) badge.textContent = parseInt(badge.textContent) + 1;
     switchReconTab('matched');
-    showToast(`${invId} reconciled${isPartial ? ' — journal posted' : ' — journal posted'}`, 'success');
+    appendAuditLog({
+      type: 'RECON',
+      op: window._currentRole || '陳琳達',
+      action: '對帳確認',
+      details: `${invId} matched → ${txHash} · ${amount.toLocaleString()} ${currency}${isPartial ? ` · Short −${shortfall} ${currency} → ${discCategory || 'Bank Charges'}` : ' · Exact match'}`
+    });
+    showToast(`${invId} reconciled — journal posted`, 'success');
     lucide.createIcons();
   }
 
