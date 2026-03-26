@@ -887,9 +887,14 @@
             <h2 class="font-grotesk font-semibold text-lg text-gray-900 dark:text-white">Payment Links</h2>
             <p class="text-xs text-gray-400 mt-0.5">Generate payment links to collect stablecoin payments</p>
           </div>
-          <button onclick="openModal('invoice')" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium transition-colors">
-            <i data-lucide="arrow-down-circle" class="w-4 h-4"></i> Generate Link
-          </button>
+          <div class="flex items-center gap-2">
+            <button onclick="openModal('csv-import')" class="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-700 dark:text-gray-300 text-sm font-medium transition-colors">
+              <i data-lucide="upload" class="w-4 h-4"></i> Import ERP / CSV
+            </button>
+            <button onclick="openModal('invoice')" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium transition-colors">
+              <i data-lucide="arrow-down-circle" class="w-4 h-4"></i> Generate Link
+            </button>
+          </div>
         </div>
 
         <!-- Filters + sort -->
@@ -1451,18 +1456,21 @@
         <div class="flex items-center justify-between">
           <div>
             <h2 class="font-grotesk font-semibold text-lg text-gray-900 dark:text-white">Reconciliation</h2>
-            <p class="text-xs text-gray-400 mt-0.5">Match received payments against invoices and resolve discrepancies</p>
+            <p class="text-xs text-gray-400 mt-0.5">Auto-match payments · Calculate Gas Fee & FX diff · Generate 水單</p>
           </div>
           <div class="flex items-center gap-2">
-            <span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400"><i data-lucide="alert-circle" class="w-2.5 h-2.5"></i> 2 Unmatched</span>
+            <span id="recon-unmatched-badge" class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400"><i data-lucide="alert-circle" class="w-2.5 h-2.5"></i> 2 Unmatched</span>
             <button onclick="autoMatchAll()" class="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-700 dark:text-gray-300 text-sm font-medium transition-colors">
               <i data-lucide="wand-2" class="w-4 h-4 text-orange-500"></i> Auto-Match
+            </button>
+            <button onclick="exportReconCSV()" class="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-700 dark:text-gray-300 text-sm font-medium transition-colors">
+              <i data-lucide="download" class="w-4 h-4"></i> Export
             </button>
           </div>
         </div>
 
         <!-- Summary row -->
-        <div class="grid grid-cols-3 gap-4">
+        <div class="grid grid-cols-4 gap-4">
           <div class="card bg-white dark:bg-[#1a1d27] p-4 text-center">
             <p class="text-xs text-gray-400 mb-1">Total Invoiced</p>
             <p class="font-grotesk text-xl font-semibold text-gray-900 dark:text-white">$22,000</p>
@@ -1470,13 +1478,18 @@
           </div>
           <div class="card bg-white dark:bg-[#1a1d27] p-4 text-center">
             <p class="text-xs text-gray-400 mb-1">Matched</p>
-            <p class="font-grotesk text-xl font-semibold text-emerald-500">$12,000</p>
-            <p class="text-[10px] text-gray-400 mt-0.5">1 invoice</p>
+            <p class="font-grotesk text-xl font-semibold text-emerald-600 dark:text-emerald-400">$12,000</p>
+            <p class="text-[10px] text-gray-400 mt-0.5">1 confirmed</p>
           </div>
           <div class="card bg-white dark:bg-[#1a1d27] p-4 text-center">
-            <p class="text-xs text-gray-400 mb-1">Unmatched / Diff</p>
-            <p class="font-grotesk text-xl font-semibold text-amber-500">$10,100</p>
-            <p class="text-[10px] text-gray-400 mt-0.5">2 invoices · $100 discrepancy</p>
+            <p class="text-xs text-gray-400 mb-1">Partial / FX Diff</p>
+            <p class="font-grotesk text-xl font-semibold text-amber-600 dark:text-amber-400">$4,900</p>
+            <p class="text-[10px] text-gray-400 mt-0.5">1 invoice · −$100 short</p>
+          </div>
+          <div class="card bg-white dark:bg-[#1a1d27] p-4 text-center">
+            <p class="text-xs text-gray-400 mb-1">Total Gas Fees</p>
+            <p class="font-grotesk text-xl font-semibold text-gray-900 dark:text-white">4.7 USDC</p>
+            <p class="text-[10px] text-gray-400 mt-0.5">across 3 txs</p>
           </div>
         </div>
 
@@ -1492,41 +1505,45 @@
             </div>
             <div class="divide-y divide-gray-50 dark:divide-white/4" id="recon-invoices">
 
-              <div class="p-4 space-y-2" id="recon-inv-001">
+              <div class="p-4 space-y-2.5" id="recon-inv-001">
                 <div class="flex items-start justify-between gap-2">
                   <div>
                     <p class="text-xs font-mono text-gray-400">INV-20260318-001</p>
                     <p class="text-sm font-medium text-gray-900 dark:text-white">Acme Corp</p>
+                    <p class="text-[11px] text-gray-400 mt-0.5">Q1 Software Services · Due Apr 1</p>
                   </div>
                   <div class="text-right shrink-0">
-                    <p class="text-sm font-semibold amt-in">5,000 <span class="cur-usdc">USDC</span></p>
-                    <p class="text-[10px] text-gray-400">Due Apr 1</p>
+                    <p class="text-sm font-semibold amt-in">5,000 USDC</p>
+                    <p class="text-[10px] text-gray-400 mt-0.5">≈ NT$159,250</p>
+                    <p class="text-[10px] text-gray-400">Rate: 31.85 · Mar 18</p>
                   </div>
                 </div>
                 <div class="flex items-center justify-between">
-                  <span class="badge bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400">Pending</span>
+                  <span class="badge bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400">Awaiting Payment</span>
                   <button onclick="matchInvoice('INV-001', 'Acme Corp', 5000, 'USDC')" class="text-xs px-3 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-medium flex items-center gap-1.5 transition-colors">
                     <i data-lucide="link" class="w-3 h-3"></i> Match
                   </button>
                 </div>
               </div>
 
-              <div class="p-4 space-y-2 bg-red-50/30 dark:bg-red-500/3" id="recon-inv-003">
+              <div class="p-4 space-y-2.5 bg-red-50/30 dark:bg-red-500/3" id="recon-inv-003">
                 <div class="flex items-start justify-between gap-2">
                   <div>
                     <p class="text-xs font-mono text-gray-400">INV-20260316-003</p>
                     <p class="text-sm font-medium text-gray-900 dark:text-white">Sunrise Imports</p>
+                    <p class="text-[11px] text-gray-400 mt-0.5">Q1 Merchandise · Due Mar 28</p>
                   </div>
                   <div class="text-right shrink-0">
-                    <p class="text-sm font-semibold amt-in">5,000 <span class="cur-usdc">USDC</span></p>
-                    <p class="text-[10px] text-red-400">Received: 4,900 USDC</p>
+                    <p class="text-sm font-semibold amt-in">5,000 USDC</p>
+                    <p class="text-[10px] text-red-400 mt-0.5">Received: 4,900 USDC</p>
+                    <p class="text-[10px] text-gray-400">Rate: 31.85 · Mar 16</p>
                   </div>
                 </div>
                 <div class="flex items-center justify-between">
-                  <span class="badge bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400"><i data-lucide="alert-circle" class="w-2.5 h-2.5"></i> Abnormal −$100</span>
+                  <span class="badge bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400"><i data-lucide="alert-circle" class="w-2.5 h-2.5"></i> Short −$100</span>
                   <div class="flex gap-2">
                     <button onclick="acceptPartial('INV-003')" class="text-xs px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-600 dark:text-gray-400 font-medium transition-colors">Accept Partial</button>
-                    <button class="text-xs px-3 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-medium flex items-center gap-1.5 transition-colors">
+                    <button onclick="matchSunrise()" class="text-xs px-3 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-medium flex items-center gap-1.5 transition-colors">
                       <i data-lucide="link" class="w-3 h-3"></i> Match
                     </button>
                   </div>
@@ -1536,62 +1553,68 @@
             </div>
           </div>
 
-          <!-- Unmatched Payments (inbound) -->
+          <!-- Inbound Transactions -->
           <div class="card bg-white dark:bg-[#1a1d27]">
             <div class="px-5 py-3.5 border-b border-gray-50 dark:border-white/5 flex items-center gap-2">
-              <i data-lucide="wallet" class="w-4 h-4 text-emerald-500"></i>
+              <i data-lucide="activity" class="w-4 h-4 text-emerald-500"></i>
               <h3 class="font-grotesk text-sm font-semibold text-gray-900 dark:text-white flex-1">Inbound Transactions</h3>
               <span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">3</span>
             </div>
             <div class="divide-y divide-gray-50 dark:divide-white/4" id="recon-payments">
 
-              <div class="p-4 space-y-2">
+              <!-- Matched TX -->
+              <div class="p-4 space-y-2.5">
                 <div class="flex items-start justify-between gap-2">
                   <div>
-                    <p class="text-xs font-mono text-gray-400 truncate max-w-[160px]">0x1a2b3c4d…</p>
-                    <p class="text-sm font-medium text-gray-900 dark:text-white">Mar 17 · 09:30</p>
+                    <p class="text-xs font-mono text-gray-400 truncate max-w-[180px]" title="0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b">0x1a2b3c4d5e6f7a8b…</p>
+                    <p class="text-sm font-medium text-gray-900 dark:text-white">Mar 17 · 09:30 UTC</p>
+                    <p class="text-[10px] text-gray-400 mt-0.5">Gas: <span class="font-medium text-gray-600 dark:text-gray-300">1.8 USDT</span> · Block #19,842,301</p>
                   </div>
                   <div class="text-right shrink-0">
-                    <p class="text-sm font-semibold amt-in">+12,000 <span class="cur-usdt">USDT</span></p>
+                    <p class="text-sm font-semibold amt-in">+12,000 USDT</p>
                     <span class="net-chip net-pol">POL</span>
                   </div>
                 </div>
                 <div class="flex items-center justify-between">
-                  <span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">Matched → INV-002</span>
-                  <button class="text-xs text-gray-400 font-medium">Unmatch</button>
+                  <span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"><i data-lucide="check" class="w-2.5 h-2.5"></i> Matched → INV-002</span>
+                  <button class="text-xs text-gray-400 hover:text-gray-600 font-medium">Unmatch</button>
                 </div>
               </div>
 
-              <div class="p-4 space-y-2" id="recon-tx-acme">
+              <!-- Unmatched TX (Acme) -->
+              <div class="p-4 space-y-2.5" id="recon-tx-acme">
                 <div class="flex items-start justify-between gap-2">
                   <div>
-                    <p class="text-xs font-mono text-gray-400 truncate max-w-[160px]">0x5e6f7a8b…</p>
-                    <p class="text-sm font-medium text-gray-900 dark:text-white">Mar 18 · 14:20</p>
+                    <p class="text-xs font-mono text-gray-400 truncate max-w-[180px]" title="0x5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f">0x5e6f7a8b9c0d1e2f…</p>
+                    <p class="text-sm font-medium text-gray-900 dark:text-white">Mar 18 · 14:20 UTC</p>
+                    <p class="text-[10px] text-gray-400 mt-0.5">Gas: <span class="font-medium text-gray-600 dark:text-gray-300">1.4 USDC</span> · Block #19,843,887</p>
                   </div>
                   <div class="text-right shrink-0">
-                    <p class="text-sm font-semibold amt-in">+5,000 <span class="cur-usdc">USDC</span></p>
+                    <p class="text-sm font-semibold amt-in">+5,000 USDC</p>
                     <span class="net-chip net-eth">ETH</span>
                   </div>
                 </div>
                 <div class="flex items-center justify-between">
-                  <span class="badge bg-gray-100 dark:bg-white/8 text-gray-500">Unmatched</span>
+                  <span class="badge bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400">Unmatched</span>
                   <button class="text-xs text-orange-500 hover:text-orange-600 font-medium">Assign to Invoice</button>
                 </div>
               </div>
 
-              <div class="p-4 space-y-2 bg-red-50/30 dark:bg-red-500/3">
+              <!-- Partial TX (Sunrise) -->
+              <div class="p-4 space-y-2.5 bg-amber-50/30 dark:bg-amber-500/3">
                 <div class="flex items-start justify-between gap-2">
                   <div>
-                    <p class="text-xs font-mono text-gray-400 truncate max-w-[160px]">0x9a8b7c6d…</p>
-                    <p class="text-sm font-medium text-gray-900 dark:text-white">Mar 16 · 11:00</p>
+                    <p class="text-xs font-mono text-gray-400 truncate max-w-[180px]" title="0x9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b">0x9a8b7c6d5e4f3a2b…</p>
+                    <p class="text-sm font-medium text-gray-900 dark:text-white">Mar 16 · 11:02 UTC</p>
+                    <p class="text-[10px] text-gray-400 mt-0.5">Gas: <span class="font-medium text-gray-600 dark:text-gray-300">1.5 USDC</span> · Block #19,841,102</p>
                   </div>
                   <div class="text-right shrink-0">
-                    <p class="text-sm font-semibold text-amber-500">+4,900 <span class="cur-usdc">USDC</span></p>
+                    <p class="text-sm font-semibold text-amber-600 dark:text-amber-400">+4,900 USDC</p>
                     <p class="text-[10px] text-red-400">Expected 5,000</p>
                   </div>
                 </div>
                 <div class="flex items-center justify-between">
-                  <span class="badge bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400">Short $100</span>
+                  <span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400"><i data-lucide="alert-triangle" class="w-2.5 h-2.5"></i> Partial −$100</span>
                   <button class="text-xs text-orange-500 hover:text-orange-600 font-medium">Assign to Invoice</button>
                 </div>
               </div>
@@ -1600,26 +1623,61 @@
           </div>
         </div>
 
-        <!-- Matched pairs -->
+        <!-- Matched + Confirmed pairs -->
         <div class="card bg-white dark:bg-[#1a1d27]">
           <div class="px-5 py-3.5 border-b border-gray-50 dark:border-white/5 flex items-center gap-2">
             <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i>
             <h3 class="font-grotesk text-sm font-semibold text-gray-900 dark:text-white flex-1">Matched Pairs</h3>
-            <button class="text-xs text-orange-500 hover:text-orange-600 font-medium flex items-center gap-1">Export <i data-lucide="download" class="w-3 h-3"></i></button>
+            <button onclick="exportReconCSV()" class="text-xs text-orange-500 hover:text-orange-600 font-medium flex items-center gap-1">Export CSV <i data-lucide="download" class="w-3 h-3"></i></button>
           </div>
-          <div id="matched-pairs" class="divide-y divide-gray-50 dark:divide-white/4">
-            <div class="px-5 py-3.5 flex items-center justify-between">
-              <div class="flex items-center gap-4">
-                <span class="text-xs font-mono text-gray-400">INV-20260317-002</span>
-                <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-gray-300 dark:text-gray-600"></i>
-                <span class="text-xs font-mono text-gray-400">0x1a2b3c4d…</span>
+          <div id="matched-pairs">
+
+            <!-- Pre-existing confirmed match: INV-002 ↔ 0x1a2b... -->
+            <div class="px-5 py-4 border-b border-gray-50 dark:border-white/5 space-y-3" id="match-pair-002">
+              <!-- Row 1: ID pair + Match badge -->
+              <div class="flex items-center justify-between flex-wrap gap-2">
+                <div class="flex items-center gap-3 text-xs">
+                  <span class="font-mono text-gray-500 dark:text-gray-400">INV-20260317-002</span>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-gray-300 dark:text-gray-600"></i>
+                  <span class="font-mono text-gray-500 dark:text-gray-400">0x1a2b3c4d…</span>
+                  <span class="net-chip net-pol">POL</span>
+                </div>
+                <span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"><i data-lucide="check-circle-2" class="w-2.5 h-2.5"></i> Confirmed</span>
               </div>
-              <div class="flex items-center gap-4">
-                <span class="text-xs font-medium">12,000 <span class="cur-usdt">USDT</span> · <span class="net-chip net-pol">POL</span></span>
-                <span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">Exact Match</span>
+              <!-- Row 2: financial breakdown -->
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div class="p-2.5 rounded-lg bg-gray-50 dark:bg-white/4">
+                  <p class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Invoice Amount</p>
+                  <p class="text-sm font-semibold text-gray-900 dark:text-white">12,000 USDT</p>
+                  <p class="text-[10px] text-gray-400">≈ NT$382,200</p>
+                </div>
+                <div class="p-2.5 rounded-lg bg-gray-50 dark:bg-white/4">
+                  <p class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Received</p>
+                  <p class="text-sm font-semibold text-emerald-600 dark:text-emerald-400">12,000 USDT</p>
+                  <p class="text-[10px] text-gray-400">Gas: 1.8 USDT deducted</p>
+                </div>
+                <div class="p-2.5 rounded-lg bg-gray-50 dark:bg-white/4">
+                  <p class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">FX @ Invoice</p>
+                  <p class="text-sm font-semibold text-gray-900 dark:text-white">31.85</p>
+                  <p class="text-[10px] text-gray-400">Mar 17 · TWD/USD</p>
+                </div>
+                <div class="p-2.5 rounded-lg bg-gray-50 dark:bg-white/4">
+                  <p class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">FX @ Settlement</p>
+                  <p class="text-sm font-semibold text-gray-900 dark:text-white">31.82</p>
+                  <p class="text-[10px] text-emerald-600 dark:text-emerald-400">FX diff: −NT$360 (−0.09%)</p>
+                </div>
+              </div>
+              <!-- Row 3: actions -->
+              <div class="flex items-center gap-2 justify-end">
+                <button onclick="openReceipt('INV-20260317-002')" class="text-xs px-3 py-1.5 rounded-lg border border-orange-200 dark:border-orange-500/30 text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/8 font-medium flex items-center gap-1.5 transition-colors">
+                  <i data-lucide="file-text" class="w-3 h-3"></i> 水單 Receipt
+                </button>
               </div>
             </div>
+
           </div>
+          <!-- Dynamic confirmed pairs append here -->
+          <div id="matched-pairs-dynamic" class="divide-y divide-gray-50 dark:divide-white/4"></div>
         </div>
       </div><!-- /reconciliation -->
 
@@ -2314,6 +2372,139 @@
   </div>
 </div>
 
+<!-- ══════════ MODAL: CSV / ERP IMPORT ══════════ -->
+<div id="modal-csv-import" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+  <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeModal('csv-import')"></div>
+  <div class="relative w-full max-w-2xl bg-white dark:bg-[#1a1d27] rounded-2xl shadow-2xl border border-gray-100 dark:border-white/8 overflow-hidden">
+
+    <div class="px-6 pt-5 pb-4 flex items-start justify-between border-b border-gray-50 dark:border-white/5">
+      <div>
+        <h3 class="font-grotesk font-semibold text-base text-gray-900 dark:text-white flex items-center gap-2">
+          <i data-lucide="upload" class="w-4 h-4 text-orange-500"></i> Import ERP / CSV
+        </h3>
+        <p class="text-xs text-gray-400 mt-0.5">Preview records before importing. Select rows to create Payment Links.</p>
+      </div>
+      <button onclick="closeModal('csv-import')" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-white/8 transition-colors">
+        <i data-lucide="x" class="w-4 h-4 text-gray-400"></i>
+      </button>
+    </div>
+
+    <!-- Upload zone -->
+    <div id="csv-upload-zone" class="mx-6 mt-5 border-2 border-dashed border-gray-200 dark:border-white/10 rounded-xl p-6 flex flex-col items-center gap-2 cursor-pointer hover:border-orange-300 dark:hover:border-orange-500/40 transition-colors" onclick="csvLoadMockData()">
+      <i data-lucide="file-spreadsheet" class="w-8 h-8 text-gray-300 dark:text-white/20"></i>
+      <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Click to upload CSV / ERP export</p>
+      <p class="text-xs text-gray-400">Supported: .csv, .xlsx — or <span class="text-orange-500 font-medium">load demo data</span></p>
+    </div>
+
+    <!-- Preview table (hidden until data loaded) -->
+    <div id="csv-preview-panel" class="hidden px-6 mt-4">
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Preview — 4 records</p>
+        <label class="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 cursor-pointer">
+          <input type="checkbox" id="csv-select-all" onchange="csvToggleAll(this)" class="rounded accent-orange-500" />
+          Select all
+        </label>
+      </div>
+      <div class="rounded-xl border border-gray-100 dark:border-white/8 overflow-hidden">
+        <table class="w-full text-xs">
+          <thead class="bg-gray-50 dark:bg-white/4 text-gray-400 uppercase tracking-wider">
+            <tr>
+              <th class="px-3 py-2.5 w-8"></th>
+              <th class="px-3 py-2.5 text-left font-semibold">Customer</th>
+              <th class="px-3 py-2.5 text-left font-semibold">Invoice #</th>
+              <th class="px-3 py-2.5 text-right font-semibold">Amount</th>
+              <th class="px-3 py-2.5 text-left font-semibold">Currency</th>
+              <th class="px-3 py-2.5 text-left font-semibold">Due Date</th>
+            </tr>
+          </thead>
+          <tbody id="csv-preview-tbody" class="divide-y divide-gray-50 dark:divide-white/4 bg-white dark:bg-transparent">
+          </tbody>
+        </table>
+      </div>
+      <p id="csv-import-count" class="text-xs text-gray-400 mt-2"></p>
+    </div>
+
+    <div class="px-6 py-4 flex justify-between items-center mt-2">
+      <button onclick="closeModal('csv-import')" class="px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Cancel</button>
+      <button id="csv-import-btn" onclick="importCSVInvoices()" class="hidden px-5 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium flex items-center gap-2 transition-colors">
+        <i data-lucide="arrow-down-circle" class="w-4 h-4"></i> Import Selected
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL: DIGITAL SETTLEMENT RECEIPT 數位水單 ══════════ -->
+<div id="modal-receipt" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+  <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeModal('receipt')"></div>
+  <div class="relative w-full max-w-lg bg-white dark:bg-[#1a1d27] rounded-2xl shadow-2xl border border-gray-100 dark:border-white/8 overflow-hidden">
+
+    <div class="px-6 pt-5 pb-4 flex items-start justify-between border-b border-gray-50 dark:border-white/5">
+      <div>
+        <h3 class="font-grotesk font-semibold text-base text-gray-900 dark:text-white flex items-center gap-2">
+          <i data-lucide="file-badge" class="w-4 h-4 text-orange-500"></i>
+          數位水單 <span class="text-gray-400 font-normal text-sm ml-1">Settlement Receipt</span>
+        </h3>
+        <p id="receipt-invoice-id" class="text-xs text-gray-400 mt-0.5 font-mono"></p>
+      </div>
+      <button onclick="closeModal('receipt')" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-white/8 transition-colors">
+        <i data-lucide="x" class="w-4 h-4 text-gray-400"></i>
+      </button>
+    </div>
+
+    <!-- Receipt body -->
+    <div class="px-6 py-5 space-y-4">
+
+      <!-- Client + Status -->
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-0.5">Client</p>
+          <p id="receipt-client" class="text-sm font-semibold text-gray-900 dark:text-white"></p>
+        </div>
+        <span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
+          <i data-lucide="check-circle-2" class="w-2.5 h-2.5"></i> Settled
+        </span>
+      </div>
+
+      <!-- Financial breakdown grid -->
+      <div class="rounded-xl border border-gray-100 dark:border-white/8 overflow-hidden">
+        <div class="bg-gray-50 dark:bg-white/4 px-4 py-2.5">
+          <p class="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Financial Breakdown</p>
+        </div>
+        <div id="receipt-breakdown" class="divide-y divide-gray-50 dark:divide-white/5">
+        </div>
+      </div>
+
+      <!-- Tx hash -->
+      <div class="space-y-1">
+        <p class="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Transaction Hash</p>
+        <p id="receipt-tx-hash" class="font-mono text-[11px] text-gray-600 dark:text-gray-300 break-all bg-gray-50 dark:bg-white/4 rounded-lg px-3 py-2"></p>
+      </div>
+
+      <!-- Memo -->
+      <div id="receipt-memo-wrap" class="hidden space-y-1">
+        <p class="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Memo / Purpose</p>
+        <p id="receipt-memo" class="text-sm text-gray-600 dark:text-gray-300"></p>
+      </div>
+
+      <!-- Settled by -->
+      <div class="flex items-center justify-between text-xs text-gray-400">
+        <span id="receipt-settled-date"></span>
+        <span class="flex items-center gap-1"><i data-lucide="shield-check" class="w-3 h-3 text-emerald-500"></i> KYT Verified</span>
+      </div>
+    </div>
+
+    <!-- Export actions -->
+    <div class="px-6 pb-5 flex gap-3">
+      <button onclick="exportReceiptCSV()" class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+        <i data-lucide="download" class="w-4 h-4"></i> Export CSV
+      </button>
+      <button onclick="exportReceiptJSON()" class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium transition-colors">
+        <i data-lucide="file-json" class="w-4 h-4"></i> Export JSON
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- ══════════ PAGE: TAX FILING ══════════ -->
 <!-- (injected into #page-tax via showPage routing — defined as a hidden page div below) -->
 
@@ -2335,6 +2526,8 @@
   </div>
   <!-- Body -->
   <div class="flex-1 overflow-y-auto p-6 space-y-5" id="drawer-body">
+    <!-- QR Code (hidden until address populated) -->
+    <div id="drawer-qr" class="hidden flex justify-center"></div>
     <!-- Details grid -->
     <div class="grid grid-cols-2 gap-4 text-sm" id="drawer-details"></div>
     <!-- Timeline -->
@@ -2793,11 +2986,22 @@
 
   function closeModal(name) {
     const el = document.getElementById('modal-' + name);
+    if (!el) return;
     el.classList.add('hidden');
     el.classList.remove('flex');
-    document.getElementById('form-' + name).reset();
+    const form = document.getElementById('form-' + name);
+    if (form) form.reset();
     if (name === 'invoice') document.getElementById('inv-addr-preview').classList.add('hidden');
     if (name === 'payment') document.getElementById('policy-preview').classList.add('hidden');
+    if (name === 'csv-import') {
+      // Reset upload zone state
+      const uploadZone = document.getElementById('csv-upload-zone');
+      const previewPanel = document.getElementById('csv-preview-panel');
+      const importBtn = document.getElementById('csv-import-btn');
+      if (uploadZone) uploadZone.classList.remove('hidden');
+      if (previewPanel) previewPanel.classList.add('hidden');
+      if (importBtn) importBtn.classList.add('hidden');
+    }
   }
 
   // Close on Escape
@@ -2820,11 +3024,17 @@
       ],
     },
     'INV-20260317-002': {
-      id: 'INV-20260317-002', client: 'Global Trade Ltd', amount: '12,000', currency: 'USDT', pool: 'pol',
+      id: 'INV-20260317-002', client: 'Global Trade Ltd', amount: '12,000', receivedAmount: '12,000', currency: 'USDT', pool: 'pol',
       status: 'Completed', statusColor: 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400',
       due: 'Mar 31, 2026', created: 'Mar 17, 2026', createdBy: '陳琳達',
-      address: '0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b',
+      address: '0xd4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3',
       purpose: 'Raw Material Purchase',
+      txHash: '0x4a7f2e9b3c8d1e6f5a0b7c2d9e4f1a8b3c6d0e5f2a9b4c7d1e8f3a6b0c5d9e2f',
+      gasFee: 1.82,
+      invoiceRate: 31.85,
+      settlementRate: 31.92,
+      settlementDate: 'Mar 17, 2026 09:40 UTC',
+      memo: 'Raw Material Purchase — Q1 2026 batch',
       timeline: [
         { date: 'Mar 17, 09:30', event: 'Invoice created', icon: 'file-plus', color: 'text-blue-500' },
         { date: 'Mar 17, 09:31', event: 'Payment detected on Polygon', icon: 'search', color: 'text-violet-500' },
@@ -2838,6 +3048,12 @@
       due: 'Mar 28, 2026', created: 'Mar 16, 2026', createdBy: '陳琳達',
       address: '0x9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b',
       purpose: 'Q1 Merchandise',
+      txHash: '0x1c3f8a2b5d7e9f4c6a0b2d4e6f8a1c3f5b7d9e1f3a5c7b9d1e3f5a7c9b1d3e5f',
+      gasFee: 2.45,
+      invoiceRate: 31.85,
+      settlementRate: 31.88,
+      settlementDate: 'Mar 16, 2026 11:02 UTC',
+      memo: 'Q1 Merchandise import batch — partial received',
       mismatch: true, mismatchNote: 'Expected 5,000 — received 4,900 (short $100)',
       timeline: [
         { date: 'Mar 16, 11:00', event: 'Invoice created', icon: 'file-plus', color: 'text-blue-500' },
@@ -2870,8 +3086,24 @@
       { label: 'Purpose', value: data.purpose || '—' },
       { label: 'Receiving Address', value: `<span class="font-mono text-[11px] break-all">${data.address}</span>` },
     ];
+    if (data.receivedAmount && data.receivedAmount !== data.amount) {
+      detailItems.push({ label: 'Received', value: `<span class="font-semibold text-amber-600 dark:text-amber-400">${data.receivedAmount} ${data.currency}</span>` });
+    }
+    if (data.gasFee) {
+      detailItems.push({ label: 'Gas Fee', value: `<span class="text-gray-500 dark:text-gray-400">${data.gasFee} USDT</span>` });
+    }
+    if (data.invoiceRate && data.settlementRate) {
+      const fxDiff = (data.settlementRate - data.invoiceRate).toFixed(2);
+      const fxSign = fxDiff >= 0 ? '+' : '';
+      const fxColor = fxDiff >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-500 dark:text-red-400';
+      detailItems.push({ label: 'FX @ Invoice', value: `${data.invoiceRate} TWD/USD` });
+      detailItems.push({ label: 'FX @ Settlement', value: `${data.settlementRate} TWD/USD <span class="${fxColor} font-medium ml-1">(${fxSign}${fxDiff})</span>` });
+    }
     if (data.mismatch) {
       detailItems.push({ label: 'Mismatch', value: `<span class="text-red-500 font-medium">${data.mismatchNote}</span>`, full: true });
+    }
+    if (data.txHash) {
+      detailItems.push({ label: 'Tx Hash', value: `<span class="font-mono text-[10px] break-all text-gray-500 dark:text-gray-400" title="${data.txHash}">${data.txHash.slice(0,12)}…${data.txHash.slice(-8)}</span>`, full: true });
     }
 
     document.getElementById('drawer-details').innerHTML = detailItems.map(d =>
@@ -2880,6 +3112,13 @@
         <div class="text-sm text-gray-600 dark:text-gray-300">${d.value}</div>
       </div>`
     ).join('');
+
+    // QR code for receiving address
+    const qrEl = document.getElementById('drawer-qr');
+    if (qrEl) {
+      qrEl.innerHTML = qrSvg(data.address, 80);
+      qrEl.classList.remove('hidden');
+    }
 
     // Build timeline
     document.getElementById('drawer-timeline').innerHTML = data.timeline.map(t =>
@@ -2895,10 +3134,16 @@
     ).join('');
 
     // Footer actions
-    const footerBtns = data.status === 'Abnormal'
-      ? `<button onclick="closeDrawer();showToast('Partial payment accepted','success')" class="flex-1 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Accept Partial</button>
-         <button onclick="closeDrawer();showPage('reconciliation')" class="flex-1 px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium transition-colors">Reconcile</button>`
-      : `<button onclick="closeDrawer()" class="flex-1 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Close</button>`;
+    let footerBtns = '';
+    if (data.status === 'Abnormal') {
+      footerBtns = `<button onclick="closeDrawer();showToast('Partial payment accepted','success')" class="flex-1 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Accept Partial</button>
+         <button onclick="closeDrawer();showPage('reconciliation')" class="flex-1 px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium transition-colors">Reconcile</button>`;
+    } else if (data.status === 'Completed' && data.txHash) {
+      footerBtns = `<button onclick="closeDrawer()" class="flex-1 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Close</button>
+         <button onclick="closeDrawer();openReceipt('${data.id}')" class="flex-1 px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium flex items-center justify-center gap-1.5 transition-colors"><i data-lucide="file-badge" class="w-3.5 h-3.5"></i> 水單 Receipt</button>`;
+    } else {
+      footerBtns = `<button onclick="closeDrawer()" class="flex-1 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Close</button>`;
+    }
     document.getElementById('drawer-footer').innerHTML = footerBtns;
 
     // Open drawer
@@ -3499,6 +3744,199 @@
     desc.textContent = form === '401'
       ? 'Form 401 (一般稅額申報書) — filed monthly by registered VAT taxpayers. Due by the 15th of the following month.'
       : 'Form 402 (簡易稅額申報書) — filed bi-monthly (Jan–Feb, Mar–Apr…) by small/simplified VAT taxpayers. Due by the 15th of the month after the period ends.';
+  }
+
+  // ── QR Code SVG generator (pure SVG, no lib needed) ──
+  function qrSvg(text, size = 80) {
+    // Simple deterministic pixel pattern based on text hash — visual only
+    const hash = [...text].reduce((h, c) => (Math.imul(31, h) + c.charCodeAt(0)) | 0, 0);
+    const cells = 21;
+    const cellSize = size / cells;
+    let rects = '';
+    for (let r = 0; r < cells; r++) {
+      for (let c = 0; c < cells; c++) {
+        // Finder patterns (top-left, top-right, bottom-left corners)
+        const inFinder = (r < 7 && c < 7) || (r < 7 && c >= cells - 7) || (r >= cells - 7 && c < 7);
+        const seed = (hash ^ (r * 53 + c * 17)) >>> 0;
+        const on = inFinder ? ((r === 0 || r === 6 || c === 0 || c === 6) || (r >= 2 && r <= 4 && c >= 2 && c <= 4)) : (seed % 3 !== 0);
+        if (on) {
+          rects += `<rect x="${(c * cellSize).toFixed(1)}" y="${(r * cellSize).toFixed(1)}" width="${cellSize.toFixed(1)}" height="${cellSize.toFixed(1)}" fill="currentColor"/>`;
+        }
+      }
+    }
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" class="rounded text-gray-800 dark:text-white/80 bg-white dark:bg-white/10 p-1.5">${rects}</svg>`;
+  }
+
+  // ── CSV Import modal ──
+  const CSV_MOCK_DATA = [
+    { customer: 'Delta Electronics', invoice: 'ERP-2026-0041', amount: 8500,  currency: 'USDC', due: '2026-04-10' },
+    { customer: 'Foxconn Components', invoice: 'ERP-2026-0042', amount: 22000, currency: 'USDT', due: '2026-04-15' },
+    { customer: 'Mediatek Co.', invoice: 'ERP-2026-0043', amount: 3200,  currency: 'USDC', due: '2026-04-08' },
+    { customer: 'ASUSTeK Corp',  invoice: 'ERP-2026-0044', amount: 15750, currency: 'USDC', due: '2026-04-20' },
+  ];
+
+  function csvLoadMockData() {
+    document.getElementById('csv-upload-zone').classList.add('hidden');
+    document.getElementById('csv-preview-panel').classList.remove('hidden');
+    document.getElementById('csv-import-btn').classList.remove('hidden');
+
+    const tbody = document.getElementById('csv-preview-tbody');
+    tbody.innerHTML = CSV_MOCK_DATA.map((row, i) => `
+      <tr class="hover:bg-gray-50 dark:hover:bg-white/3 transition-colors">
+        <td class="px-3 py-2.5 text-center"><input type="checkbox" class="csv-row-check rounded accent-orange-500" data-index="${i}" onchange="csvUpdateCount()" checked /></td>
+        <td class="px-3 py-2.5 font-medium text-gray-900 dark:text-white">${row.customer}</td>
+        <td class="px-3 py-2.5 font-mono text-gray-500 dark:text-gray-400">${row.invoice}</td>
+        <td class="px-3 py-2.5 text-right font-semibold text-gray-900 dark:text-white">${row.amount.toLocaleString()}</td>
+        <td class="px-3 py-2.5"><span class="badge bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400">${row.currency}</span></td>
+        <td class="px-3 py-2.5 text-gray-500 dark:text-gray-400">${row.due}</td>
+      </tr>`).join('');
+
+    document.getElementById('csv-select-all').checked = true;
+    csvUpdateCount();
+    lucide.createIcons();
+  }
+
+  function csvToggleAll(cb) {
+    document.querySelectorAll('.csv-row-check').forEach(el => el.checked = cb.checked);
+    csvUpdateCount();
+  }
+
+  function csvUpdateCount() {
+    const checked = document.querySelectorAll('.csv-row-check:checked').length;
+    document.getElementById('csv-import-count').textContent = `${checked} of ${CSV_MOCK_DATA.length} records selected`;
+    document.getElementById('csv-import-btn').disabled = checked === 0;
+  }
+
+  function importCSVInvoices() {
+    const selected = [...document.querySelectorAll('.csv-row-check:checked')].map(el => CSV_MOCK_DATA[+el.dataset.index]);
+    if (!selected.length) return;
+
+    const tbody = document.getElementById('inv-tbody');
+    const pools = { 'USDC': 'USDC_ETH', 'USDT': 'USDT_TRX' };
+
+    selected.forEach(row => {
+      const poolKey = pools[row.currency] || 'USDC_ETH';
+      const pool = POOLS[poolKey] || { label: row.currency, currency: row.currency, network: '—' };
+      const id = 'INV-' + row.due.replace(/-/g, '').slice(2) + '-' + Math.floor(Math.random() * 900 + 100);
+      const tr = document.createElement('tr');
+      tr.className = 'hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer';
+      tr.dataset.status = 'pending';
+      tr.dataset.date = row.due;
+      tr.dataset.amount = row.amount;
+      tr.innerHTML = `
+        <td class="px-5 py-3">
+          <p class="text-xs font-mono font-medium text-gray-700 dark:text-gray-200">${id}</p>
+          <p class="text-[10px] text-gray-400">${row.invoice}</p>
+        </td>
+        <td class="px-5 py-3">
+          <p class="text-xs font-medium text-gray-800 dark:text-gray-200">${row.customer}</p>
+          <p class="text-[10px] text-gray-400">Imported from ERP</p>
+        </td>
+        <td class="px-5 py-3 text-xs font-semibold text-gray-900 dark:text-white">${row.amount.toLocaleString()} <span class="font-normal text-gray-400">${row.currency}</span></td>
+        <td class="px-5 py-3"><span class="badge bg-gray-100 dark:bg-white/8 text-gray-600 dark:text-gray-400">Pending</span></td>
+        <td class="px-5 py-3 text-xs text-gray-500 dark:text-gray-400">${row.due}</td>
+        <td class="px-5 py-3">
+          <span class="pool-tag pool-${pool.network.toLowerCase().slice(0,3)}"><span class="pool-dot pool-dot-${pool.network.toLowerCase().slice(0,3)}"></span>${pool.label}</span>
+        </td>
+        <td class="px-5 py-3 text-xs text-orange-500 font-medium">Copy Link</td>`;
+      tbody.prepend(tr);
+    });
+
+    closeModal('csv-import');
+    // Reset modal state for next open
+    document.getElementById('csv-upload-zone').classList.remove('hidden');
+    document.getElementById('csv-preview-panel').classList.add('hidden');
+    document.getElementById('csv-import-btn').classList.add('hidden');
+    showToast(`${selected.length} Payment Link${selected.length > 1 ? 's' : ''} created from ERP import`, 'success');
+    lucide.createIcons();
+  }
+
+  // ── Settlement Receipt (水單) ──
+  let _currentReceiptId = null;
+
+  function openReceipt(invId) {
+    const data = INVOICE_DATA[invId];
+    if (!data) { showToast('Receipt data not found', 'error'); return; }
+    _currentReceiptId = invId;
+
+    document.getElementById('receipt-invoice-id').textContent = data.id;
+    document.getElementById('receipt-client').textContent = data.client;
+
+    // Financial breakdown rows
+    const invoiceAmt = parseFloat((data.amount || '0').replace(/,/g, ''));
+    const receivedAmt = parseFloat((data.receivedAmount || data.amount || '0').replace(/,/g, ''));
+    const gasFee = data.gasFee || 0;
+    const invRate = data.invoiceRate || FX_TWD;
+    const setRate = data.settlementRate || FX_TWD;
+    const fxDiff = (setRate - invRate).toFixed(2);
+    const fxSign = fxDiff >= 0 ? '+' : '';
+    const ntdEquiv = (receivedAmt * setRate).toFixed(0);
+    const ntdInvoice = (invoiceAmt * invRate).toFixed(0);
+
+    const rows = [
+      { label: 'Invoice Amount', value: `${invoiceAmt.toLocaleString()} ${data.currency}`, sub: `NT$ ${Number(ntdInvoice).toLocaleString()} @ ${invRate} TWD/USD` },
+      { label: 'Received Amount', value: `${receivedAmt.toLocaleString()} ${data.currency}`, highlight: receivedAmt < invoiceAmt },
+      { label: 'Gas Fee', value: `${gasFee} USDT`, sub: 'On-chain transaction fee' },
+      { label: 'Net Settlement', value: `${(receivedAmt - gasFee).toFixed(2)} ${data.currency}`, bold: true },
+      { label: 'FX Rate @ Invoice', value: `${invRate} TWD/USD`, sub: data.created },
+      { label: 'FX Rate @ Settlement', value: `${setRate} TWD/USD`, sub: `Difference: ${fxSign}${fxDiff}` },
+      { label: 'NTD Equivalent (公定價)', value: `NT$ ${Number(ntdEquiv).toLocaleString()}`, bold: true, highlight: false },
+    ];
+
+    document.getElementById('receipt-breakdown').innerHTML = rows.map(r => `
+      <div class="flex items-start justify-between px-4 py-2.5 gap-4">
+        <div>
+          <p class="text-xs font-medium ${r.bold ? 'text-gray-900 dark:text-white' : 'text-gray-600 dark:text-gray-400'}">${r.label}</p>
+          ${r.sub ? `<p class="text-[10px] text-gray-400 mt-0.5">${r.sub}</p>` : ''}
+        </div>
+        <p class="text-xs font-${r.bold ? 'bold' : 'medium'} shrink-0 ${r.highlight ? 'text-amber-600 dark:text-amber-400' : r.bold ? 'text-gray-900 dark:text-white' : 'text-gray-700 dark:text-gray-300'}">${r.value}</p>
+      </div>`).join('<div class="mx-4 border-t border-gray-50 dark:border-white/4"></div>');
+
+    // Tx hash
+    document.getElementById('receipt-tx-hash').textContent = data.txHash || '—';
+
+    // Memo
+    if (data.memo) {
+      document.getElementById('receipt-memo').textContent = data.memo;
+      document.getElementById('receipt-memo-wrap').classList.remove('hidden');
+    } else {
+      document.getElementById('receipt-memo-wrap').classList.add('hidden');
+    }
+
+    // Settled date
+    document.getElementById('receipt-settled-date').textContent = `Settled: ${data.settlementDate || data.created}`;
+
+    openModal('receipt');
+    lucide.createIcons();
+  }
+
+  function exportReceiptCSV() {
+    const data = INVOICE_DATA[_currentReceiptId];
+    if (!data) return;
+    showToast(`Exporting receipt_${data.id}.csv…`);
+    setTimeout(() => showToast(`receipt_${data.id}.csv downloaded`, 'success'), 800);
+  }
+
+  function exportReceiptJSON() {
+    const data = INVOICE_DATA[_currentReceiptId];
+    if (!data) return;
+    showToast(`Exporting receipt_${data.id}.json…`);
+    setTimeout(() => showToast(`receipt_${data.id}.json downloaded`, 'success'), 800);
+  }
+
+  // ── Reconciliation actions ──
+  function matchSunrise() {
+    showToast('Matching INV-20260316-003 with Tx 0x1c3f…', 'success');
+    setTimeout(() => {
+      showToast('Match confirmed — Partial accepted (4,900 USDC)', 'success');
+      const rows = document.querySelectorAll('[data-inv-id="INV-20260316-003"]');
+      rows.forEach(r => r.remove());
+    }, 1500);
+  }
+
+  function exportReconCSV() {
+    showToast('Exporting reconciliation report…');
+    setTimeout(() => showToast('reconciliation_2026-03.csv downloaded', 'success'), 900);
   }
 
   function exportTaxReport() {
