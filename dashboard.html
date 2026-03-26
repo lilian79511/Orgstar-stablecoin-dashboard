@@ -1001,8 +1001,8 @@
         <!-- Tabs -->
         <div class="flex items-center gap-1 border-b border-gray-100 dark:border-white/8">
           <button id="bills-tab-all" onclick="switchBillsTab('all')" class="px-4 py-2 text-sm font-medium border-b-2 border-orange-500 text-orange-600 dark:text-orange-400 -mb-px transition-colors">All</button>
-          <button id="bills-tab-todo" onclick="switchBillsTab('todo')" class="px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 -mb-px transition-colors">To-do <span class="ml-1 px-1.5 py-0.5 rounded-full bg-orange-100 dark:bg-orange-500/15 text-orange-600 dark:text-orange-400 text-[10px] font-semibold" id="badge-todo">2</span></button>
-          <button id="bills-tab-pending" onclick="switchBillsTab('pending')" class="px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 -mb-px transition-colors">Pending Signature <span class="ml-1 px-1.5 py-0.5 rounded-full bg-violet-100 dark:bg-violet-500/15 text-violet-600 dark:text-violet-400 text-[10px] font-semibold">1</span></button>
+          <button id="bills-tab-todo" onclick="switchBillsTab('todo')" class="px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 -mb-px transition-colors">To-do <span class="ml-1 px-1.5 py-0.5 rounded-full bg-orange-100 dark:bg-orange-500/15 text-orange-600 dark:text-orange-400 text-[10px] font-semibold" id="badge-todo">1</span></button>
+          <button id="bills-tab-waiting" onclick="switchBillsTab('waiting')" class="px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 -mb-px transition-colors">Waiting Signature <span class="ml-1 px-1.5 py-0.5 rounded-full bg-violet-100 dark:bg-violet-500/15 text-violet-600 dark:text-violet-400 text-[10px] font-semibold">3</span></button>
           <button id="bills-tab-paid" onclick="switchBillsTab('paid')" class="px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 -mb-px transition-colors">Paid</button>
         </div>
 
@@ -1032,7 +1032,7 @@
             </thead>
             <tbody id="apv-tbody" class="divide-y divide-gray-50 dark:divide-white/4">
 
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="pending manager" data-tab="todo" data-doa="manager" data-date="2026-03-18" data-amount="30000" data-deadline="Mar 25, 2026" onclick="openApprovalDrawer('PAY-20260318-001')">
+              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="pending manager" data-tab="waiting" data-doa="manager" data-date="2026-03-18" data-amount="30000" data-deadline="Mar 25, 2026" onclick="openApprovalDrawer('PAY-20260318-001')">
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 18, 2026</td>
                 <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260318-001</td>
                 <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">Vendor Inc</td>
@@ -1043,7 +1043,7 @@
                 <td class="px-5 py-3.5 text-right"><button class="text-xs text-orange-500 hover:text-orange-600 font-medium">Review</button></td>
               </tr>
 
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="expired" data-tab="todo" data-doa="manager + cfo" data-date="2026-03-16" data-amount="75000" data-deadline="Mar 22, 2026" onclick="openApprovalDrawer('PAY-20260316-002')">
+              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="expired" data-tab="waiting" data-doa="manager + cfo" data-date="2026-03-16" data-amount="75000" data-deadline="Mar 22, 2026" onclick="openApprovalDrawer('PAY-20260316-002')">
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 16, 2026</td>
                 <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260316-002</td>
                 <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">Shenzhen Parts Ltd</td>
@@ -1054,7 +1054,7 @@
                 <td class="px-5 py-3.5 text-right"><button onclick="event.stopPropagation();openApprovalDrawer('PAY-20260316-002')" class="px-3 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-xs font-medium transition-colors">Sign</button></td>
               </tr>
 
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="expired" data-tab="todo" data-doa="manager + cfo" data-date="2026-03-15" data-amount="120000" data-deadline="Mar 20, 2026" onclick="openApprovalDrawer('PAY-20260315-003')">
+              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="expired" data-tab="waiting" data-doa="manager + cfo" data-date="2026-03-15" data-amount="120000" data-deadline="Mar 20, 2026" onclick="openApprovalDrawer('PAY-20260315-003')">
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 15, 2026</td>
                 <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260315-003</td>
                 <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">Global Imports Ltd</td>
@@ -1065,7 +1065,7 @@
                 <td class="px-5 py-3.5 text-right"><button onclick="event.stopPropagation();openApprovalDrawer('PAY-20260315-003')" class="px-3 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-xs font-medium transition-colors">Sign</button></td>
               </tr>
 
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="awaiting sig" data-tab="pending" data-doa="manager" data-date="2026-03-13" data-amount="5000" data-deadline="Mar 18, 2026" onclick="openApprovalDrawer('PAY-20260313-004')">
+              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="awaiting sig" data-tab="todo" data-doa="manager" data-date="2026-03-13" data-amount="5000" data-deadline="Mar 18, 2026" onclick="openApprovalDrawer('PAY-20260313-004')">
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 13, 2026</td>
                 <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260313-004</td>
                 <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">SaaS Corp</td>
@@ -1106,7 +1106,7 @@
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Cloud Infrastructure</td>
                 <td class="px-5 py-3.5"><span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"><i data-lucide="check-circle-2" class="w-2.5 h-2.5"></i> Paid</span></td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 15, 2026</td>
-                <td class="px-5 py-3.5 text-right"><button onclick="event.stopPropagation()" class="text-xs text-orange-500 hover:text-orange-600 font-medium">Execute</button></td>
+                <td class="px-5 py-3.5 text-right"><button onclick="event.stopPropagation();openApprovalDrawer('PAY-20260310-007')" class="text-xs text-orange-500 hover:text-orange-600 font-medium">View</button></td>
               </tr>
 
             </tbody>
@@ -4113,7 +4113,7 @@
   let _billsActiveTab = 'all';
   function switchBillsTab(tab) {
     _billsActiveTab = tab;
-    ['all','todo','pending','paid'].forEach(t => {
+    ['all','todo','waiting','paid'].forEach(t => {
       const btn = document.getElementById('bills-tab-' + t);
       if (!btn) return;
       if (t === tab) {
@@ -4135,8 +4135,8 @@
       const s = (tr.dataset.status || '').toLowerCase();
       const t = (tr.dataset.tab || '').toLowerCase();
       let show = true;
-      if (tab === 'todo') show = t === 'todo' || s === 'expired';
-      else if (tab === 'pending') show = s === 'awaiting sig' || t === 'pending';
+      if (tab === 'todo') show = t === 'todo';
+      else if (tab === 'waiting') show = t === 'waiting';
       else if (tab === 'paid') show = s === 'paid' || s === 'executed' || t === 'paid';
       tr.classList.toggle('hidden', !show);
     });
