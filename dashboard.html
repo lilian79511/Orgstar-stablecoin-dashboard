@@ -785,6 +785,103 @@
 
         </div>
 
+        <!-- ─ Fair Value Assessment ─ -->
+        <div class="card bg-white dark:bg-[#1a1d27]">
+          <div class="px-5 py-4 border-b border-gray-50 dark:border-white/5">
+            <div class="flex items-center justify-between mb-1">
+              <div>
+                <h3 class="font-grotesk font-semibold text-sm text-gray-900 dark:text-white">Fair Value Assessment <span class="text-gray-400 font-normal text-xs">公允價值評估</span></h3>
+                <p class="text-[10px] text-gray-400 mt-0.5">TWD/USD reference rate per IFRS 13 · Updated: Mar 26, 2026 08:00</p>
+              </div>
+              <button onclick="refreshFairValue()" class="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-600 dark:text-gray-300 transition-colors">
+                <i data-lucide="refresh-cw" class="w-3 h-3"></i> Update Rates
+              </button>
+            </div>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full min-w-[700px]">
+              <thead class="border-b border-gray-50 dark:border-white/5">
+                <tr>
+                  <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Asset</th>
+                  <th class="px-5 py-3 text-right text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Holdings</th>
+                  <th class="px-5 py-3 text-right text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Carrying (USD)</th>
+                  <th class="px-5 py-3 text-right text-[10px] uppercase tracking-wider text-gray-400 font-semibold">FX @ Acquisition</th>
+                  <th class="px-5 py-3 text-right text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Current FX</th>
+                  <th class="px-5 py-3 text-right text-[10px] uppercase tracking-wider text-gray-400 font-semibold">TWD Fair Value</th>
+                  <th class="px-5 py-3 text-right text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Unrealized G/L (NT$)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-50 dark:divide-white/4" id="fv-tbody">
+                <tr class="hover:bg-gray-50/40 dark:hover:bg-white/3 transition-colors">
+                  <td class="px-5 py-3.5">
+                    <div class="flex items-center gap-2">
+                      <div class="w-6 h-6 rounded-md bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center"><span class="text-[9px] font-bold text-blue-600 dark:text-blue-400">ETH</span></div>
+                      <div><p class="text-xs font-semibold text-gray-900 dark:text-white">USDC</p><p class="text-[10px] text-gray-400">Ethereum</p></div>
+                    </div>
+                  </td>
+                  <td class="px-5 py-3.5 text-right text-xs text-gray-700 dark:text-gray-300">250,000 USDC</td>
+                  <td class="px-5 py-3.5 text-right text-xs font-semibold text-gray-900 dark:text-white">$250,000</td>
+                  <td class="px-5 py-3.5 text-right text-xs text-gray-500 dark:text-gray-400">31.50</td>
+                  <td class="px-5 py-3.5 text-right text-xs font-medium text-gray-900 dark:text-white" id="fv-eth-rate">31.85</td>
+                  <td class="px-5 py-3.5 text-right text-xs text-gray-700 dark:text-gray-300">NT$7,962,500</td>
+                  <td class="px-5 py-3.5 text-right"><span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400">+NT$87,500</span><p class="text-[10px] text-emerald-500">+1.11%</p></td>
+                </tr>
+                <tr class="hover:bg-gray-50/40 dark:hover:bg-white/3 transition-colors">
+                  <td class="px-5 py-3.5">
+                    <div class="flex items-center gap-2">
+                      <div class="w-6 h-6 rounded-md bg-violet-50 dark:bg-violet-500/10 flex items-center justify-center"><span class="text-[9px] font-bold text-violet-600 dark:text-violet-400">POL</span></div>
+                      <div><p class="text-xs font-semibold text-gray-900 dark:text-white">USDC</p><p class="text-[10px] text-gray-400">Polygon</p></div>
+                    </div>
+                  </td>
+                  <td class="px-5 py-3.5 text-right text-xs text-gray-700 dark:text-gray-300">100,000 USDC</td>
+                  <td class="px-5 py-3.5 text-right text-xs font-semibold text-gray-900 dark:text-white">$100,000</td>
+                  <td class="px-5 py-3.5 text-right text-xs text-gray-500 dark:text-gray-400">31.92</td>
+                  <td class="px-5 py-3.5 text-right text-xs font-medium text-gray-900 dark:text-white" id="fv-pol-rate">31.85</td>
+                  <td class="px-5 py-3.5 text-right text-xs text-gray-700 dark:text-gray-300">NT$3,185,000</td>
+                  <td class="px-5 py-3.5 text-right"><span class="text-xs font-semibold text-red-500 dark:text-red-400">−NT$7,000</span><p class="text-[10px] text-red-400">−0.22%</p></td>
+                </tr>
+                <tr class="hover:bg-gray-50/40 dark:hover:bg-white/3 transition-colors">
+                  <td class="px-5 py-3.5">
+                    <div class="flex items-center gap-2">
+                      <div class="w-6 h-6 rounded-md bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center"><span class="text-[9px] font-bold text-emerald-700 dark:text-emerald-400">SOL</span></div>
+                      <div><p class="text-xs font-semibold text-gray-900 dark:text-white">USDC</p><p class="text-[10px] text-gray-400">Solana</p></div>
+                    </div>
+                  </td>
+                  <td class="px-5 py-3.5 text-right text-xs text-gray-700 dark:text-gray-300">65,000 USDC</td>
+                  <td class="px-5 py-3.5 text-right text-xs font-semibold text-gray-900 dark:text-white">$65,000</td>
+                  <td class="px-5 py-3.5 text-right text-xs text-gray-500 dark:text-gray-400">31.70</td>
+                  <td class="px-5 py-3.5 text-right text-xs font-medium text-gray-900 dark:text-white" id="fv-sol-rate">31.85</td>
+                  <td class="px-5 py-3.5 text-right text-xs text-gray-700 dark:text-gray-300">NT$2,070,250</td>
+                  <td class="px-5 py-3.5 text-right"><span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400">+NT$9,750</span><p class="text-[10px] text-emerald-500">+0.47%</p></td>
+                </tr>
+                <tr class="hover:bg-gray-50/40 dark:hover:bg-white/3 transition-colors">
+                  <td class="px-5 py-3.5">
+                    <div class="flex items-center gap-2">
+                      <div class="w-6 h-6 rounded-md bg-orange-50 dark:bg-orange-500/10 flex items-center justify-center"><span class="text-[9px] font-bold text-orange-600 dark:text-orange-400">TRX</span></div>
+                      <div><p class="text-xs font-semibold text-gray-900 dark:text-white">USDT</p><p class="text-[10px] text-gray-400">Tron</p></div>
+                    </div>
+                  </td>
+                  <td class="px-5 py-3.5 text-right text-xs text-gray-700 dark:text-gray-300">85,000 USDT</td>
+                  <td class="px-5 py-3.5 text-right text-xs font-semibold text-gray-900 dark:text-white">$85,000</td>
+                  <td class="px-5 py-3.5 text-right text-xs text-gray-500 dark:text-gray-400">31.78</td>
+                  <td class="px-5 py-3.5 text-right text-xs font-medium text-gray-900 dark:text-white" id="fv-trx-rate">31.85</td>
+                  <td class="px-5 py-3.5 text-right text-xs text-gray-700 dark:text-gray-300">NT$2,707,250</td>
+                  <td class="px-5 py-3.5 text-right"><span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400">+NT$5,950</span><p class="text-[10px] text-emerald-500">+0.22%</p></td>
+                </tr>
+                <!-- Total row -->
+                <tr class="bg-gray-50/60 dark:bg-white/3">
+                  <td class="px-5 py-3 text-xs font-semibold text-gray-700 dark:text-gray-300" colspan="5">Total Portfolio</td>
+                  <td class="px-5 py-3 text-right text-xs font-semibold text-gray-900 dark:text-white">NT$15,925,000</td>
+                  <td class="px-5 py-3 text-right">
+                    <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400">+NT$96,200</span>
+                    <p class="text-[10px] text-emerald-500">+0.61% net unrealized gain</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         <!-- ─ Transactions ─ -->
         <div class="card bg-white dark:bg-[#1a1d27]">
           <div class="px-5 py-4 border-b border-gray-50 dark:border-white/5">
@@ -1279,90 +1376,206 @@
 
       <!-- ══ PAGE: AUDIT ══ -->
       <div id="page-audit" class="page hidden p-6 space-y-5">
-        <div class="flex items-center justify-between">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between flex-wrap gap-3">
           <div>
             <h2 class="font-grotesk font-semibold text-lg text-gray-900 dark:text-white">Audit Trail</h2>
-            <p class="text-xs text-gray-400 mt-0.5">Immutable log of all system actions for compliance</p>
+            <p class="text-xs text-gray-400 mt-0.5">Immutable log of all system actions — SHA-256 hash verified</p>
           </div>
-          <button class="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-700 dark:text-gray-300 text-sm font-medium transition-colors">
-            <i data-lucide="download" class="w-4 h-4"></i> Export CSV
-          </button>
+          <div class="flex items-center gap-2">
+            <span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
+              <i data-lucide="shield-check" class="w-2.5 h-2.5"></i> Chain verified · Mar 26, 2026
+            </span>
+            <button onclick="exportAuditCSV()" class="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-700 dark:text-gray-300 text-sm font-medium transition-colors">
+              <i data-lucide="download" class="w-4 h-4"></i> Export CSV
+            </button>
+          </div>
         </div>
 
         <!-- Filters -->
         <div class="flex items-center gap-3 flex-wrap">
-          <select class="text-xs px-3 py-2 rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-[#1a1d27] text-gray-700 dark:text-gray-300 outline-none focus:ring-1 focus:ring-orange-500">
-            <option>All Types</option>
-            <option>AR (Payment Links)</option>
-            <option>AP (Bills)</option>
-            <option>Treasury</option>
-            <option>System</option>
+          <select id="audit-filter-type" onchange="filterAuditTable()" class="filter-select">
+            <option value="">All Types</option>
+            <option value="AR">AR (Invoices)</option>
+            <option value="AP">AP (Bills)</option>
+            <option value="RECON">Reconciliation</option>
+            <option value="JE">Journal Entry</option>
+            <option value="FV">Fair Value</option>
+            <option value="TREASURY">Treasury</option>
+            <option value="SYSTEM">System</option>
+            <option value="ALERT">Alert</option>
           </select>
-          <select class="text-xs px-3 py-2 rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-[#1a1d27] text-gray-700 dark:text-gray-300 outline-none focus:ring-1 focus:ring-orange-500">
-            <option>All Operators</option>
-            <option>陳琳達</option>
-            <option>Manager</option>
-            <option>CFO</option>
+          <select id="audit-filter-op" onchange="filterAuditTable()" class="filter-select">
+            <option value="">All Operators</option>
+            <option value="陳琳達">陳琳達</option>
+            <option value="Manager">Manager</option>
+            <option value="CFO">CFO</option>
+            <option value="System">System</option>
           </select>
-          <input type="date" class="text-xs px-3 py-2 rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-[#1a1d27] text-gray-700 dark:text-gray-300 outline-none focus:ring-1 focus:ring-orange-500" />
+          <input type="date" id="audit-filter-from" onchange="filterAuditTable()" class="filter-select" title="From date" />
+          <input type="date" id="audit-filter-to" onchange="filterAuditTable()" class="filter-select" title="To date" />
+          <button onclick="document.getElementById('audit-filter-type').value='';document.getElementById('audit-filter-op').value='';document.getElementById('audit-filter-from').value='';document.getElementById('audit-filter-to').value='';filterAuditTable()" class="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">Reset</button>
         </div>
 
         <div class="card bg-white dark:bg-[#1a1d27] overflow-hidden">
-          <table class="w-full">
-            <thead class="border-b border-gray-50 dark:border-white/5">
-              <tr>
-                <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Log ID</th>
-                <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Timestamp</th>
-                <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Operator</th>
-                <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Action</th>
-                <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Type</th>
-                <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 font-semibold">Details</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-50 dark:divide-white/4">
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors">
-                <td class="px-5 py-3.5 text-xs font-mono text-gray-500 dark:text-gray-400">LOG-001</td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">2026-03-18 10:05</td>
-                <td class="px-5 py-3.5 text-xs text-gray-700 dark:text-gray-300">陳琳達</td>
-                <td class="px-5 py-3.5 text-xs font-medium text-gray-800 dark:text-gray-200">建立 Invoice</td>
-                <td class="px-5 py-3.5"><span class="badge bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400">AR</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-400 dark:text-gray-500 max-w-xs truncate">INV-20260318-001 建立，生成收款地址 0x1a2b3c...</td>
-              </tr>
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors">
-                <td class="px-5 py-3.5 text-xs font-mono text-gray-500 dark:text-gray-400">LOG-002</td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">2026-03-18 14:02</td>
-                <td class="px-5 py-3.5 text-xs text-gray-700 dark:text-gray-300">陳琳達</td>
-                <td class="px-5 py-3.5 text-xs font-medium text-gray-800 dark:text-gray-200">建立付款請求</td>
-                <td class="px-5 py-3.5"><span class="badge bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400">AP</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-400 dark:text-gray-500 max-w-xs truncate">PAY-20260318-001 建立，金額 30,000 USDC → Vendor Inc</td>
-              </tr>
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors">
-                <td class="px-5 py-3.5 text-xs font-mono text-gray-500 dark:text-gray-400">LOG-003</td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">2026-03-18 14:15</td>
-                <td class="px-5 py-3.5 text-xs text-gray-700 dark:text-gray-300">Manager</td>
-                <td class="px-5 py-3.5 text-xs font-medium text-gray-800 dark:text-gray-200">核准付款</td>
-                <td class="px-5 py-3.5"><span class="badge bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400">AP</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-400 dark:text-gray-500 max-w-xs truncate">PAY-20260316-002 approved → ready_to_execute</td>
-              </tr>
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors">
-                <td class="px-5 py-3.5 text-xs font-mono text-gray-500 dark:text-gray-400">LOG-004</td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">2026-03-17 09:30</td>
-                <td class="px-5 py-3.5 text-xs text-gray-700 dark:text-gray-300">System</td>
-                <td class="px-5 py-3.5 text-xs font-medium text-gray-800 dark:text-gray-200">Invoice 收款完成</td>
-                <td class="px-5 py-3.5"><span class="badge bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400">AR</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-400 dark:text-gray-500 max-w-xs truncate">INV-002 completed，12,000 USDT 歸集至 USDT_Polygon pool</td>
-              </tr>
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors">
-                <td class="px-5 py-3.5 text-xs font-mono text-gray-500 dark:text-gray-400">LOG-005</td>
-                <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">2026-03-16 11:00</td>
-                <td class="px-5 py-3.5 text-xs text-gray-700 dark:text-gray-300">System</td>
-                <td class="px-5 py-3.5 text-xs font-medium text-red-600 dark:text-red-400">異常偵測</td>
-                <td class="px-5 py-3.5"><span class="badge bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400">Alert</span></td>
-                <td class="px-5 py-3.5 text-xs text-gray-400 dark:text-gray-500 max-w-xs truncate">INV-003 金額不符：預期 5,000，偵測到 4,900 USDC</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="overflow-x-auto">
+            <table class="w-full min-w-[900px]">
+              <thead class="border-b border-gray-50 dark:border-white/5">
+                <tr>
+                  <th class="px-4 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Log ID</th>
+                  <th class="px-4 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Timestamp</th>
+                  <th class="px-4 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Operator</th>
+                  <th class="px-4 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Action</th>
+                  <th class="px-4 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Type</th>
+                  <th class="px-4 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold max-w-xs">Details</th>
+                  <th class="px-4 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Hash</th>
+                  <th class="px-4 py-3"></th>
+                </tr>
+              </thead>
+              <tbody id="audit-tbody" class="divide-y divide-gray-50 dark:divide-white/4">
+
+                <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors" data-type="AR" data-op="陳琳達" data-date="2026-03-26">
+                  <td class="px-4 py-3.5 text-xs font-mono text-gray-500 dark:text-gray-400 whitespace-nowrap">LOG-012</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">2026-03-26 09:15</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-700 dark:text-gray-300">陳琳達</td>
+                  <td class="px-4 py-3.5 text-xs font-medium text-gray-800 dark:text-gray-200">Invoice 上傳</td>
+                  <td class="px-4 py-3.5"><span class="badge bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400">AR</span></td>
+                  <td class="px-4 py-3.5 text-xs text-gray-400 dark:text-gray-500 max-w-xs truncate">ERP import: ASUSTek Corp, Foxconn Components — 2 invoices queued in Awaiting</td>
+                  <td class="px-4 py-3.5 text-[10px] font-mono text-gray-400">a3f8b1c2</td>
+                  <td class="px-4 py-3.5 text-right"><button onclick="verifyHash('LOG-012','a3f8b1c2')" class="text-[10px] text-gray-400 hover:text-orange-500 transition-colors flex items-center gap-1"><i data-lucide="shield" class="w-3 h-3"></i> Verify</button></td>
+                </tr>
+
+                <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors" data-type="JE" data-op="陳琳達" data-date="2026-03-26">
+                  <td class="px-4 py-3.5 text-xs font-mono text-gray-500 dark:text-gray-400 whitespace-nowrap">LOG-011</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">2026-03-26 08:42</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-700 dark:text-gray-300">陳琳達</td>
+                  <td class="px-4 py-3.5 text-xs font-medium text-gray-800 dark:text-gray-200">分錄過帳</td>
+                  <td class="px-4 py-3.5"><span class="badge bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">JE</span></td>
+                  <td class="px-4 py-3.5 text-xs text-gray-400 dark:text-gray-500 max-w-xs truncate">JE-20260317-001 posted — Dr. 數位資產 12,000 USDT / Cr. 應收帳款 12,000 USDT</td>
+                  <td class="px-4 py-3.5 text-[10px] font-mono text-gray-400">9d2e4f7a</td>
+                  <td class="px-4 py-3.5 text-right"><button onclick="verifyHash('LOG-011','9d2e4f7a')" class="text-[10px] text-gray-400 hover:text-orange-500 transition-colors flex items-center gap-1"><i data-lucide="shield" class="w-3 h-3"></i> Verify</button></td>
+                </tr>
+
+                <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors" data-type="FV" data-op="System" data-date="2026-03-26">
+                  <td class="px-4 py-3.5 text-xs font-mono text-gray-500 dark:text-gray-400 whitespace-nowrap">LOG-010</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">2026-03-26 08:00</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-700 dark:text-gray-300">System</td>
+                  <td class="px-4 py-3.5 text-xs font-medium text-gray-800 dark:text-gray-200">FX Rate 更新</td>
+                  <td class="px-4 py-3.5"><span class="badge bg-teal-50 dark:bg-teal-500/10 text-teal-600 dark:text-teal-400">FV</span></td>
+                  <td class="px-4 py-3.5 text-xs text-gray-400 dark:text-gray-500 max-w-xs truncate">TWD/USD rate updated to 31.85 — portfolio unrealized G/L: +NT$96,200</td>
+                  <td class="px-4 py-3.5 text-[10px] font-mono text-gray-400">c5e1a8f3</td>
+                  <td class="px-4 py-3.5 text-right"><button onclick="verifyHash('LOG-010','c5e1a8f3')" class="text-[10px] text-gray-400 hover:text-orange-500 transition-colors flex items-center gap-1"><i data-lucide="shield" class="w-3 h-3"></i> Verify</button></td>
+                </tr>
+
+                <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors" data-type="RECON" data-op="陳琳達" data-date="2026-03-26">
+                  <td class="px-4 py-3.5 text-xs font-mono text-gray-500 dark:text-gray-400 whitespace-nowrap">LOG-009</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">2026-03-26 07:55</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-700 dark:text-gray-300">陳琳達</td>
+                  <td class="px-4 py-3.5 text-xs font-medium text-gray-800 dark:text-gray-200">對帳確認</td>
+                  <td class="px-4 py-3.5"><span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">RECON</span></td>
+                  <td class="px-4 py-3.5 text-xs text-gray-400 dark:text-gray-500 max-w-xs truncate">INV-20260317-002 matched → 0x1a2b3c4d, FX diff −NT$360, receipt generated</td>
+                  <td class="px-4 py-3.5 text-[10px] font-mono text-gray-400">f7b3d091</td>
+                  <td class="px-4 py-3.5 text-right"><button onclick="verifyHash('LOG-009','f7b3d091')" class="text-[10px] text-gray-400 hover:text-orange-500 transition-colors flex items-center gap-1"><i data-lucide="shield" class="w-3 h-3"></i> Verify</button></td>
+                </tr>
+
+                <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors" data-type="AP" data-op="陳琳達" data-date="2026-03-18">
+                  <td class="px-4 py-3.5 text-xs font-mono text-gray-500 dark:text-gray-400 whitespace-nowrap">LOG-008</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">2026-03-18 16:30</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-700 dark:text-gray-300">陳琳達</td>
+                  <td class="px-4 py-3.5 text-xs font-medium text-gray-800 dark:text-gray-200">On-chain 簽名</td>
+                  <td class="px-4 py-3.5"><span class="badge bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400">AP</span></td>
+                  <td class="px-4 py-3.5 text-xs text-gray-400 dark:text-gray-500 max-w-xs truncate">PAY-20260314-006 signed → tx 0x3c4d5e6f, 450 USDC settled to Office Depot</td>
+                  <td class="px-4 py-3.5 text-[10px] font-mono text-gray-400">2a6c8e0b</td>
+                  <td class="px-4 py-3.5 text-right"><button onclick="verifyHash('LOG-008','2a6c8e0b')" class="text-[10px] text-gray-400 hover:text-orange-500 transition-colors flex items-center gap-1"><i data-lucide="shield" class="w-3 h-3"></i> Verify</button></td>
+                </tr>
+
+                <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors" data-type="AP" data-op="CFO" data-date="2026-03-18">
+                  <td class="px-4 py-3.5 text-xs font-mono text-gray-500 dark:text-gray-400 whitespace-nowrap">LOG-007</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">2026-03-18 15:45</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-700 dark:text-gray-300">CFO</td>
+                  <td class="px-4 py-3.5 text-xs font-medium text-gray-800 dark:text-gray-200">CFO 核准</td>
+                  <td class="px-4 py-3.5"><span class="badge bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400">AP</span></td>
+                  <td class="px-4 py-3.5 text-xs text-gray-400 dark:text-gray-500 max-w-xs truncate">PAY-20260316-002 CFO approved, memo: "Confirmed supplier PO #2026-88"</td>
+                  <td class="px-4 py-3.5 text-[10px] font-mono text-gray-400">e4d2c9f1</td>
+                  <td class="px-4 py-3.5 text-right"><button onclick="verifyHash('LOG-007','e4d2c9f1')" class="text-[10px] text-gray-400 hover:text-orange-500 transition-colors flex items-center gap-1"><i data-lucide="shield" class="w-3 h-3"></i> Verify</button></td>
+                </tr>
+
+                <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors" data-type="TREASURY" data-op="Manager" data-date="2026-03-18">
+                  <td class="px-4 py-3.5 text-xs font-mono text-gray-500 dark:text-gray-400 whitespace-nowrap">LOG-006</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">2026-03-18 14:30</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-700 dark:text-gray-300">Manager</td>
+                  <td class="px-4 py-3.5 text-xs font-medium text-gray-800 dark:text-gray-200">池充值</td>
+                  <td class="px-4 py-3.5"><span class="badge bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400">TREASURY</span></td>
+                  <td class="px-4 py-3.5 text-xs text-gray-400 dark:text-gray-500 max-w-xs truncate">Deposit 50,000 USDC → Ethereum pool, tx 0xfeed1234, block #19,845,002</td>
+                  <td class="px-4 py-3.5 text-[10px] font-mono text-gray-400">7f3a5c1d</td>
+                  <td class="px-4 py-3.5 text-right"><button onclick="verifyHash('LOG-006','7f3a5c1d')" class="text-[10px] text-gray-400 hover:text-orange-500 transition-colors flex items-center gap-1"><i data-lucide="shield" class="w-3 h-3"></i> Verify</button></td>
+                </tr>
+
+                <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors" data-type="AP" data-op="Manager" data-date="2026-03-18">
+                  <td class="px-4 py-3.5 text-xs font-mono text-gray-500 dark:text-gray-400 whitespace-nowrap">LOG-005</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">2026-03-18 14:15</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-700 dark:text-gray-300">Manager</td>
+                  <td class="px-4 py-3.5 text-xs font-medium text-gray-800 dark:text-gray-200">核准付款</td>
+                  <td class="px-4 py-3.5"><span class="badge bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400">AP</span></td>
+                  <td class="px-4 py-3.5 text-xs text-gray-400 dark:text-gray-500 max-w-xs truncate">PAY-20260316-002 approved → ready_to_execute, DoA: Manager+CFO</td>
+                  <td class="px-4 py-3.5 text-[10px] font-mono text-gray-400">b8e6a2d4</td>
+                  <td class="px-4 py-3.5 text-right"><button onclick="verifyHash('LOG-005','b8e6a2d4')" class="text-[10px] text-gray-400 hover:text-orange-500 transition-colors flex items-center gap-1"><i data-lucide="shield" class="w-3 h-3"></i> Verify</button></td>
+                </tr>
+
+                <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors bg-red-50/20 dark:bg-red-500/3" data-type="ALERT" data-op="System" data-date="2026-03-16">
+                  <td class="px-4 py-3.5 text-xs font-mono text-gray-500 dark:text-gray-400 whitespace-nowrap">LOG-004</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">2026-03-16 11:02</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-700 dark:text-gray-300">System</td>
+                  <td class="px-4 py-3.5 text-xs font-medium text-red-600 dark:text-red-400">異常偵測</td>
+                  <td class="px-4 py-3.5"><span class="badge bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400">ALERT</span></td>
+                  <td class="px-4 py-3.5 text-xs text-gray-400 dark:text-gray-500 max-w-xs truncate">INV-003 金額不符：預期 5,000，偵測到 4,900 USDC — 差額 NT$3,185</td>
+                  <td class="px-4 py-3.5 text-[10px] font-mono text-gray-400">d1f9b4e7</td>
+                  <td class="px-4 py-3.5 text-right"><button onclick="verifyHash('LOG-004','d1f9b4e7')" class="text-[10px] text-gray-400 hover:text-orange-500 transition-colors flex items-center gap-1"><i data-lucide="shield" class="w-3 h-3"></i> Verify</button></td>
+                </tr>
+
+                <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors" data-type="AR" data-op="System" data-date="2026-03-17">
+                  <td class="px-4 py-3.5 text-xs font-mono text-gray-500 dark:text-gray-400 whitespace-nowrap">LOG-003</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">2026-03-17 09:30</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-700 dark:text-gray-300">System</td>
+                  <td class="px-4 py-3.5 text-xs font-medium text-gray-800 dark:text-gray-200">Invoice 收款完成</td>
+                  <td class="px-4 py-3.5"><span class="badge bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400">AR</span></td>
+                  <td class="px-4 py-3.5 text-xs text-gray-400 dark:text-gray-500 max-w-xs truncate">INV-20260317-002 completed — 12,000 USDT received, swept to USDT_Polygon pool</td>
+                  <td class="px-4 py-3.5 text-[10px] font-mono text-gray-400">6c8b2f5e</td>
+                  <td class="px-4 py-3.5 text-right"><button onclick="verifyHash('LOG-003','6c8b2f5e')" class="text-[10px] text-gray-400 hover:text-orange-500 transition-colors flex items-center gap-1"><i data-lucide="shield" class="w-3 h-3"></i> Verify</button></td>
+                </tr>
+
+                <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors" data-type="AP" data-op="陳琳達" data-date="2026-03-18">
+                  <td class="px-4 py-3.5 text-xs font-mono text-gray-500 dark:text-gray-400 whitespace-nowrap">LOG-002</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">2026-03-18 14:02</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-700 dark:text-gray-300">陳琳達</td>
+                  <td class="px-4 py-3.5 text-xs font-medium text-gray-800 dark:text-gray-200">建立付款請求</td>
+                  <td class="px-4 py-3.5"><span class="badge bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400">AP</span></td>
+                  <td class="px-4 py-3.5 text-xs text-gray-400 dark:text-gray-500 max-w-xs truncate">PAY-20260318-001 建立 — 30,000 USDC → Vendor Inc, DoA: Manager</td>
+                  <td class="px-4 py-3.5 text-[10px] font-mono text-gray-400">4e9a7d3c</td>
+                  <td class="px-4 py-3.5 text-right"><button onclick="verifyHash('LOG-002','4e9a7d3c')" class="text-[10px] text-gray-400 hover:text-orange-500 transition-colors flex items-center gap-1"><i data-lucide="shield" class="w-3 h-3"></i> Verify</button></td>
+                </tr>
+
+                <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors" data-type="AR" data-op="陳琳達" data-date="2026-03-18">
+                  <td class="px-4 py-3.5 text-xs font-mono text-gray-500 dark:text-gray-400 whitespace-nowrap">LOG-001</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">2026-03-18 10:05</td>
+                  <td class="px-4 py-3.5 text-xs text-gray-700 dark:text-gray-300">陳琳達</td>
+                  <td class="px-4 py-3.5 text-xs font-medium text-gray-800 dark:text-gray-200">建立 Invoice</td>
+                  <td class="px-4 py-3.5"><span class="badge bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400">AR</span></td>
+                  <td class="px-4 py-3.5 text-xs text-gray-400 dark:text-gray-500 max-w-xs truncate">INV-20260318-001 建立 — 5,000 USDC, client Acme Corp</td>
+                  <td class="px-4 py-3.5 text-[10px] font-mono text-gray-400">1b5f8a2e</td>
+                  <td class="px-4 py-3.5 text-right"><button onclick="verifyHash('LOG-001','1b5f8a2e')" class="text-[10px] text-gray-400 hover:text-orange-500 transition-colors flex items-center gap-1"><i data-lucide="shield" class="w-3 h-3"></i> Verify</button></td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+          <!-- Load more -->
+          <div class="px-5 py-3 border-t border-gray-50 dark:border-white/5 text-center">
+            <button class="text-xs text-orange-500 hover:text-orange-600 font-medium transition-colors">Load earlier records</button>
+          </div>
         </div>
+
       </div><!-- /audit -->
 
       <!-- ══ PAGE: WHITELIST ══ -->
@@ -1801,6 +2014,9 @@
                 </div>
               </div>
               <div class="flex items-center gap-2 justify-end">
+                <button onclick="openJournalEntry('INV-20260317-002')" class="text-xs px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-600 dark:text-gray-300 font-medium flex items-center gap-1.5 transition-colors">
+                  <i data-lucide="book-open" class="w-3 h-3"></i> 分錄
+                </button>
                 <button onclick="openReceipt('INV-20260317-002')" class="text-xs px-3 py-1.5 rounded-lg border border-orange-200 dark:border-orange-500/30 text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/8 font-medium flex items-center gap-1.5 transition-colors">
                   <i data-lucide="file-text" class="w-3 h-3"></i> 水單 Receipt
                 </button>
@@ -2502,6 +2718,133 @@
     </form>
   </div>
 </div>
+
+      <!-- ══ MODAL: JOURNAL ENTRY ══ -->
+      <div id="modal-journal-entry" class="modal-backdrop hidden" onclick="if(event.target===this)closeModal('journal-entry')">
+        <div class="modal-box w-full max-w-2xl" onclick="event.stopPropagation()">
+          <div class="px-6 py-4 border-b border-gray-100 dark:border-white/8 flex items-center justify-between">
+            <div>
+              <div class="flex items-center gap-2 mb-0.5">
+                <h3 class="font-grotesk font-semibold text-base text-gray-900 dark:text-white">Journal Entry 分錄</h3>
+                <span id="je-status-badge" class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400">Draft</span>
+              </div>
+              <p id="je-ref-label" class="text-xs text-gray-400">JE-20260317-001 · Auto-generated from INV-20260317-002</p>
+            </div>
+            <button onclick="closeModal('journal-entry')" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-white/8 transition-colors">
+              <i data-lucide="x" class="w-4 h-4 text-gray-400"></i>
+            </button>
+          </div>
+
+          <div class="px-6 pt-5 pb-4 space-y-4 max-h-[75vh] overflow-y-auto">
+
+            <!-- Meta row -->
+            <div class="grid grid-cols-3 gap-3">
+              <div class="space-y-1">
+                <label class="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Posting Date</label>
+                <input id="je-date" type="date" value="2026-03-17"
+                  class="w-full px-3 py-1.5 text-xs rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition" />
+              </div>
+              <div class="space-y-1 col-span-2">
+                <label class="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Description</label>
+                <input id="je-desc" type="text"
+                  class="w-full px-3 py-1.5 text-xs rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition"
+                  value="Settlement received — INV-20260317-002 / Global Trade Ltd" />
+              </div>
+            </div>
+
+            <!-- Journal lines table -->
+            <div class="overflow-x-auto rounded-xl border border-gray-100 dark:border-white/8">
+              <table class="w-full min-w-[520px]">
+                <thead class="bg-gray-50 dark:bg-white/4 border-b border-gray-100 dark:border-white/8">
+                  <tr>
+                    <th class="px-4 py-2.5 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold w-8">#</th>
+                    <th class="px-4 py-2.5 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Account</th>
+                    <th class="px-4 py-2.5 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Name</th>
+                    <th class="px-4 py-2.5 text-right text-[10px] uppercase tracking-wider text-gray-400 font-semibold">借 Debit</th>
+                    <th class="px-4 py-2.5 text-right text-[10px] uppercase tracking-wider text-gray-400 font-semibold">貸 Credit</th>
+                  </tr>
+                </thead>
+                <tbody id="je-lines" class="divide-y divide-gray-50 dark:divide-white/5">
+                  <tr>
+                    <td class="px-4 py-2.5 text-[10px] text-gray-400">1</td>
+                    <td class="px-4 py-2.5 text-xs font-mono text-gray-600 dark:text-gray-400">1121</td>
+                    <td class="px-4 py-2.5 text-xs text-gray-800 dark:text-gray-200">數位資產—USDT (Polygon)</td>
+                    <td class="px-4 py-2.5 text-right text-xs font-semibold amt-in">12,000.00</td>
+                    <td class="px-4 py-2.5 text-right text-xs text-gray-300 dark:text-gray-600">—</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-2.5 text-[10px] text-gray-400">2</td>
+                    <td class="px-4 py-2.5 text-xs font-mono text-gray-600 dark:text-gray-400">1131</td>
+                    <td class="px-4 py-2.5 text-xs text-gray-800 dark:text-gray-200">應收帳款—Global Trade Ltd</td>
+                    <td class="px-4 py-2.5 text-right text-xs text-gray-300 dark:text-gray-600">—</td>
+                    <td class="px-4 py-2.5 text-right text-xs font-semibold amt-out">12,000.00</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-2.5 text-[10px] text-gray-400">3</td>
+                    <td class="px-4 py-2.5 text-xs font-mono text-gray-600 dark:text-gray-400">6272</td>
+                    <td class="px-4 py-2.5 text-xs text-gray-800 dark:text-gray-200">數位手續費（Gas Fee）</td>
+                    <td class="px-4 py-2.5 text-right text-xs font-semibold text-gray-700 dark:text-gray-300">1.80</td>
+                    <td class="px-4 py-2.5 text-right text-xs text-gray-300 dark:text-gray-600">—</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-2.5 text-[10px] text-gray-400">4</td>
+                    <td class="px-4 py-2.5 text-xs font-mono text-gray-600 dark:text-gray-400">1121</td>
+                    <td class="px-4 py-2.5 text-xs text-gray-800 dark:text-gray-200">數位資產—USDT (Polygon)</td>
+                    <td class="px-4 py-2.5 text-right text-xs text-gray-300 dark:text-gray-600">—</td>
+                    <td class="px-4 py-2.5 text-right text-xs font-semibold text-gray-700 dark:text-gray-300">1.80</td>
+                  </tr>
+                  <!-- FX diff line -->
+                  <tr class="bg-amber-50/30 dark:bg-amber-500/5">
+                    <td class="px-4 py-2.5 text-[10px] text-gray-400">5</td>
+                    <td class="px-4 py-2.5 text-xs font-mono text-gray-600 dark:text-gray-400">6273</td>
+                    <td class="px-4 py-2.5 text-xs text-gray-800 dark:text-gray-200">匯兌損益（FX Rate Diff）</td>
+                    <td class="px-4 py-2.5 text-right text-xs font-semibold text-amber-600 dark:text-amber-400">360.00 <span class="text-[10px] font-normal text-gray-400">NT$</span></td>
+                    <td class="px-4 py-2.5 text-right text-xs text-gray-300 dark:text-gray-600">—</td>
+                  </tr>
+                  <tr class="bg-amber-50/30 dark:bg-amber-500/5">
+                    <td class="px-4 py-2.5 text-[10px] text-gray-400">6</td>
+                    <td class="px-4 py-2.5 text-xs font-mono text-gray-600 dark:text-gray-400">1131</td>
+                    <td class="px-4 py-2.5 text-xs text-gray-800 dark:text-gray-200">應收帳款—匯兌調整</td>
+                    <td class="px-4 py-2.5 text-right text-xs text-gray-300 dark:text-gray-600">—</td>
+                    <td class="px-4 py-2.5 text-right text-xs font-semibold text-amber-600 dark:text-amber-400">360.00 <span class="text-[10px] font-normal text-gray-400">NT$</span></td>
+                  </tr>
+                </tbody>
+                <!-- Totals row -->
+                <tfoot class="bg-gray-50 dark:bg-white/4 border-t border-gray-100 dark:border-white/8">
+                  <tr>
+                    <td colspan="3" class="px-4 py-2.5 text-xs font-semibold text-gray-700 dark:text-gray-300 text-right">Total (USDT)</td>
+                    <td class="px-4 py-2.5 text-right text-xs font-bold text-gray-900 dark:text-white">12,001.80</td>
+                    <td class="px-4 py-2.5 text-right text-xs font-bold text-gray-900 dark:text-white">12,001.80</td>
+                  </tr>
+                  <tr>
+                    <td colspan="5" class="px-4 py-2 text-right">
+                      <span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
+                        <i data-lucide="check-circle-2" class="w-2.5 h-2.5"></i> Balanced
+                      </span>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+
+            <!-- Memo -->
+            <div class="space-y-1">
+              <label class="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Memo <span class="normal-case tracking-normal font-normal text-gray-400">(optional — for internal reference)</span></label>
+              <textarea id="je-memo" rows="2" placeholder="e.g. Q1 settlement confirmed per email ref. #2026-GLT-089"
+                class="w-full px-3 py-2 text-xs rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 resize-none transition"></textarea>
+            </div>
+
+          </div>
+
+          <!-- Footer -->
+          <div class="px-6 py-4 border-t border-gray-100 dark:border-white/8 flex gap-2">
+            <button onclick="saveJournalDraft()" class="flex-1 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Save Draft</button>
+            <button onclick="postJournalEntry()" class="flex-1 px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="check" class="w-3.5 h-3.5"></i> Post to Ledger
+            </button>
+          </div>
+        </div>
+      </div>
 
       <!-- ══ MODAL: UPLOAD INVOICE ══ -->
       <div id="modal-upload-invoice" class="modal-backdrop hidden" onclick="if(event.target===this)closeModal('upload-invoice')">
@@ -4131,6 +4474,105 @@
       lucide.createIcons();
     }
     showToast(`${payId} signed & submitted on-chain${memo ? ' · "' + memo.slice(0, 40) + '"' : ''}`, 'success');
+  }
+
+  // ── Journal Entry (#5) ──
+  function openJournalEntry(invId) {
+    const data = INVOICE_DATA[invId] || {};
+    const jeNum = 'JE-' + (invId || 'NEW').replace('INV-','');
+    document.getElementById('je-ref-label').textContent = `${jeNum} · Auto-generated from ${invId || '—'} / ${data.client || ''}`;
+    document.getElementById('je-status-badge').textContent = 'Draft';
+    document.getElementById('je-status-badge').className = 'badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400';
+    document.getElementById('je-memo').value = '';
+    openModal('journal-entry');
+    lucide.createIcons();
+  }
+
+  function saveJournalDraft() {
+    const badge = document.getElementById('je-status-badge');
+    badge.textContent = 'Draft Saved';
+    badge.className = 'badge bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400';
+    showToast('Journal entry draft saved', 'success');
+  }
+
+  function postJournalEntry() {
+    const badge = document.getElementById('je-status-badge');
+    badge.textContent = 'Posted';
+    badge.className = 'badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400';
+    closeModal('journal-entry');
+    // Append to audit trail
+    appendAuditLog({ type: 'JE', op: '陳琳達', action: '分錄過帳', details: `${document.getElementById('je-ref-label').textContent.split('·')[0].trim()} posted to ledger — Balanced` });
+    showToast('Journal entry posted to ledger', 'success');
+  }
+
+  // ── Fair Value (#6) ──
+  function refreshFairValue() {
+    const rates = { eth: 31.88, pol: 31.83, sol: 31.90, trx: 31.87 };
+    const ids = { eth: 'fv-eth-rate', pol: 'fv-pol-rate', sol: 'fv-sol-rate', trx: 'fv-trx-rate' };
+    Object.entries(ids).forEach(([k, id]) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = rates[k].toFixed(2);
+    });
+    appendAuditLog({ type: 'FV', op: 'System', action: 'FX Rate 更新', details: `TWD/USD rates refreshed — ETH:${rates.eth} POL:${rates.pol} SOL:${rates.sol} TRX:${rates.trx}` });
+    showToast('FX rates updated — Fair value recalculated', 'success');
+  }
+
+  // ── Audit Trail (#7) ──
+  function filterAuditTable() {
+    const type = document.getElementById('audit-filter-type')?.value || '';
+    const op   = document.getElementById('audit-filter-op')?.value || '';
+    const from = document.getElementById('audit-filter-from')?.value || '';
+    const to   = document.getElementById('audit-filter-to')?.value || '';
+    document.querySelectorAll('#audit-tbody tr').forEach(tr => {
+      const tMatch  = !type || tr.dataset.type  === type;
+      const opMatch = !op   || tr.dataset.op    === op;
+      const d = tr.dataset.date || '';
+      const dMatch  = (!from || d >= from) && (!to || d <= to);
+      tr.classList.toggle('hidden', !(tMatch && opMatch && dMatch));
+    });
+  }
+
+  function verifyHash(logId, hash) {
+    showToast(`${logId} · hash ${hash} verified ✓`, 'success');
+  }
+
+  function exportAuditCSV() {
+    showToast('Audit log exported to CSV', 'success');
+  }
+
+  function appendAuditLog({ type, op, action, details }) {
+    const tbody = document.getElementById('audit-tbody');
+    if (!tbody) return;
+    const now = new Date();
+    const ts = now.toISOString().slice(0, 16).replace('T', ' ');
+    const logNum = 'LOG-' + String(tbody.children.length + 1).padStart(3, '0');
+    const hash = Math.random().toString(16).slice(2, 10);
+    const typeColors = {
+      AR: 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400',
+      AP: 'bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400',
+      RECON: 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400',
+      JE: 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400',
+      FV: 'bg-teal-50 dark:bg-teal-500/10 text-teal-600 dark:text-teal-400',
+      TREASURY: 'bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400',
+      SYSTEM: 'bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400',
+      ALERT: 'bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400',
+    };
+    const tr = document.createElement('tr');
+    tr.className = 'hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors';
+    tr.dataset.type = type;
+    tr.dataset.op   = op;
+    tr.dataset.date = now.toISOString().slice(0, 10);
+    tr.innerHTML = `
+      <td class="px-4 py-3.5 text-xs font-mono text-gray-500 dark:text-gray-400 whitespace-nowrap">${logNum}</td>
+      <td class="px-4 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">${ts}</td>
+      <td class="px-4 py-3.5 text-xs text-gray-700 dark:text-gray-300">${op}</td>
+      <td class="px-4 py-3.5 text-xs font-medium text-gray-800 dark:text-gray-200">${action}</td>
+      <td class="px-4 py-3.5"><span class="badge ${typeColors[type] || typeColors.SYSTEM}">${type}</span></td>
+      <td class="px-4 py-3.5 text-xs text-gray-400 dark:text-gray-500 max-w-xs truncate">${details}</td>
+      <td class="px-4 py-3.5 text-[10px] font-mono text-gray-400">${hash}</td>
+      <td class="px-4 py-3.5 text-right"><button onclick="verifyHash('${logNum}','${hash}')" class="text-[10px] text-gray-400 hover:text-orange-500 transition-colors flex items-center gap-1"><i data-lucide="shield" class="w-3 h-3"></i> Verify</button></td>`;
+    tbody.prepend(tr);
+    lucide.createIcons();
   }
 
   // ── Upload Invoice (Reconciliation) ──
