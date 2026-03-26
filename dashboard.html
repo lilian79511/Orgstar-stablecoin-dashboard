@@ -1001,8 +1001,8 @@
         <!-- Tabs -->
         <div class="flex items-center gap-1 border-b border-gray-100 dark:border-white/8">
           <button id="bills-tab-all" onclick="switchBillsTab('all')" class="px-4 py-2 text-sm font-medium border-b-2 border-orange-500 text-orange-600 dark:text-orange-400 -mb-px transition-colors">All</button>
-          <button id="bills-tab-todo" onclick="switchBillsTab('todo')" class="px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 -mb-px transition-colors">To-do <span class="ml-1 px-1.5 py-0.5 rounded-full bg-orange-100 dark:bg-orange-500/15 text-orange-600 dark:text-orange-400 text-[10px] font-semibold" id="badge-todo">0</span></button>
-          <button id="bills-tab-waiting" onclick="switchBillsTab('waiting')" class="px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 -mb-px transition-colors">Waiting Signature <span class="ml-1 px-1.5 py-0.5 rounded-full bg-violet-100 dark:bg-violet-500/15 text-violet-600 dark:text-violet-400 text-[10px] font-semibold">4</span></button>
+          <button id="bills-tab-todo" onclick="switchBillsTab('todo')" class="px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 -mb-px transition-colors">To-do <span class="ml-1 px-1.5 py-0.5 rounded-full bg-orange-100 dark:bg-orange-500/15 text-orange-600 dark:text-orange-400 text-[10px] font-semibold" id="badge-todo">1</span></button>
+          <button id="bills-tab-waiting" onclick="switchBillsTab('waiting')" class="px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 -mb-px transition-colors">Waiting Signature <span class="ml-1 px-1.5 py-0.5 rounded-full bg-violet-100 dark:bg-violet-500/15 text-violet-600 dark:text-violet-400 text-[10px] font-semibold" id="badge-waiting">3</span></button>
           <button id="bills-tab-paid" onclick="switchBillsTab('paid')" class="px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 -mb-px transition-colors">Paid</button>
         </div>
 
@@ -1051,7 +1051,7 @@
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Raw Materials</td>
                 <td class="px-5 py-3.5"><span class="badge bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400"><i data-lucide="clock-alert" class="w-2.5 h-2.5"></i> Expired</span></td>
                 <td class="px-5 py-3.5 text-xs text-red-500 dark:text-red-400 whitespace-nowrap font-medium">Mar 22, 2026 ⚠</td>
-                <td class="px-5 py-3.5 text-right"><button onclick="event.stopPropagation();openApprovalDrawer('PAY-20260316-002')" class="px-3 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-xs font-medium transition-colors">Sign</button></td>
+                <td class="px-5 py-3.5 text-right"><button onclick="event.stopPropagation();openApprovalDrawer('PAY-20260316-002')" class="text-xs text-orange-500 hover:text-orange-600 font-medium">Review</button></td>
               </tr>
 
               <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="expired" data-tab="waiting" data-doa="manager + cfo" data-date="2026-03-15" data-amount="120000" data-deadline="Mar 20, 2026" onclick="openApprovalDrawer('PAY-20260315-003')">
@@ -1062,10 +1062,10 @@
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Q1 Inventory Purchase</td>
                 <td class="px-5 py-3.5"><span class="badge bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400"><i data-lucide="clock-alert" class="w-2.5 h-2.5"></i> Expired</span></td>
                 <td class="px-5 py-3.5 text-xs text-red-500 dark:text-red-400 whitespace-nowrap font-medium">Mar 20, 2026 ⚠</td>
-                <td class="px-5 py-3.5 text-right"><button onclick="event.stopPropagation();openApprovalDrawer('PAY-20260315-003')" class="px-3 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-xs font-medium transition-colors">Sign</button></td>
+                <td class="px-5 py-3.5 text-right"><button onclick="event.stopPropagation();openApprovalDrawer('PAY-20260315-003')" class="text-xs text-orange-500 hover:text-orange-600 font-medium">Review</button></td>
               </tr>
 
-              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="awaiting sig" data-tab="waiting" data-doa="cfo" data-date="2026-03-13" data-amount="5000" data-deadline="Mar 18, 2026" onclick="openApprovalDrawer('PAY-20260313-004')">
+              <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="awaiting sig" data-tab="todo" data-doa="finance" data-date="2026-03-13" data-amount="5000" data-deadline="Mar 18, 2026" onclick="openApprovalDrawer('PAY-20260313-004')">
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 13, 2026</td>
                 <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260313-004</td>
                 <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">SaaS Corp</td>
@@ -1073,7 +1073,7 @@
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Annual Subscription</td>
                 <td class="px-5 py-3.5"><span class="badge bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-400"><i data-lucide="pen-tool" class="w-2.5 h-2.5"></i> Awaiting Sig.</span></td>
                 <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 18, 2026</td>
-                <td class="px-5 py-3.5 text-right"><button class="text-xs text-orange-500 hover:text-orange-600 font-medium">Review</button></td>
+                <td class="px-5 py-3.5 text-right"><button onclick="event.stopPropagation();openApprovalDrawer('PAY-20260313-004')" class="px-3 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-xs font-medium transition-colors">Sign</button></td>
               </tr>
 
               <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-status="rejected" data-doa="manager" data-date="2026-03-12" data-amount="8000" data-deadline="" onclick="openApprovalDrawer('PAY-20260312-005')">
@@ -3856,6 +3856,7 @@
   const APPROVAL_DATA = {
     'PAY-20260318-001': {
       id: 'PAY-20260318-001',
+      canSign: false,
       payee: 'Vendor Inc',
       amount: '30,000', currency: 'USDC', pool: 'eth',
       purpose: 'Software License',
@@ -3873,6 +3874,7 @@
     },
     'PAY-20260316-002': {
       id: 'PAY-20260316-002',
+      canSign: false,
       payee: 'Shenzhen Parts Ltd',
       amount: '75,000', currency: 'USDT', pool: 'trx',
       purpose: 'Raw Materials',
@@ -3890,6 +3892,7 @@
     },
     'PAY-20260315-003': {
       id: 'PAY-20260315-003',
+      canSign: false,
       payee: 'Global Imports Ltd',
       amount: '120,000', currency: 'USDC', pool: 'pol',
       purpose: 'Q1 Inventory Purchase',
@@ -3907,6 +3910,7 @@
     },
     'PAY-20260313-004': {
       id: 'PAY-20260313-004',
+      canSign: true,
       payee: 'SaaS Corp',
       amount: '5,000', currency: 'USDT', pool: 'pol',
       purpose: 'Annual Subscription',
@@ -3924,6 +3928,7 @@
     },
     'PAY-20260312-005': {
       id: 'PAY-20260312-005',
+      canSign: false,
       payee: 'Unknown Vendor',
       amount: '8,000', currency: 'USDC', pool: 'eth',
       purpose: 'Consulting Fee',
@@ -3941,13 +3946,14 @@
     },
     'PAY-20260314-006': {
       id: 'PAY-20260314-006',
+      canSign: false,
       payee: 'Office Depot',
       amount: '450', currency: 'USDC', pool: 'eth',
       purpose: 'Office Supplies',
       address: '0x1111222233334444555566667777888899990000',
       deadline: null,
       createdBy: '陳琳達', createdAt: 'Mar 14, 2026 · 08:55',
-      statusLabel: 'Executed',
+      statusLabel: 'Paid',
       statusColor: 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400',
       policy: { kyt: true, liquidity: true, doa: 'Auto' },
       approvalChain: [
@@ -3958,13 +3964,14 @@
     },
     'PAY-20260310-007': {
       id: 'PAY-20260310-007',
+      canSign: false,
       payee: 'AWS Services',
       amount: '2,200', currency: 'USDC', pool: 'eth',
       purpose: 'Cloud Infrastructure',
       address: '0x9988776655443322110099887766554433221100',
       deadline: 'Mar 15, 2026',
       createdBy: '陳琳達', createdAt: 'Mar 10, 2026 · 13:20',
-      statusLabel: 'Approved',
+      statusLabel: 'Paid',
       statusColor: 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400',
       policy: { kyt: true, liquidity: true, doa: 'Manager' },
       approvalChain: [
@@ -4059,8 +4066,8 @@
         </div>
       </div>` : ''}`;
 
-    // Footer — Sign mode (awaiting on-chain signature) or Approve mode
-    const isSignMode = data.statusLabel === 'Awaiting Signature';
+    // Footer — Sign mode (only if this Finance user is the designated signer)
+    const isSignMode = data.canSign === true;
     if (isSignMode) {
       document.getElementById('drawer-footer').innerHTML = `
         <div class="flex-1 space-y-2">
@@ -4100,7 +4107,19 @@
           </div>
         </div>`;
     } else {
-      document.getElementById('drawer-footer').innerHTML = `<button onclick="closeDrawer()" class="flex-1 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Close</button>`;
+      // Determine the pending approver to show in read-only notice
+      const pendingStep = data.approvalChain ? data.approvalChain.find(s => s.status === 'pending') : null;
+      const waitingFor = pendingStep ? pendingStep.name + ' (' + pendingStep.role + ')' : null;
+      const isWaiting = waitingFor && ['Pending Manager','Pending CFO','Awaiting Signature'].includes(data.statusLabel);
+      document.getElementById('drawer-footer').innerHTML = isWaiting
+        ? `<div class="flex-1 space-y-2.5">
+            <div class="flex items-start gap-2.5 px-3 py-2.5 rounded-lg bg-gray-50 dark:bg-white/4 border border-gray-100 dark:border-white/8">
+              <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5"></i>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Awaiting action from <span class="font-medium text-gray-700 dark:text-gray-300">${waitingFor}</span>. You can review details but cannot sign on their behalf.</p>
+            </div>
+            <button onclick="closeDrawer()" class="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Close</button>
+          </div>`
+        : `<button onclick="closeDrawer()" class="flex-1 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Close</button>`;
     }
 
     document.getElementById('drawer').classList.add('open');
@@ -4140,6 +4159,11 @@
       else if (tab === 'paid') show = s === 'paid' || s === 'executed' || t === 'paid';
       tr.classList.toggle('hidden', !show);
     });
+    // Update dynamic badges
+    const todoBadge = document.getElementById('badge-todo');
+    const waitingBadge = document.getElementById('badge-waiting');
+    if (todoBadge) todoBadge.textContent = rows.filter(r => (r.dataset.tab || '') === 'todo').length;
+    if (waitingBadge) waitingBadge.textContent = rows.filter(r => (r.dataset.tab || '') === 'waiting').length;
     const visible = rows.filter(r => !r.classList.contains('hidden'));
     visible.sort((a, b) => {
       if (sort === 'newest') return (b.dataset.date || '').localeCompare(a.dataset.date || '');
@@ -4426,18 +4450,19 @@
     const row = document.createElement('tr');
     row.className = 'hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer';
     row.dataset.status = statusLabel.toLowerCase();
+    row.dataset.tab = doaLabel === 'Auto' ? 'paid' : 'waiting';
     row.dataset.doa = doaLabel.toLowerCase();
     row.dataset.date = now.toISOString().split('T')[0];
     row.dataset.amount = Math.round(amountUSD);
     row.dataset.deadline = deadlineRaw;
     row.innerHTML = `
+      <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">${dateStr}</td>
       <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">${id}</td>
       <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">${payee}</td>
       <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">${amountRaw.toLocaleString()}</p><span class="pool-tag pool-${displayPool}"><span class="pool-dot pool-dot-${displayPool}"></span>${displayCurrency}</span></td>
       <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">${purpose}</td>
       <td class="px-5 py-3.5"><span class="badge ${statusClass}">${statusLabel}</span></td>
       <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">${deadlineDisp}</td>
-      <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">${dateStr}</td>
       <td class="px-5 py-3.5 text-right">${actionBtn}</td>
     `;
     tbody.prepend(row);
@@ -4724,9 +4749,10 @@
       const statusCell = row.querySelector('[data-status]') || row;
       // Update the status badge cell (6th td)
       const tds = row.querySelectorAll('td');
-      if (tds[5]) tds[5].innerHTML = '<span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"><i data-lucide="check-circle-2" class="w-2.5 h-2.5"></i> Executed</span>';
-      if (tds[8]) tds[8].innerHTML = '<button class="text-xs text-orange-500 hover:text-orange-600 font-medium">View</button>';
-      row.dataset.status = 'executed';
+      if (tds[5]) tds[5].innerHTML = '<span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"><i data-lucide="check-circle-2" class="w-2.5 h-2.5"></i> Paid</span>';
+      if (tds[7]) tds[7].innerHTML = '<button class="text-xs text-orange-500 hover:text-orange-600 font-medium">View</button>';
+      row.dataset.status = 'paid';
+      row.dataset.tab = 'paid';
       lucide.createIcons();
     }
     appendAuditLog({
