@@ -1488,10 +1488,34 @@
 
         <!-- ═══ TAB: RECONCILE ═══ -->
         <div id="rtab-content-reconcile">
+          <!-- Filter bar -->
+          <div class="flex items-center gap-3 flex-wrap mb-4">
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] uppercase tracking-wider font-semibold text-gray-400">Left</span>
+              <select id="recon-filter-type" onchange="filterReconcilePairs()" class="filter-select">
+                <option value="">All</option>
+                <option value="invoice">Invoice (AR)</option>
+                <option value="bill">Bill (AP)</option>
+              </select>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] uppercase tracking-wider font-semibold text-gray-400">Tx</span>
+              <select id="recon-filter-dir" onchange="filterReconcilePairs()" class="filter-select">
+                <option value="">All</option>
+                <option value="received">Received</option>
+                <option value="sent">Sent</option>
+              </select>
+            </div>
+            <select id="recon-sort-pairs" onchange="filterReconcilePairs()" class="filter-select ml-auto">
+              <option value="default">Default</option>
+              <option value="amount-desc">Amount ↓</option>
+              <option value="amount-asc">Amount ↑</option>
+            </select>
+          </div>
           <div class="space-y-4" id="reconcile-pairs">
 
             <!-- PAIR 1: Suggested Exact Match — Acme Corp -->
-            <div class="card bg-white dark:bg-[#1a1d27] overflow-hidden" id="pair-acme">
+            <div class="card bg-white dark:bg-[#1a1d27] overflow-hidden" id="pair-acme" data-type="invoice" data-txdir="received" data-amount="5000">
               <div class="px-4 py-2.5 border-b border-gray-50 dark:border-white/5 flex items-center gap-2">
                 <span class="badge bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px]"><i data-lucide="zap" class="w-2.5 h-2.5"></i> Suggested Match</span>
                 <span class="text-[10px] text-gray-400 flex-1">Same amount &amp; network — please confirm or change</span>
@@ -1534,7 +1558,6 @@
               <div class="px-5 py-3 border-t border-gray-50 dark:border-white/5 flex items-center justify-between gap-3 bg-gray-50/50 dark:bg-white/2">
                 <p class="text-[11px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Exact match — 5,000 USDC on same network</p>
                 <div class="flex items-center gap-2">
-                  <button onclick="reconDecline('pair-acme')" class="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 text-xs font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/8 transition-colors">Skip</button>
                   <button onclick="reconConfirm('pair-acme','INV-20260318-001','0x5e6f7a8b…',5000,'USDC','Acme Corp')" class="px-3 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold transition-colors flex items-center gap-1.5">
                     <i data-lucide="check" class="w-3 h-3"></i> Confirm Match
                   </button>
@@ -1543,7 +1566,7 @@
             </div>
 
             <!-- PAIR 2: Discrepancy — Sunrise Imports (4,900 vs 5,000) -->
-            <div class="card bg-white dark:bg-[#1a1d27] overflow-hidden border border-amber-100 dark:border-amber-500/15" id="pair-sunrise">
+            <div class="card bg-white dark:bg-[#1a1d27] overflow-hidden border border-amber-100 dark:border-amber-500/15" id="pair-sunrise" data-type="invoice" data-txdir="received" data-amount="4900">
               <div class="px-4 py-2.5 border-b border-amber-50 dark:border-amber-500/10 flex items-center gap-2 bg-amber-50/50 dark:bg-amber-500/5">
                 <span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 text-[10px]"><i data-lucide="alert-triangle" class="w-2.5 h-2.5"></i> Discrepancy</span>
                 <span class="text-[10px] text-amber-700 dark:text-amber-400 flex-1">Amount differs by −$100 (−2%). Confirm partial or change match.</span>
@@ -1584,7 +1607,6 @@
               <div class="px-5 py-3 border-t border-amber-50 dark:border-amber-500/10 flex items-center justify-between gap-3 bg-amber-50/30 dark:bg-amber-500/3">
                 <p class="text-[11px] text-amber-600 dark:text-amber-400 flex items-center gap-1"><i data-lucide="info" class="w-3.5 h-3.5"></i> Partial — categorise the difference before confirming</p>
                 <div class="flex items-center gap-2">
-                  <button onclick="reconDecline('pair-sunrise')" class="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 text-xs font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/8 transition-colors">Skip</button>
                   <button onclick="openDiscrepancyPicker('pair-sunrise','INV-20260316-003','0x9a8b7c6d…',4900,5000,'USDC','Sunrise Imports',100)" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold transition-colors flex items-center gap-1.5">
                     <i data-lucide="check" class="w-3 h-3"></i> Confirm Partial
                   </button>
@@ -1645,7 +1667,7 @@
             </div>
 
             <!-- PAIR 3: Transaction with NO matching invoice -->
-            <div class="card bg-white dark:bg-[#1a1d27] overflow-hidden border border-gray-100 dark:border-white/8" id="pair-no-inv">
+            <div class="card bg-white dark:bg-[#1a1d27] overflow-hidden border border-gray-100 dark:border-white/8" id="pair-no-inv" data-type="invoice" data-txdir="received" data-amount="8200">
               <div class="px-4 py-2.5 border-b border-gray-50 dark:border-white/5 flex items-center gap-2">
                 <span class="badge bg-gray-100 dark:bg-white/8 text-gray-600 dark:text-gray-400 text-[10px]"><i data-lucide="search" class="w-2.5 h-2.5"></i> No Invoice Found</span>
                 <span class="text-[10px] text-gray-400 flex-1">Transaction received but no matching invoice in the system</span>
@@ -1685,7 +1707,7 @@
             </div>
 
             <!-- PAIR 4: Invoice with NO matching transaction -->
-            <div class="card bg-white dark:bg-[#1a1d27] overflow-hidden border border-gray-100 dark:border-white/8" id="pair-no-tx">
+            <div class="card bg-white dark:bg-[#1a1d27] overflow-hidden border border-gray-100 dark:border-white/8" id="pair-no-tx" data-type="invoice" data-txdir="none" data-amount="3500">
               <div class="px-4 py-2.5 border-b border-gray-50 dark:border-white/5 flex items-center gap-2">
                 <span class="badge bg-gray-100 dark:bg-white/8 text-gray-600 dark:text-gray-400 text-[10px]"><i data-lucide="clock" class="w-2.5 h-2.5"></i> Awaiting Payment</span>
                 <span class="text-[10px] text-gray-400 flex-1">Invoice uploaded — no on-chain transaction detected yet</span>
@@ -1725,6 +1747,100 @@
               </div>
             </div>
 
+            <!-- PAIR 5: Bill — AWS Services (suggested outgoing tx match) -->
+            <div class="card bg-white dark:bg-[#1a1d27] overflow-hidden border border-violet-100 dark:border-violet-500/15" id="pair-aws-bill" data-type="bill" data-txdir="sent" data-amount="2200">
+              <div class="px-4 py-2.5 border-b border-violet-50 dark:border-violet-500/10 flex items-center gap-2 bg-violet-50/40 dark:bg-violet-500/4">
+                <span class="badge bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-400 text-[10px]"><i data-lucide="zap" class="w-2.5 h-2.5"></i> Suggested Match</span>
+                <span class="badge bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400 text-[10px]">Bill (AP)</span>
+                <span class="text-[10px] text-violet-700 dark:text-violet-400 flex-1">Outgoing payment — match to on-chain transaction</span>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-violet-50 dark:divide-violet-500/10">
+                <!-- Left: Bill -->
+                <div class="p-5 space-y-2 cursor-pointer hover:bg-violet-50/20 dark:hover:bg-violet-500/4 transition-colors" id="pair-aws-bill-left" onclick="openApprovalDrawer('PAY-20260310-007')">
+                  <div class="flex items-center justify-between mb-1">
+                    <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Bill (AP) <span class="normal-case tracking-normal font-normal text-gray-300 dark:text-gray-600">· click to view</span></p>
+                    <button onclick="event.stopPropagation();openChangeInvoiceModal('pair-aws-bill')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
+                  </div>
+                  <div class="flex items-start justify-between">
+                    <div>
+                      <p class="text-[10px] font-mono text-gray-400">PAY-20260310-007</p>
+                      <p class="text-sm font-semibold text-gray-900 dark:text-white mt-0.5">AWS Services</p>
+                      <p class="text-xs text-gray-400 mt-0.5">Cloud Infrastructure · Paid Mar 10</p>
+                    </div>
+                    <span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-[10px]"><i data-lucide="check-circle-2" class="w-2 h-2"></i> Paid</span>
+                  </div>
+                  <p class="text-sm font-semibold amt-out mt-1">2,200 <span class="font-normal text-gray-400 text-xs">USDC</span></p>
+                  <p class="text-[10px] text-gray-400">≈ NT$70,070 · ETH Network</p>
+                </div>
+                <!-- Right: Outgoing Transaction -->
+                <div class="p-5 space-y-2 cursor-pointer hover:bg-blue-50/20 dark:hover:bg-blue-500/4 transition-colors" id="pair-aws-bill-tx" onclick="openReconTxDrawer('0xa1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0',2200,'USDC','eth','Mar 10, 2026 · 16:06 UTC','19,471,088','1.3')">
+                  <div class="flex items-center justify-between mb-1">
+                    <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Transaction (Sent) <span class="normal-case tracking-normal font-normal text-gray-300 dark:text-gray-600">· click to view</span></p>
+                    <button onclick="event.stopPropagation();openChangeTxModal('pair-aws-bill')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
+                  </div>
+                  <div class="flex items-start justify-between">
+                    <div>
+                      <p class="text-[11px] font-mono text-gray-500 dark:text-gray-400 truncate max-w-[200px]">0xa1b2c3d4e5f6a7b8…</p>
+                      <p class="text-[10px] text-gray-400 mt-0.5">Mar 10 · 16:06 UTC</p>
+                    </div>
+                    <span class="net-chip net-eth">ETH · USDC</span>
+                  </div>
+                  <p class="text-sm font-semibold amt-out mt-1">−2,200 <span class="font-normal text-gray-400 text-xs">USDC</span></p>
+                  <p class="text-[10px] text-gray-400">Gas: 1.3 USDC · Block #19,471,088</p>
+                </div>
+              </div>
+              <div class="px-5 py-3 border-t border-violet-50 dark:border-violet-500/10 flex items-center justify-between gap-3 bg-violet-50/20 dark:bg-violet-500/3">
+                <p class="text-[11px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Exact match — 2,200 USDC on same network</p>
+                <div class="flex items-center gap-2">
+                  <button onclick="reconConfirm('pair-aws-bill','PAY-20260310-007','0xa1b2c3d4…',2200,'USDC','AWS Services')" class="px-3 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold transition-colors flex items-center gap-1.5">
+                    <i data-lucide="check" class="w-3 h-3"></i> Confirm Match
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- PAIR 6: Bill — Office Depot (no outgoing tx found) -->
+            <div class="card bg-white dark:bg-[#1a1d27] overflow-hidden border border-gray-100 dark:border-white/8" id="pair-office-bill" data-type="bill" data-txdir="sent" data-amount="450">
+              <div class="px-4 py-2.5 border-b border-gray-50 dark:border-white/5 flex items-center gap-2">
+                <span class="badge bg-gray-100 dark:bg-white/8 text-gray-600 dark:text-gray-400 text-[10px]"><i data-lucide="search" class="w-2.5 h-2.5"></i> No Transaction Found</span>
+                <span class="badge bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400 text-[10px]">Bill (AP)</span>
+                <span class="text-[10px] text-gray-400 flex-1">Bill settled — link the outgoing on-chain transaction</span>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-50 dark:divide-white/5">
+                <!-- Left: Bill -->
+                <div class="p-5 space-y-2 cursor-pointer hover:bg-violet-50/20 dark:hover:bg-violet-500/4 transition-colors" id="pair-office-bill-left" onclick="openApprovalDrawer('PAY-20260314-006')">
+                  <div class="flex items-center justify-between mb-1">
+                    <p class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Bill (AP) <span class="normal-case tracking-normal font-normal text-gray-300 dark:text-gray-600">· click to view</span></p>
+                    <button onclick="event.stopPropagation();openChangeInvoiceModal('pair-office-bill')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-0.5 transition-colors"><i data-lucide="repeat-2" class="w-3 h-3"></i> Change</button>
+                  </div>
+                  <div class="flex items-start justify-between">
+                    <div>
+                      <p class="text-[10px] font-mono text-gray-400">PAY-20260314-006</p>
+                      <p class="text-sm font-semibold text-gray-900 dark:text-white mt-0.5">Office Depot</p>
+                      <p class="text-xs text-gray-400 mt-0.5">Office Supplies · Auto-paid Mar 14</p>
+                    </div>
+                    <span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-[10px]"><i data-lucide="check-circle-2" class="w-2 h-2"></i> Paid</span>
+                  </div>
+                  <p class="text-sm font-semibold amt-out mt-1">450 <span class="font-normal text-gray-400 text-xs">USDC</span></p>
+                  <p class="text-[10px] text-gray-400">≈ NT$14,333 · ETH Network</p>
+                </div>
+                <!-- Right: No transaction found -->
+                <div class="p-5 flex flex-col items-center justify-center min-h-[120px] text-center bg-gray-50/40 dark:bg-white/2 space-y-3" id="pair-office-bill-tx">
+                  <div class="w-9 h-9 rounded-full bg-gray-100 dark:bg-white/8 flex items-center justify-center">
+                    <i data-lucide="wifi-off" class="w-4 h-4 text-gray-400"></i>
+                  </div>
+                  <p class="text-xs text-gray-400">No outgoing transaction linked</p>
+                  <button onclick="openChangeTxModal('pair-office-bill')" class="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 text-xs font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center gap-1.5">
+                    <i data-lucide="search" class="w-3 h-3"></i> Find Transaction
+                  </button>
+                </div>
+              </div>
+              <div class="px-5 py-3 border-t border-gray-50 dark:border-white/5 flex items-center justify-between gap-3 bg-gray-50/30 dark:bg-white/1">
+                <p class="text-[11px] text-gray-500 dark:text-gray-400 flex items-center gap-1"><i data-lucide="info" class="w-3.5 h-3.5"></i> Select a transaction above to enable confirmation</p>
+                <button disabled class="px-3 py-1.5 rounded-lg bg-gray-200 dark:bg-white/10 text-gray-400 text-xs font-semibold cursor-not-allowed">Confirm Match</button>
+              </div>
+            </div>
+
             <!-- Empty state -->
             <div id="reconcile-empty" class="hidden card bg-white dark:bg-[#1a1d27] p-10 text-center">
               <div class="w-12 h-12 rounded-full bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center mx-auto mb-3">
@@ -1739,83 +1855,68 @@
 
         <!-- ═══ TAB: INVOICE ═══ -->
         <div id="rtab-content-invoice" class="hidden">
-          <div class="card bg-white dark:bg-[#1a1d27] flex flex-col">
-            <div class="px-5 py-3.5 border-b border-gray-50 dark:border-white/5 flex items-center gap-2">
+          <div class="card bg-white dark:bg-[#1a1d27] overflow-hidden">
+            <div class="px-5 py-3.5 border-b border-gray-50 dark:border-white/5 flex items-center gap-2 flex-wrap">
               <i data-lucide="file-text" class="w-4 h-4 text-blue-500"></i>
               <h3 class="font-grotesk text-sm font-semibold text-gray-900 dark:text-white flex-1">Invoices</h3>
+              <select id="inv-recon-status" onchange="filterInvReconTable()" class="filter-select">
+                <option value="">All Status</option>
+                <option value="awaiting">Awaiting</option>
+                <option value="matched">Matched</option>
+                <option value="partial">Partial</option>
+                <option value="pending">Pending</option>
+              </select>
               <button onclick="openModal('upload-invoice')" class="text-xs text-orange-500 hover:text-orange-600 font-medium flex items-center gap-1 transition-colors">
                 <i data-lucide="plus" class="w-3 h-3"></i> Upload
               </button>
             </div>
-            <div class="grid grid-cols-2 divide-x divide-gray-50 dark:divide-white/5 flex-1">
-              <!-- Awaiting column -->
-              <div class="flex flex-col">
-                <div class="px-4 py-2.5 border-b border-gray-50 dark:border-white/5 flex items-center gap-2">
-                  <span class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Awaiting</span>
-                  <span class="ml-auto px-1.5 py-0.5 rounded-md bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400 text-[10px] font-semibold" id="badge-awaiting">1</span>
-                </div>
-                <div class="divide-y divide-gray-50 dark:divide-white/4" id="inv-awaiting">
-                  <div class="p-4 space-y-2" id="recon-inv-001">
-                    <p class="text-[10px] font-mono text-gray-400">INV-20260318-001</p>
-                    <p class="text-xs font-semibold text-gray-900 dark:text-white">Acme Corp</p>
-                    <p class="text-[10px] text-gray-400">Q1 Software · Due Apr 1</p>
-                    <div class="flex items-center justify-between mt-1">
-                      <div>
-                        <p class="text-xs font-semibold amt-in">5,000 USDC</p>
-                        <p class="text-[10px] text-gray-400">≈ NT$159,250</p>
-                      </div>
-                      <span class="badge bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400 text-[10px]"><i data-lucide="clock" class="w-2 h-2"></i> Awaiting</span>
-                    </div>
-                  </div>
-                  <button onclick="openModal('upload-invoice')" class="w-full p-4 flex items-center gap-2 text-xs text-gray-400 hover:text-orange-500 hover:bg-orange-50/50 dark:hover:bg-orange-500/5 transition-colors border-0 text-left">
-                    <i data-lucide="plus-circle" class="w-3.5 h-3.5 shrink-0"></i>
-                    Add invoice from ERP / CSV
-                  </button>
-                </div>
-              </div>
-              <!-- Received column -->
-              <div class="flex flex-col">
-                <div class="px-4 py-2.5 border-b border-gray-50 dark:border-white/5 flex items-center gap-2">
-                  <span class="text-[10px] uppercase tracking-widest font-semibold text-gray-400">Received</span>
-                  <span class="ml-auto px-1.5 py-0.5 rounded-md bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400 text-[10px] font-semibold" id="badge-received">2</span>
-                </div>
-                <div class="divide-y divide-gray-50 dark:divide-white/4" id="inv-received">
-                  <div class="p-4 space-y-2 cursor-pointer hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors" id="recon-inv-002">
-                    <p class="text-[10px] font-mono text-gray-400">INV-20260317-002</p>
-                    <p class="text-xs font-semibold text-gray-900 dark:text-white">Global Trade Ltd</p>
-                    <p class="text-[10px] text-gray-400">Q1 Merchandise · Mar 31</p>
-                    <div class="flex items-center justify-between mt-1">
-                      <div>
-                        <p class="text-xs font-semibold amt-in">12,000 USDT</p>
-                        <p class="text-[10px] text-gray-400">≈ NT$382,200</p>
-                      </div>
-                      <span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-[10px]"><i data-lucide="check-circle-2" class="w-2 h-2"></i> Matched</span>
-                    </div>
-                    <button onclick="event.stopPropagation();openReceipt('INV-20260317-002')" class="text-[10px] text-orange-500 hover:text-orange-600 font-medium flex items-center gap-1 transition-colors mt-1"><i data-lucide="file-text" class="w-3 h-3"></i> 水單</button>
-                  </div>
-                  <div class="p-4 space-y-2.5 bg-amber-50/30 dark:bg-amber-500/3 cursor-pointer hover:bg-amber-50/60 dark:hover:bg-amber-500/5 transition-colors" id="recon-inv-003">
-                    <div class="flex items-start justify-between">
-                      <div>
-                        <p class="text-[10px] font-mono text-gray-400">INV-20260316-003</p>
-                        <p class="text-xs font-semibold text-gray-900 dark:text-white mt-0.5">Sunrise Imports</p>
-                        <p class="text-[10px] text-gray-400">Q1 Merchandise · Mar 28</p>
-                      </div>
-                      <span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 text-[10px] shrink-0"><i data-lucide="circle-half-stroke" class="w-2 h-2"></i> Partial</span>
-                    </div>
-                    <!-- Progress bar -->
-                    <div class="space-y-1">
-                      <div class="flex items-center justify-between">
-                        <span class="text-[11px] font-semibold text-amber-600 dark:text-amber-400">4,900 <span class="font-normal text-gray-400">/ 5,000 USDC</span></span>
-                        <span class="text-[10px] text-gray-400">98%</span>
-                      </div>
-                      <div class="h-1.5 rounded-full bg-gray-100 dark:bg-white/8 overflow-hidden">
-                        <div class="h-full rounded-full bg-amber-400 transition-all" style="width:98%"></div>
-                      </div>
-                      <p class="text-[10px] text-red-400 font-medium">Outstanding: 100 USDC · awaiting remainder</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div class="overflow-x-auto">
+              <table class="w-full min-w-[560px]" id="inv-recon-table">
+                <thead class="border-b border-gray-50 dark:border-white/5">
+                  <tr>
+                    <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Invoice ID</th>
+                    <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Client</th>
+                    <th class="px-5 py-3 text-right text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Amount</th>
+                    <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Due Date</th>
+                    <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Status</th>
+                    <th class="px-5 py-3"></th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50 dark:divide-white/4">
+                  <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-inv-status="awaiting" onclick="openDrawer('INV-20260318-001')">
+                    <td class="px-5 py-3.5 text-xs font-mono text-gray-500 dark:text-gray-400">INV-20260318-001</td>
+                    <td class="px-5 py-3.5"><p class="text-sm font-medium text-gray-800 dark:text-gray-200">Acme Corp</p><p class="text-[10px] text-gray-400">Q1 Software Services</p></td>
+                    <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-in">5,000</p><span class="pool-tag pool-eth"><span class="pool-dot pool-dot-eth"></span>USDC</span></td>
+                    <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Apr 1, 2026</td>
+                    <td class="px-5 py-3.5"><span class="badge bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400"><i data-lucide="clock" class="w-2.5 h-2.5"></i> Awaiting</span></td>
+                    <td class="px-5 py-3.5 text-right"><button onclick="event.stopPropagation();openDrawer('INV-20260318-001')" class="text-xs text-orange-500 hover:text-orange-600 font-medium">View</button></td>
+                  </tr>
+                  <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-inv-status="matched" onclick="openDrawer('INV-20260317-002')">
+                    <td class="px-5 py-3.5 text-xs font-mono text-gray-500 dark:text-gray-400">INV-20260317-002</td>
+                    <td class="px-5 py-3.5"><p class="text-sm font-medium text-gray-800 dark:text-gray-200">Global Trade Ltd</p><p class="text-[10px] text-gray-400">Raw Material Purchase</p></td>
+                    <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-in">12,000</p><span class="pool-tag pool-pol"><span class="pool-dot pool-dot-pol"></span>USDT</span></td>
+                    <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Mar 31, 2026</td>
+                    <td class="px-5 py-3.5"><span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"><i data-lucide="check-circle-2" class="w-2.5 h-2.5"></i> Matched</span></td>
+                    <td class="px-5 py-3.5 text-right"><button onclick="event.stopPropagation();openReceipt('INV-20260317-002')" class="text-xs text-orange-500 hover:text-orange-600 font-medium">水單</button></td>
+                  </tr>
+                  <tr class="hover:bg-amber-50/40 dark:hover:bg-amber-500/4 transition-colors cursor-pointer bg-amber-50/20 dark:bg-amber-500/3" data-inv-status="partial" onclick="openDrawer('INV-20260316-003')">
+                    <td class="px-5 py-3.5 text-xs font-mono text-gray-500 dark:text-gray-400">INV-20260316-003</td>
+                    <td class="px-5 py-3.5"><p class="text-sm font-medium text-gray-800 dark:text-gray-200">Sunrise Imports</p><p class="text-[10px] text-gray-400">Q1 Merchandise</p></td>
+                    <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold text-amber-600 dark:text-amber-400">4,900 <span class="text-[10px] font-normal text-gray-400">/ 5,000</span></p><span class="pool-tag pool-eth"><span class="pool-dot pool-dot-eth"></span>USDC</span></td>
+                    <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Mar 28, 2026</td>
+                    <td class="px-5 py-3.5"><span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400"><i data-lucide="circle-half-stroke" class="w-2.5 h-2.5"></i> Partial</span></td>
+                    <td class="px-5 py-3.5 text-right"><button onclick="event.stopPropagation();openDrawer('INV-20260316-003')" class="text-xs text-orange-500 hover:text-orange-600 font-medium">Review</button></td>
+                  </tr>
+                  <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors cursor-pointer" data-inv-status="pending" onclick="openDrawer('INV-20260322-004')">
+                    <td class="px-5 py-3.5 text-xs font-mono text-gray-500 dark:text-gray-400">INV-20260322-004</td>
+                    <td class="px-5 py-3.5"><p class="text-sm font-medium text-gray-800 dark:text-gray-200">Delta Components</p><p class="text-[10px] text-gray-400">Q1 Parts Order</p></td>
+                    <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-in">3,500</p><span class="pool-tag pool-trx"><span class="pool-dot pool-dot-trx"></span>USDT</span></td>
+                    <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Apr 5, 2026</td>
+                    <td class="px-5 py-3.5"><span class="badge bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400"><i data-lucide="clock" class="w-2.5 h-2.5"></i> Pending</span></td>
+                    <td class="px-5 py-3.5 text-right"><button onclick="event.stopPropagation();openDrawer('INV-20260322-004')" class="text-xs text-orange-500 hover:text-orange-600 font-medium">View</button></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -1890,66 +1991,46 @@
         </div>
 
         <!-- ═══ TAB: MATCHED ═══ -->
-        <div id="rtab-content-matched" class="hidden space-y-4">
-
-          <!-- Pre-existing confirmed pair (Global Trade Ltd) -->
-          <div class="card bg-white dark:bg-[#1a1d27]" id="match-pair-002">
-            <div class="px-5 py-3.5 border-b border-gray-50 dark:border-white/5 flex items-center gap-3 flex-wrap">
-              <div class="flex items-center gap-2 text-xs flex-1 min-w-0">
-                <span class="font-mono text-gray-500 dark:text-gray-400">INV-20260317-002</span>
-                <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-gray-300 dark:text-gray-600 shrink-0"></i>
-                <span class="font-mono text-gray-500 dark:text-gray-400 truncate">0x1a2b3c4d…</span>
-                <span class="net-chip net-pol shrink-0">POL</span>
-              </div>
-              <span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 shrink-0"><i data-lucide="check-circle-2" class="w-2.5 h-2.5"></i> Confirmed</span>
+        <div id="rtab-content-matched" class="hidden">
+          <div class="card bg-white dark:bg-[#1a1d27] overflow-hidden">
+            <div class="px-5 py-3.5 border-b border-gray-50 dark:border-white/5 flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i>
+              <h3 class="font-grotesk text-sm font-semibold text-gray-900 dark:text-white flex-1">Matched</h3>
+              <button onclick="exportReconCSV()" class="text-xs text-orange-500 hover:text-orange-600 font-medium flex items-center gap-1 transition-colors"><i data-lucide="download" class="w-3 h-3"></i> Export CSV</button>
             </div>
-            <div class="p-5 grid grid-cols-2 md:grid-cols-4 gap-3">
-              <div class="p-2.5 rounded-lg bg-gray-50 dark:bg-white/4">
-                <p class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Invoice Amount</p>
-                <p class="text-sm font-semibold text-gray-900 dark:text-white">12,000 USDT</p>
-                <p class="text-[10px] text-gray-400">≈ NT$382,200</p>
-              </div>
-              <div class="p-2.5 rounded-lg bg-gray-50 dark:bg-white/4">
-                <p class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Received</p>
-                <p class="text-sm font-semibold text-emerald-600 dark:text-emerald-400">12,000 USDT</p>
-                <p class="text-[10px] text-gray-400">Gas: 1.8 USDT</p>
-              </div>
-              <div class="p-2.5 rounded-lg bg-gray-50 dark:bg-white/4">
-                <p class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">FX @ Invoice</p>
-                <p class="text-sm font-semibold text-gray-900 dark:text-white">31.85</p>
-                <p class="text-[10px] text-gray-400">Mar 17 · TWD/USD</p>
-              </div>
-              <div class="p-2.5 rounded-lg bg-gray-50 dark:bg-white/4">
-                <p class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">FX @ Settlement</p>
-                <p class="text-sm font-semibold text-gray-900 dark:text-white">31.82</p>
-                <p class="text-[10px] text-emerald-600 dark:text-emerald-400">FX diff: −NT$360 (−0.09%)</p>
-              </div>
-            </div>
-            <!-- Collapsible Journal Entry -->
-            <details class="group border-t border-gray-50 dark:border-white/5">
-              <summary class="px-5 py-2.5 flex items-center gap-2 cursor-pointer select-none list-none hover:bg-gray-50/50 dark:hover:bg-white/2 transition-colors">
-                <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-gray-400 transition-transform group-open:rotate-90 shrink-0"></i>
-                <i data-lucide="book-open" class="w-3 h-3 text-blue-500 shrink-0"></i>
-                <span class="text-[11px] font-medium text-gray-500 dark:text-gray-400">Journal Entry auto-generated</span>
-                <span class="ml-auto text-[10px] text-blue-500 font-medium">JE-001</span>
-              </summary>
-              <div class="px-5 pb-3 pt-1">
-                <div class="p-3 rounded-lg bg-blue-50/60 dark:bg-blue-500/6 border border-blue-100 dark:border-blue-500/15 font-mono text-[11px] leading-5 text-gray-700 dark:text-gray-300">
-                  <p>Dr. Cash / Stablecoin &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +12,000 USDT</p>
-                  <p>Cr. Accounts Receivable (AR) &nbsp; −12,000 USDT</p>
-                </div>
-                <p class="text-[10px] text-gray-400 mt-1.5">Auto-generated on match confirmation · Mar 17 · 14:38</p>
-              </div>
-            </details>
-            <div class="px-5 py-3 border-t border-gray-50 dark:border-white/5 flex items-center gap-2 justify-end">
-              <button onclick="openJournalEntry('INV-20260317-002','')" class="text-xs px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-600 dark:text-gray-300 font-medium flex items-center gap-1.5 transition-colors"><i data-lucide="book-open" class="w-3 h-3"></i> 分錄</button>
-              <button onclick="openReceipt('INV-20260317-002')" class="text-xs px-3 py-1.5 rounded-lg border border-orange-200 dark:border-orange-500/30 text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/8 font-medium flex items-center gap-1.5 transition-colors"><i data-lucide="file-text" class="w-3 h-3"></i> 水單 Receipt</button>
+            <div class="overflow-x-auto">
+              <table class="w-full min-w-[760px]">
+                <thead class="border-b border-gray-50 dark:border-white/5">
+                  <tr>
+                    <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Matched On</th>
+                    <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">ID</th>
+                    <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Counterparty</th>
+                    <th class="px-5 py-3 text-right text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Invoiced</th>
+                    <th class="px-5 py-3 text-right text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Received</th>
+                    <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Status</th>
+                    <th class="px-5 py-3"></th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50 dark:divide-white/4" id="matched-table-tbody">
+                  <!-- Pre-existing: Global Trade Ltd -->
+                  <tr class="hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors">
+                    <td class="px-5 py-3.5 text-xs text-gray-400">Mar 17, 2026</td>
+                    <td class="px-5 py-3.5"><p class="text-xs font-mono text-gray-600 dark:text-gray-400">INV-20260317-002</p><p class="text-[10px] text-gray-400">Invoice (AR)</p></td>
+                    <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">Global Trade Ltd</td>
+                    <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold text-gray-700 dark:text-gray-300">12,000</p><span class="pool-tag pool-pol"><span class="pool-dot pool-dot-pol"></span>USDT</span></td>
+                    <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold text-emerald-600 dark:text-emerald-400">12,000</p><span class="pool-tag pool-pol"><span class="pool-dot pool-dot-pol"></span>USDT</span></td>
+                    <td class="px-5 py-3.5"><span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"><i data-lucide="check-circle-2" class="w-2.5 h-2.5"></i> Confirmed</span></td>
+                    <td class="px-5 py-3.5 text-right flex items-center gap-2 justify-end">
+                      <button onclick="openJournalEntry('INV-20260317-002','')" class="text-xs text-gray-500 hover:text-orange-500 font-medium flex items-center gap-1 transition-colors"><i data-lucide="book-open" class="w-3 h-3"></i> 分錄</button>
+                      <button onclick="openReceipt('INV-20260317-002')" class="text-xs text-orange-500 hover:text-orange-600 font-medium flex items-center gap-1 transition-colors"><i data-lucide="file-text" class="w-3 h-3"></i> 水單</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
-
-          <!-- Dynamically confirmed pairs injected here -->
-          <div id="matched-pairs-dynamic" class="space-y-4"></div>
-
+          <!-- Keep for JS compat (hidden) -->
+          <div id="matched-pairs-dynamic" class="hidden"></div>
         </div>
 
         <!-- ═══ Spacer for old panel refs ═══ (keep for JS compat) -->
@@ -5316,6 +5397,36 @@
     setTimeout(() => showToast(`receipt_${data.id}.json downloaded`, 'success'), 800);
   }
 
+  // ── Reconcile pairs filter/sort ──
+  function filterReconcilePairs() {
+    const type = document.getElementById('recon-filter-type')?.value || '';
+    const dir  = document.getElementById('recon-filter-dir')?.value  || '';
+    const sort = document.getElementById('recon-sort-pairs')?.value  || 'default';
+    const container = document.getElementById('reconcile-pairs');
+    if (!container) return;
+    const cards = Array.from(container.querySelectorAll('[data-type]'));
+    cards.forEach(card => {
+      const cardType = card.dataset.type || '';
+      const cardDir  = card.dataset.txdir || '';
+      const typeOk = !type || cardType === type;
+      const dirOk  = !dir  || cardDir  === dir;
+      card.classList.toggle('hidden', !(typeOk && dirOk));
+    });
+    const visible = cards.filter(c => !c.classList.contains('hidden'));
+    if (sort === 'amount-desc') visible.sort((a,b) => Number(b.dataset.amount||0) - Number(a.dataset.amount||0));
+    if (sort === 'amount-asc')  visible.sort((a,b) => Number(a.dataset.amount||0) - Number(b.dataset.amount||0));
+    visible.forEach(c => container.appendChild(c));
+  }
+
+  // ── Invoice tab filter ──
+  function filterInvReconTable() {
+    const status = document.getElementById('inv-recon-status')?.value || '';
+    document.querySelectorAll('#inv-recon-table tbody tr').forEach(tr => {
+      const s = tr.dataset.invStatus || '';
+      tr.classList.toggle('hidden', !!(status && s !== status));
+    });
+  }
+
   // ── Reconciliation tab switching ──
   function switchReconTab(name) {
     ['reconcile','invoice','transactions','matched'].forEach(t => {
@@ -5347,62 +5458,32 @@
       : `<p>Dr. Cash / Stablecoin &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +${amount.toLocaleString()} ${currency}</p>
          <p>Cr. Accounts Receivable (AR) &nbsp; −${amount.toLocaleString()} ${currency}</p>`;
 
-    const matchedDiv = document.createElement('div');
-    matchedDiv.className = 'card bg-white dark:bg-[#1a1d27] overflow-hidden';
-    matchedDiv.innerHTML = `
-      <div class="px-5 py-3.5 border-b border-gray-50 dark:border-white/5 flex items-center gap-3 flex-wrap">
-        <div class="flex items-center gap-2 text-xs flex-1 min-w-0">
-          <span class="font-mono text-gray-500 dark:text-gray-400">${invId}</span>
-          <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-gray-300 dark:text-gray-600 shrink-0"></i>
-          <span class="font-mono text-gray-500 dark:text-gray-400 truncate">${txHash}</span>
+    const matchedRow = document.createElement('tr');
+    matchedRow.className = 'hover:bg-gray-50/60 dark:hover:bg-white/3 transition-colors';
+    const dateStr2 = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    const statusBadge = isPartial
+      ? `<span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400"><i data-lucide="circle-half-stroke" class="w-2.5 h-2.5"></i> Partial</span>`
+      : `<span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"><i data-lucide="check-circle-2" class="w-2.5 h-2.5"></i> Confirmed</span>`;
+    const receivedDisplay = isPartial
+      ? `<p class="text-sm font-semibold text-amber-600 dark:text-amber-400">${amount.toLocaleString()}</p><p class="text-[10px] text-red-400">Short −${shortfall} ${currency}</p>`
+      : `<p class="text-sm font-semibold text-emerald-600 dark:text-emerald-400">${amount.toLocaleString()}</p>`;
+    matchedRow.innerHTML = `
+      <td class="px-5 py-3.5 text-xs text-gray-400">${dateStr2}</td>
+      <td class="px-5 py-3.5"><p class="text-xs font-mono text-gray-600 dark:text-gray-400">${invId}</p><p class="text-[10px] text-gray-400">Invoice (AR)</p></td>
+      <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">${counterparty}</td>
+      <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold text-gray-700 dark:text-gray-300">${isPartial ? (amount+shortfall).toLocaleString() : amount.toLocaleString()}</p><span class="text-[10px] text-gray-400">${currency}</span></td>
+      <td class="px-5 py-3.5 text-right">${receivedDisplay}<span class="text-[10px] text-gray-400">${currency}</span></td>
+      <td class="px-5 py-3.5">${statusBadge}</td>
+      <td class="px-5 py-3.5 text-right">
+        <div class="flex items-center gap-2 justify-end">
+          <button onclick="openJournalEntry('${invId}','${isPartial ? discCategory : ''}')" class="text-xs text-gray-500 hover:text-orange-500 font-medium flex items-center gap-1 transition-colors"><i data-lucide="book-open" class="w-3 h-3"></i> 分錄</button>
+          <button onclick="openReceipt('${invId}')" class="text-xs text-orange-500 hover:text-orange-600 font-medium flex items-center gap-1 transition-colors"><i data-lucide="file-text" class="w-3 h-3"></i> 水單</button>
         </div>
-        <span class="badge ${isPartial ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400' : 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400'} shrink-0">
-          <i data-lucide="${isPartial ? 'alert-triangle' : 'check-circle-2'}" class="w-2.5 h-2.5"></i>
-          ${isPartial ? 'Partial Confirmed' : 'Confirmed'}
-        </span>
-      </div>
-      <div class="p-5 grid grid-cols-2 md:grid-cols-4 gap-3">
-        <div class="p-2.5 rounded-lg bg-gray-50 dark:bg-white/4">
-          <p class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Invoice</p>
-          <p class="text-xs font-semibold text-gray-900 dark:text-white">${invId}</p>
-          <p class="text-[10px] text-gray-400">${counterparty}</p>
-        </div>
-        <div class="p-2.5 rounded-lg bg-gray-50 dark:bg-white/4">
-          <p class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Received</p>
-          <p class="text-sm font-semibold ${isPartial ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400'}">${amount.toLocaleString()} ${currency}</p>
-          ${isPartial ? `<p class="text-[10px] text-red-400">Short −${shortfall} ${currency} → ${discCategory || 'Bank Charges'}</p>` : ''}
-        </div>
-        <div class="p-2.5 rounded-lg bg-gray-50 dark:bg-white/4">
-          <p class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">FX @ Invoice</p>
-          <p class="text-sm font-semibold text-gray-900 dark:text-white">31.85</p>
-          <p class="text-[10px] text-gray-400">TWD/USD</p>
-        </div>
-        <div class="p-2.5 rounded-lg bg-gray-50 dark:bg-white/4">
-          <p class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Confirmed</p>
-          <p class="text-sm font-semibold text-gray-900 dark:text-white">${new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</p>
-          <p class="text-[10px] text-gray-400">by ${window._currentRole || 'Finance'}</p>
-        </div>
-      </div>
-      <!-- Collapsible Journal Entry -->
-      <details class="group border-t border-gray-50 dark:border-white/5">
-        <summary class="px-5 py-2.5 flex items-center gap-2 cursor-pointer select-none list-none hover:bg-gray-50/50 dark:hover:bg-white/2 transition-colors">
-          <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-gray-400 transition-transform group-open:rotate-90 shrink-0"></i>
-          <i data-lucide="book-open" class="w-3 h-3 text-blue-500 shrink-0"></i>
-          <span class="text-[11px] font-medium text-gray-500 dark:text-gray-400">Journal Entry auto-generated</span>
-          <span class="ml-auto text-[10px] text-blue-500 font-medium">${isPartial ? 'JE-003' : 'JE-00' + Math.floor(Math.random()*9+1)}</span>
-        </summary>
-        <div class="px-5 pb-4 pt-1">
-          <div class="p-3 rounded-lg bg-blue-50/60 dark:bg-blue-500/6 border border-blue-100 dark:border-blue-500/15 font-mono text-[11px] leading-5 text-gray-700 dark:text-gray-300">
-            ${journalLines}
-          </div>
-          <p class="text-[10px] text-gray-400 mt-1.5">Auto-generated on match confirmation · ${new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}</p>
-        </div>
-      </details>
-      <div class="px-5 py-3 border-t border-gray-50 dark:border-white/5 flex items-center gap-2 justify-end">
-        <button onclick="openJournalEntry('${invId}','${isPartial ? discCategory : ''}')" class="text-xs px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-600 dark:text-gray-300 font-medium flex items-center gap-1.5 transition-colors"><i data-lucide="book-open" class="w-3 h-3"></i> 分錄</button>
-        <button onclick="openReceipt('${invId}')" class="text-xs px-3 py-1.5 rounded-lg border border-orange-200 dark:border-orange-500/30 text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-500/8 font-medium flex items-center gap-1.5 transition-colors"><i data-lucide="file-text" class="w-3 h-3"></i> 水單 Receipt</button>
-      </div>`;
-    document.getElementById('matched-pairs-dynamic').prepend(matchedDiv);
+      </td>`;
+    const matchedTbody = document.getElementById('matched-table-tbody');
+    if (matchedTbody) matchedTbody.prepend(matchedRow);
+    // Legacy: also update dynamic container (kept for compat)
+    document.getElementById('matched-pairs-dynamic');
     const badge = document.getElementById('matched-count-badge');
     if (badge) badge.textContent = parseInt(badge.textContent) + 1;
     switchReconTab('matched');
