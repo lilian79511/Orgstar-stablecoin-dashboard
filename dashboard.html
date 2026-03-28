@@ -150,7 +150,9 @@
 
     /* ── Filter toolbar ── */
     .filter-select { padding:4px 10px; border-radius:8px; border:1px solid rgba(0,0,0,0.08); font-size:12px; background:#fff; color:#374151; cursor:pointer; outline:none; }
-    .dark .filter-select { background:#1a1d27; border-color:rgba(255,255,255,0.08); color:#d1d5db; }
+    .dark .filter-select { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.08); color:#d1d5db; cursor:pointer; }
+    .filter-select::-webkit-calendar-picker-indicator { cursor:pointer; opacity:0.5; }
+    .dark .filter-select::-webkit-calendar-picker-indicator { filter:invert(1); opacity:0.35; cursor:pointer; }
 
     /* ── Modal backdrop / box ── */
     .modal-backdrop { position:fixed; inset:0; z-index:50; display:flex; align-items:center; justify-content:center; padding:1rem; background:rgba(0,0,0,0.4); backdrop-filter:blur(4px); }
@@ -898,7 +900,7 @@
                   <td class="px-5 py-3.5 text-xs font-mono text-gray-400 dark:text-gray-500">—</td>
                   <td class="px-5 py-3.5 text-xs text-gray-400 dark:text-gray-500">—</td>
                   <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-in">+8,200</p><span class="pool-tag pool-eth"><span class="pool-dot pool-dot-eth"></span>USDC</span></td>
-                  <td class="px-5 py-3.5"><span class="badge bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400"><i data-lucide="help-circle" class="w-2.5 h-2.5"></i> Unmatched</span></td>
+                  <td class="px-5 py-3.5"><span class="badge bg-gray-200/50 dark:bg-white/[0.07] text-gray-500 dark:text-gray-300"><i data-lucide="help-circle" class="w-2.5 h-2.5"></i> Unmatched</span></td>
                   <td class="px-5 py-3.5 text-xs text-gray-400">Mar 20, 2026</td>
                   <td class="px-5 py-3.5 text-right"><button onclick="showPage('reconciliation')" class="text-xs text-orange-500 hover:text-orange-600 font-medium flex items-center gap-1 transition-colors"><i data-lucide="git-merge" class="w-3 h-3"></i> Reconcile</button></td>
                 </tr>
@@ -918,7 +920,7 @@
                   <td class="px-5 py-3.5 text-xs font-mono text-gray-400 dark:text-gray-500">—</td>
                   <td class="px-5 py-3.5 text-xs text-gray-400 dark:text-gray-500">—</td>
                   <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">−15,000</p><span class="pool-tag pool-trx"><span class="pool-dot pool-dot-trx"></span>USDT</span></td>
-                  <td class="px-5 py-3.5"><span class="badge bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400"><i data-lucide="help-circle" class="w-2.5 h-2.5"></i> Unmatched</span></td>
+                  <td class="px-5 py-3.5"><span class="badge bg-gray-200/50 dark:bg-white/[0.07] text-gray-500 dark:text-gray-300"><i data-lucide="help-circle" class="w-2.5 h-2.5"></i> Unmatched</span></td>
                   <td class="px-5 py-3.5 text-xs text-gray-400">Mar 21, 2026</td>
                   <td class="px-5 py-3.5 text-right"><button onclick="showPage('reconciliation')" class="text-xs text-orange-500 hover:text-orange-600 font-medium flex items-center gap-1 transition-colors"><i data-lucide="git-merge" class="w-3 h-3"></i> Reconcile</button></td>
                 </tr>
@@ -1573,7 +1575,7 @@
                       <p class="text-sm font-semibold text-gray-900 dark:text-white mt-0.5">Acme Corp</p>
                       <p class="text-xs text-gray-400 mt-0.5">Q1 Software · Due Apr 1, 2026</p>
                     </div>
-                    <span class="badge bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400 text-[10px]"><i data-lucide="clock" class="w-2 h-2"></i> Awaiting</span>
+                    <span class="badge bg-gray-200/50 dark:bg-white/[0.07] text-gray-500 dark:text-gray-300 text-[10px]"><i data-lucide="clock" class="w-2 h-2"></i> Awaiting</span>
                   </div>
                   <p class="text-sm font-semibold amt-in mt-1">5,000 <span class="font-normal text-gray-400 text-xs">USDC</span></p>
                   <p class="text-[10px] text-gray-400">≈ NT$159,250 · ETH Network</p>
@@ -1673,7 +1675,7 @@
                 <div class="space-y-1.5">
                   <label class="text-[10px] uppercase tracking-wider font-semibold text-gray-500 dark:text-gray-400">Post this difference to <span class="text-orange-500">*</span></label>
                   <select id="disc-cat-pair-sunrise" onchange="discCategoryChanged('pair-sunrise')"
-                    class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-white/4 text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition">
+                    class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition cursor-pointer">
                     <option value="">— Select accounting category —</option>
                     <option value="Bank / Gas Charges">Bank / Gas Charges</option>
                     <option value="FX Loss">FX Loss</option>
@@ -1715,7 +1717,7 @@
               <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-50 dark:divide-white/5">
                 <!-- Left: No invoice -->
                 <div class="p-5 flex flex-col items-center justify-center min-h-[120px] text-center bg-gray-50/40 dark:bg-white/2 space-y-3" id="pair-no-inv-inv">
-                  <div class="w-9 h-9 rounded-full bg-gray-100 dark:bg-white/8 flex items-center justify-center">
+                  <div class="w-9 h-9 rounded-full bg-gray-200/50 dark:bg-white/[0.07] flex items-center justify-center">
                     <i data-lucide="file-question" class="w-4 h-4 text-gray-400"></i>
                   </div>
                   <p class="text-xs text-gray-400">No invoice matched</p>
@@ -1772,7 +1774,7 @@
                 </div>
                 <!-- Right: No transaction -->
                 <div class="p-5 flex flex-col items-center justify-center min-h-[120px] text-center bg-gray-50/40 dark:bg-white/2 space-y-3" id="pair-no-tx-tx">
-                  <div class="w-9 h-9 rounded-full bg-gray-100 dark:bg-white/8 flex items-center justify-center">
+                  <div class="w-9 h-9 rounded-full bg-gray-200/50 dark:bg-white/[0.07] flex items-center justify-center">
                     <i data-lucide="wifi-off" class="w-4 h-4 text-gray-400"></i>
                   </div>
                   <p class="text-xs text-gray-400">No transaction detected</p>
@@ -1791,7 +1793,7 @@
             <div class="card bg-white dark:bg-[#1a1d27] overflow-hidden border border-violet-100 dark:border-violet-500/15" id="pair-aws-bill" data-type="bill" data-txdir="sent" data-amount="2200">
               <div class="px-4 py-2.5 border-b border-violet-50 dark:border-violet-500/10 flex items-center gap-2 bg-violet-50/40 dark:bg-violet-500/4">
                 <span class="badge bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-400 text-[10px]"><i data-lucide="zap" class="w-2.5 h-2.5"></i> Suggested Match</span>
-                <span class="badge bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400 text-[10px]">Bill (AP)</span>
+                <span class="badge bg-gray-200/50 dark:bg-white/[0.07] text-gray-500 dark:text-gray-300 text-[10px]">Bill (AP)</span>
                 <span class="text-[10px] text-violet-700 dark:text-violet-400 flex-1">Outgoing payment — match to on-chain transaction</span>
               </div>
               <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-violet-50 dark:divide-violet-500/10">
@@ -1843,7 +1845,7 @@
             <div class="card bg-white dark:bg-[#1a1d27] overflow-hidden border border-gray-100 dark:border-white/8" id="pair-office-bill" data-type="bill" data-txdir="sent" data-amount="450">
               <div class="px-4 py-2.5 border-b border-gray-50 dark:border-white/5 flex items-center gap-2">
                 <span class="badge bg-gray-200/50 dark:bg-white/[0.07] text-gray-500 dark:text-gray-400 text-[10px]"><i data-lucide="search" class="w-2.5 h-2.5"></i> No Transaction Found</span>
-                <span class="badge bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400 text-[10px]">Bill (AP)</span>
+                <span class="badge bg-gray-200/50 dark:bg-white/[0.07] text-gray-500 dark:text-gray-300 text-[10px]">Bill (AP)</span>
                 <span class="text-[10px] text-gray-400 flex-1">Bill settled — link the outgoing on-chain transaction</span>
               </div>
               <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-50 dark:divide-white/5">
@@ -1866,7 +1868,7 @@
                 </div>
                 <!-- Right: No transaction found -->
                 <div class="p-5 flex flex-col items-center justify-center min-h-[120px] text-center bg-gray-50/40 dark:bg-white/2 space-y-3" id="pair-office-bill-tx">
-                  <div class="w-9 h-9 rounded-full bg-gray-100 dark:bg-white/8 flex items-center justify-center">
+                  <div class="w-9 h-9 rounded-full bg-gray-200/50 dark:bg-white/[0.07] flex items-center justify-center">
                     <i data-lucide="wifi-off" class="w-4 h-4 text-gray-400"></i>
                   </div>
                   <p class="text-xs text-gray-400">No outgoing transaction linked</p>
@@ -1928,7 +1930,7 @@
                     <td class="px-5 py-3.5"><p class="text-sm font-medium text-gray-800 dark:text-gray-200">Acme Corp</p><p class="text-[10px] text-gray-400">Q1 Software Services</p></td>
                     <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-in">5,000</p><span class="pool-tag pool-eth"><span class="pool-dot pool-dot-eth"></span>USDC</span></td>
                     <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Apr 1, 2026</td>
-                    <td class="px-5 py-3.5"><span class="badge bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400"><i data-lucide="clock" class="w-2.5 h-2.5"></i> Awaiting</span></td>
+                    <td class="px-5 py-3.5"><span class="badge bg-gray-200/50 dark:bg-white/[0.07] text-gray-500 dark:text-gray-300"><i data-lucide="clock" class="w-2.5 h-2.5"></i> Awaiting</span></td>
                     <td class="px-5 py-3.5 text-right"><button onclick="event.stopPropagation();openDrawer('INV-20260318-001')" class="text-xs text-orange-500 hover:text-orange-600 font-medium">View</button></td>
                   </tr>
                   <tr class="hover:bg-gray-100/40 dark:hover:bg-white/[0.05] transition-colors cursor-pointer" data-inv-status="matched" onclick="openDrawer('INV-20260317-002')">
@@ -2005,7 +2007,7 @@
                     <td class="px-4 py-3.5"><p class="text-[11px] font-mono text-gray-500 dark:text-gray-400 truncate max-w-[160px]" title="0x5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f">0x5e6f7a8b9c0d1e2f…</p><p class="text-[10px] text-gray-400 mt-0.5">Mar 18 · 14:20 UTC · Gas 1.4 USDC</p></td>
                     <td class="px-4 py-3.5 text-right"><p class="text-sm font-semibold amt-in">+5,000</p><span class="net-chip net-eth">ETH · USDC</span></td>
                     <td class="px-4 py-3.5 text-xs text-gray-400">—</td>
-                    <td class="px-4 py-3.5"><span class="badge bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400">Unmatched</span></td>
+                    <td class="px-4 py-3.5"><span class="badge bg-gray-200/50 dark:bg-white/[0.07] text-gray-500 dark:text-gray-300">Unmatched</span></td>
                     <td class="px-4 py-3.5 text-right"><button onclick="switchReconTab('reconcile')" class="text-xs text-orange-500 hover:text-orange-600 font-medium">Reconcile</button></td>
                   </tr>
                   <tr class="hover:bg-amber-50/60 dark:hover:bg-amber-500/4 transition-colors bg-amber-50/20 dark:bg-amber-500/3" data-dir="in" data-rstatus="discrepancy">
@@ -2100,7 +2102,7 @@
         <!-- Form type selector + period -->
         <div class="card bg-white dark:bg-[#1a1d27] p-4">
           <div class="flex items-center gap-4 flex-wrap">
-            <div class="flex items-center gap-1 p-1 bg-gray-50 dark:bg-white/4 rounded-lg">
+            <div class="flex items-center gap-1 p-1 bg-gray-100/60 dark:bg-white/[0.06] rounded-lg">
               <button id="tax-tab-401" onclick="switchTaxForm('401')"
                 class="px-3 py-1.5 rounded-md text-xs font-semibold transition-colors bg-white dark:bg-[#1a1d27] text-gray-900 dark:text-white shadow-sm">
                 401 — Monthly
@@ -2113,7 +2115,7 @@
             <div class="flex items-center gap-2">
               <label class="text-xs text-gray-500 dark:text-gray-400">Period:</label>
               <select id="tax-period"
-                class="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-xs text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500 transition">
+                class="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-xs text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500 transition cursor-pointer">
                 <option value="2026-03">March 2026 (due Apr 15)</option>
                 <option value="2026-02">February 2026 (due Mar 15)</option>
                 <option value="2026-01">January 2026 (due Feb 15)</option>
@@ -2190,7 +2192,7 @@
                   <td class="px-5 py-3 text-xs text-gray-700 dark:text-gray-300">Sunrise Imports</td>
                   <td class="px-5 py-3 text-xs font-semibold text-right text-gray-900 dark:text-white">95,550</td>
                   <td class="px-5 py-3 text-xs text-right text-gray-700 dark:text-gray-300">4,778</td>
-                  <td class="px-5 py-3"><span class="badge bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400">Excl.</span></td>
+                  <td class="px-5 py-3"><span class="badge bg-gray-200/50 dark:bg-white/[0.07] text-gray-500 dark:text-gray-300">Excl.</span></td>
                   <td class="px-5 py-3"><span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">Matched</span></td>
                 </tr>
               </tbody>
@@ -2239,7 +2241,7 @@
                   <td class="px-5 py-3 text-xs font-semibold text-right text-gray-900 dark:text-white">76,100</td>
                   <td class="px-5 py-3 text-xs text-right text-gray-400 font-semibold">0</td>
                   <td class="px-5 py-3 text-xs text-gray-500 dark:text-gray-400">OPS</td>
-                  <td class="px-5 py-3"><span class="badge bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400">Non-deductible</span></td>
+                  <td class="px-5 py-3"><span class="badge bg-gray-200/50 dark:bg-white/[0.07] text-gray-500 dark:text-gray-300">Non-deductible</span></td>
                 </tr>
                 <tr class="hover:bg-gray-100/40 dark:hover:bg-white/[0.05] transition-colors">
                   <td class="px-5 py-3 text-xs font-mono text-gray-600 dark:text-gray-400">PAY-202603-004</td>
@@ -2329,7 +2331,7 @@
       <div class="space-y-1.5">
         <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Client <span class="text-orange-500">*</span></label>
         <select id="inv-client-select" onchange="invClientSelect(this)"
-          class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition">
+          class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition cursor-pointer">
           <option value="">— Select existing client —</option>
           <option value="Acme Corp">Acme Corp (US)</option>
           <option value="Global Trade Ltd">Global Trade Ltd (SG)</option>
@@ -2342,12 +2344,12 @@
         <div class="space-y-1.5">
           <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Client Name <span class="text-orange-500">*</span></label>
           <input id="inv-client" type="text" placeholder="e.g. New Client Co"
-            class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
+            class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
         </div>
         <div class="space-y-1.5">
           <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Registered Country <span class="text-orange-500">*</span></label>
           <select id="inv-country"
-            class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition">
+            class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition cursor-pointer">
             <option value="TW">Taiwan (TW)</option>
             <option value="US">United States (US)</option>
             <option value="SG">Singapore (SG)</option>
@@ -2368,7 +2370,7 @@
       <div class="space-y-1.5">
         <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Invoice # <span class="text-gray-400 font-normal">(optional)</span></label>
         <input id="inv-ref" type="text" placeholder="e.g. INV-2026-0042"
-          class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
+          class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
       </div>
 
       <!-- Amount + Token (side by side) -->
@@ -2377,9 +2379,9 @@
         <div class="flex gap-2">
           <input id="inv-amount" type="number" min="1" placeholder="5000" required
             oninput="updateInvAddrPreview()"
-            class="flex-1 px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
+            class="flex-1 px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
           <select id="inv-pool" required onchange="updateInvAddrPreview()"
-            class="w-44 px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition shrink-0">
+            class="w-44 px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition cursor-pointer shrink-0">
             <option value="USDC_ETH">USDC · Ethereum</option>
             <option value="USDC_POL">USDC · Polygon</option>
             <option value="USDC_SOL">USDC · Solana</option>
@@ -2393,12 +2395,12 @@
         <div class="space-y-1.5">
           <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Due Date <span class="text-orange-500">*</span></label>
           <input id="inv-due" type="date" required
-            class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition" />
+            class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition cursor-pointer" />
         </div>
         <div class="space-y-1.5">
           <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Payment Window <span class="text-orange-500">*</span></label>
           <select id="inv-deadline" required
-            class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition">
+            class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition cursor-pointer">
             <option value="30">30 minutes</option>
             <option value="60" selected>1 hour</option>
             <option value="240">4 hours</option>
@@ -2449,12 +2451,12 @@
             <div class="space-y-1.5">
               <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Exchange Rate (USD/TWD)</label>
               <input id="inv-fx-rate" type="number" step="0.01" value="31.85" placeholder="31.85"
-                class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
+                class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
             </div>
             <div class="space-y-1.5">
               <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Department Code</label>
               <select id="inv-dept-code"
-                class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition">
+                class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition cursor-pointer">
                 <option value="">— Select dept —</option>
                 <option value="FIN">FIN — Finance</option>
                 <option value="OPS">OPS — Operations</option>
@@ -2467,7 +2469,7 @@
           <div class="space-y-1.5">
             <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Internal Notes</label>
             <textarea id="inv-notes" rows="2" placeholder="e.g. Relates to PO #4421, Q1 batch"
-              class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition resize-none"></textarea>
+              class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition resize-none"></textarea>
           </div>
         </div>
       </details>
@@ -2509,7 +2511,7 @@
       <div class="space-y-1.5">
         <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Select from Whitelist <span class="text-orange-500">*</span></label>
         <select id="pay-whitelist-select" onchange="applyWhitelistSelection(this)"
-          class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition">
+          class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition cursor-pointer">
           <option value="">— Choose whitelisted recipient —</option>
           <option value="WL-001">Vendor Inc · 0x9f8e7d6c… · USDC · Ethereum</option>
           <option value="WL-002">Shenzhen Parts Ltd · TQfaGh8k… · USDT · Tron</option>
@@ -2528,9 +2530,9 @@
         <div class="flex gap-2">
           <input id="pay-amount" type="number" min="1" placeholder="0" required
             oninput="updatePayCurrency()"
-            class="flex-1 px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
+            class="flex-1 px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
           <select id="pay-currency" onchange="updatePayCurrency()"
-            class="w-40 px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition shrink-0">
+            class="w-40 px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition cursor-pointer shrink-0">
             <option value="NTD">NTD · Taiwan $</option>
             <option value="USD" selected>USD · US Dollar</option>
             <option value="USDC_ETH">USDC · Ethereum</option>
@@ -2549,7 +2551,7 @@
       <div id="pay-payee-row" class="space-y-1.5 hidden">
         <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Payee Name <span class="text-orange-500">*</span></label>
         <input id="pay-payee" type="text" placeholder="Enter payee name" required
-          class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
+          class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
       </div>
 
       <div id="pay-address-row" class="space-y-1.5">
@@ -2566,14 +2568,14 @@
       <div class="space-y-1.5">
         <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Purpose <span class="text-orange-500">*</span></label>
         <input id="pay-purpose" type="text" placeholder="e.g. Raw Materials" required
-          class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
+          class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
       </div>
 
       <!-- Approval Deadline -->
       <div class="space-y-1.5">
         <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Approval Deadline <span class="text-gray-400 font-normal">(optional — prioritises in approver queue)</span></label>
         <input id="pay-deadline" type="date"
-          class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition" />
+          class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition cursor-pointer" />
       </div>
 
       <!-- Accounting fields -->
@@ -2587,12 +2589,12 @@
             <div class="space-y-1.5">
               <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Exchange Rate (USD/TWD)</label>
               <input id="pay-fx-rate" type="number" step="0.01" value="31.85" placeholder="31.85"
-                class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
+                class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
             </div>
             <div class="space-y-1.5">
               <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Department Code</label>
               <select id="pay-dept-code"
-                class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition">
+                class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition cursor-pointer">
                 <option value="">— Select dept —</option>
                 <option value="FIN">FIN — Finance</option>
                 <option value="OPS">OPS — Operations</option>
@@ -2605,7 +2607,7 @@
           <div class="space-y-1.5">
             <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Internal Notes</label>
             <textarea id="pay-notes" rows="2" placeholder="e.g. Against PO #8812, partial payment"
-              class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition resize-none"></textarea>
+              class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition resize-none"></textarea>
           </div>
         </div>
       </details>
@@ -2701,7 +2703,7 @@
       <div class="space-y-1.5">
         <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Recipient Name <span class="text-orange-500">*</span></label>
         <input id="wl-name" type="text" placeholder="e.g. New Vendor Ltd" required
-          class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
+          class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
       </div>
       <div class="space-y-1.5">
         <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Wallet Address <span class="text-orange-500">*</span></label>
@@ -2712,13 +2714,13 @@
       <div class="grid grid-cols-2 gap-3">
         <div class="space-y-1.5">
           <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Network</label>
-          <select id="wl-network" class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition">
+          <select id="wl-network" class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition cursor-pointer">
             <option>Ethereum</option><option>Polygon</option><option>Arbitrum</option><option>Tron</option>
           </select>
         </div>
         <div class="space-y-1.5">
           <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Currency</label>
-          <select id="wl-currency" class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition">
+          <select id="wl-currency" class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition cursor-pointer">
             <option>USDC</option><option>USDT</option>
           </select>
         </div>
@@ -2766,7 +2768,7 @@
       <div class="space-y-1.5">
         <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Pool <span class="text-orange-500">*</span></label>
         <select id="dw-pool"
-          class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition">
+          class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition cursor-pointer">
           <option value="USDC_ETH">USDC · Ethereum — $250,000</option>
           <option value="USDC_POL">USDC · Polygon — $100,000</option>
           <option value="USDC_SOL">USDC · Solana — $65,000</option>
@@ -2778,12 +2780,12 @@
         <div class="space-y-1.5">
           <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Amount <span class="text-orange-500">*</span></label>
           <input id="dw-amount" type="number" min="1" placeholder="10000" required
-            class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
+            class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
         </div>
         <div class="space-y-1.5">
           <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Currency</label>
           <select id="dw-currency"
-            class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition">
+            class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition cursor-pointer">
             <option>USDC</option><option>USDT</option>
           </select>
         </div>
@@ -3050,7 +3052,7 @@
             <!-- Network selector -->
             <div class="space-y-1.5">
               <label class="text-xs font-medium text-gray-600 dark:text-gray-400">Network</label>
-              <select id="cw-network" class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition">
+              <select id="cw-network" class="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition cursor-pointer">
                 <option value="eth">USDC · Ethereum</option>
                 <option value="pol">USDC · Polygon</option>
                 <option value="sol">USDC · Solana</option>
@@ -3294,7 +3296,7 @@
                   <tbody class="divide-y divide-gray-50 dark:divide-white/5">
                     <tr><td class="px-3 py-2.5 font-mono text-gray-500 dark:text-gray-400">INV-20260317-002</td><td class="px-3 py-2.5 text-right font-semibold amt-in">12,000 USDT</td><td class="px-3 py-2.5"><span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">Matched</span></td><td class="px-3 py-2.5"><span class="text-emerald-600 dark:text-emerald-400 font-semibold">99%</span></td></tr>
                     <tr><td class="px-3 py-2.5 font-mono text-gray-500 dark:text-gray-400">INV-20260318-001</td><td class="px-3 py-2.5 text-right font-semibold amt-in">5,000 USDC</td><td class="px-3 py-2.5"><span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400">Partial (98%)</span></td><td class="px-3 py-2.5"><span class="text-amber-600 dark:text-amber-400 font-semibold">94%</span></td></tr>
-                    <tr><td class="px-3 py-2.5 font-mono text-gray-500 dark:text-gray-400">ERP-2026-042</td><td class="px-3 py-2.5 text-right text-gray-400">—</td><td class="px-3 py-2.5"><span class="badge bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400">Not found</span></td><td class="px-3 py-2.5"><span class="text-gray-400">—</span></td></tr>
+                    <tr><td class="px-3 py-2.5 font-mono text-gray-500 dark:text-gray-400">ERP-2026-042</td><td class="px-3 py-2.5 text-right text-gray-400">—</td><td class="px-3 py-2.5"><span class="badge bg-gray-200/50 dark:bg-white/[0.07] text-gray-500 dark:text-gray-300">Not found</span></td><td class="px-3 py-2.5"><span class="text-gray-400">—</span></td></tr>
                   </tbody>
                 </table>
               </div>
@@ -3590,7 +3592,7 @@
   function renderFileChip(name, listId) {
     const list = document.getElementById(listId);
     const chip = document.createElement('div');
-    chip.className = 'flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gray-100 dark:bg-white/8 text-xs text-gray-600 dark:text-gray-300';
+    chip.className = 'flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gray-200/50 dark:bg-white/[0.07] text-xs text-gray-600 dark:text-gray-300';
     chip.innerHTML = `<i data-lucide="file-text" class="w-3 h-3 text-orange-500"></i>${name}<button type="button" onclick="this.parentElement.remove()" class="text-gray-400 hover:text-red-500 ml-1">×</button>`;
     list.appendChild(chip);
     lucide.createIcons();
@@ -4247,7 +4249,7 @@
     const chainBadge  = {
       done: '<span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-[10px]">Approved</span>',
       pending: '<span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 text-[10px]">Awaiting</span>',
-      waiting: '<span class="badge bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400 text-[10px]">Queued</span>',
+      waiting: '<span class="badge bg-gray-200/50 dark:bg-white/[0.07] text-gray-500 dark:text-gray-300 text-[10px]">Queued</span>',
       rejected: '<span class="badge bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-300 text-[10px]">Rejected</span>',
     };
 
@@ -4256,7 +4258,7 @@
       <div class="space-y-0">
         ${data.approvalChain.map((step, i) => `
           <div class="flex items-start gap-3 ${i < data.approvalChain.length - 1 ? 'pb-4 relative' : ''}">
-            ${i < data.approvalChain.length - 1 ? '<div class="absolute left-[15px] top-6 bottom-0 w-px bg-gray-100 dark:bg-white/8"></div>' : ''}
+            ${i < data.approvalChain.length - 1 ? '<div class="absolute left-[15px] top-6 bottom-0 w-px bg-gray-200/40 dark:bg-white/[0.07]"></div>' : ''}
             <div class="w-8 h-8 rounded-full ${chainBg[step.status]} flex items-center justify-center shrink-0 z-10">
               <i data-lucide="${chainIcons[step.status]}" class="w-3.5 h-3.5 ${chainColors[step.status]}"></i>
             </div>
@@ -5291,7 +5293,7 @@
       JE: 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400',
       FV: 'bg-teal-50 dark:bg-teal-500/10 text-teal-600 dark:text-teal-400',
       TREASURY: 'bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400',
-      SYSTEM: 'bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400',
+      SYSTEM: 'bg-gray-200/50 dark:bg-white/[0.07] text-gray-500 dark:text-gray-300',
       ALERT: 'bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400',
     };
     const tr = document.createElement('tr');
@@ -5357,7 +5359,7 @@
           <p class="text-xs font-semibold amt-in">${amount.toLocaleString()} ${pool.currency}</p>
           ${netSlug !== '—' ? `<span class="net-chip net-${netSlug} text-[10px]">${pool.network}</span>` : ''}
         </div>
-        <span class="badge bg-gray-100 dark:bg-white/8 text-gray-500 dark:text-gray-400 text-[10px]">
+        <span class="badge bg-gray-200/50 dark:bg-white/[0.07] text-gray-500 dark:text-gray-300 text-[10px]">
           <i data-lucide="clock" class="w-2 h-2"></i> Awaiting
         </span>
       </div>`;
