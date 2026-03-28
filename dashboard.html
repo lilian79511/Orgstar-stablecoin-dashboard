@@ -156,6 +156,36 @@
     .modal-backdrop { position:fixed; inset:0; z-index:50; display:flex; align-items:center; justify-content:center; padding:1rem; background:rgba(0,0,0,0.4); backdrop-filter:blur(4px); }
     .modal-box { background:#fff; border-radius:1rem; box-shadow:0 25px 60px rgba(0,0,0,0.18); border:1px solid rgba(0,0,0,0.06); overflow:hidden; }
     .dark .modal-box { background:#1a1d27; border-color:rgba(255,255,255,0.08); }
+
+    /* ── Sidebar collapsible ── */
+    #app-sidebar { transition: width 0.2s cubic-bezier(0.4,0,0.2,1); }
+    #app-sidebar.sidebar-collapsed { width: 4rem !important; }
+    #app-sidebar.sidebar-collapsed .nav-label,
+    #app-sidebar.sidebar-collapsed .nav-section,
+    #app-sidebar.sidebar-collapsed .nav-badge,
+    #app-sidebar.sidebar-collapsed .sidebar-wordmark,
+    #app-sidebar.sidebar-collapsed .sidebar-user-text { display: none !important; }
+    #app-sidebar.sidebar-collapsed .nav-item { justify-content: center; padding-left: 0; padding-right: 0; }
+    #app-sidebar.sidebar-collapsed nav { padding-left: 0.25rem; padding-right: 0.25rem; }
+    #app-sidebar.sidebar-collapsed .user-btn { justify-content: center; padding-left: 0; padding-right: 0; }
+    #app-sidebar.sidebar-collapsed .logo-row { padding-left: 0.5rem; padding-right: 0.5rem; gap: 0; justify-content: space-between; }
+
+    /* ── Mobile sidebar ── */
+    #sidebar-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 49; backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); display: none; }
+    #sidebar-backdrop.active { display: block; }
+    #mobile-menu-btn { display: none; }
+    @media (max-width: 767px) {
+      #app-sidebar { position: fixed; inset-y: 0; left: 0; width: 14rem !important; z-index: 50; transform: translateX(-100%); transition: transform 0.25s cubic-bezier(0.4,0,0.2,1); box-shadow: none; }
+      #app-sidebar.mobile-open { transform: translateX(0); box-shadow: 4px 0 32px rgba(0,0,0,0.2); }
+      #app-sidebar .nav-label, #app-sidebar .nav-section, #app-sidebar .nav-badge,
+      #app-sidebar .sidebar-wordmark, #app-sidebar .sidebar-user-text { display: revert !important; }
+      #app-sidebar .nav-item { justify-content: flex-start !important; padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+      #app-sidebar nav { padding-left: 0.5rem !important; padding-right: 0.5rem !important; }
+      #app-sidebar .user-btn { justify-content: flex-start !important; padding-left: 0.5rem !important; padding-right: 0.5rem !important; }
+      #app-sidebar .logo-row { padding-left: 1.25rem !important; padding-right: 1.25rem !important; gap: 0.625rem !important; justify-content: flex-start !important; }
+      #sidebar-collapse-btn { display: none !important; }
+      #mobile-menu-btn { display: flex !important; }
+    }
   </style>
 </head>
 
@@ -163,18 +193,24 @@
 
 <div class="flex h-screen overflow-hidden">
 
+  <!-- Mobile sidebar backdrop -->
+  <div id="sidebar-backdrop" onclick="closeMobileSidebar()"></div>
+
   <!-- ═══════════════ SIDEBAR ═══════════════ -->
-  <aside class="sidebar-bg w-56 shrink-0 flex flex-col border-r border-orange-100/70 dark:border-white/5 overflow-y-auto">
+  <aside id="app-sidebar" class="sidebar-bg w-56 shrink-0 flex flex-col border-r border-orange-100/70 dark:border-white/5 overflow-y-auto">
 
     <!-- Logo -->
-    <div class="px-5 py-5 flex items-center gap-2.5">
-      <div class="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center">
+    <div class="px-5 py-5 flex items-center gap-2.5 logo-row">
+      <div class="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center shrink-0">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
           <path d="M8 2L13.5 5.5V10.5L8 14L2.5 10.5V5.5L8 2Z" fill="white" fill-opacity="0.9"/>
           <path d="M8 5L11 6.8V10.2L8 12L5 10.2V6.8L8 5Z" fill="white"/>
         </svg>
       </div>
-      <span class="font-grotesk font-700 text-[15px] tracking-tight text-gray-900 dark:text-white" style="font-weight:700">Orgstar</span>
+      <span class="sidebar-wordmark font-grotesk font-700 text-[15px] tracking-tight text-gray-900 dark:text-white flex-1 truncate" style="font-weight:700">Orgstar</span>
+      <button id="sidebar-collapse-btn" onclick="toggleSidebar()" class="w-6 h-6 flex items-center justify-center rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/8 transition-colors shrink-0" title="Collapse sidebar">
+        <i data-lucide="panel-left-close" class="w-3.5 h-3.5"></i>
+      </button>
     </div>
 
     <!-- Role badge (hidden from UI, label kept for JS role-switching logic) -->
@@ -187,43 +223,43 @@
 
     <!-- Nav -->
     <nav class="flex-1 px-2 space-y-0.5">
-      <p class="px-3 pt-1 pb-1.5 text-[10px] uppercase tracking-widest text-orange-400 dark:text-orange-500/70 font-semibold">Main</p>
+      <p class="nav-section px-3 pt-1 pb-1.5 text-[10px] uppercase tracking-widest text-orange-400 dark:text-orange-500/70 font-semibold">Main</p>
 
-      <button onclick="showPage('dashboard')" id="nav-dashboard" class="nav-item nav-active w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-orange-600 dark:text-orange-400">
-        <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard
+      <button onclick="showPage('dashboard')" id="nav-dashboard" title="Dashboard" class="nav-item nav-active w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-orange-600 dark:text-orange-400">
+        <i data-lucide="layout-dashboard" class="w-4 h-4 shrink-0"></i><span class="nav-label"> Dashboard</span>
       </button>
-      <button onclick="showPage('treasury')" id="nav-treasury" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
-        <i data-lucide="vault" class="w-4 h-4"></i> Treasury
-      </button>
-
-      <p class="px-3 pt-3 pb-1.5 text-[10px] uppercase tracking-widest text-blue-400 dark:text-blue-500/70 font-semibold">Transactions</p>
-
-      <button onclick="showPage('invoices')" id="nav-invoices" class="nav-item hidden w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
-        <i data-lucide="arrow-down-circle" class="w-4 h-4"></i> Payment Links
-        <span class="ml-auto px-1.5 py-0.5 rounded-md bg-orange-100 dark:bg-orange-500/15 text-orange-600 dark:text-orange-400 text-[10px] font-semibold">2</span>
-      </button>
-      <button onclick="showPage('payments')" id="nav-payments" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
-        <i data-lucide="arrow-up-circle" class="w-4 h-4"></i> Bills
-        <span class="ml-auto px-1.5 py-0.5 rounded-md bg-orange-100 dark:bg-orange-500/15 text-orange-600 dark:text-orange-400 text-[10px] font-semibold">1</span>
+      <button onclick="showPage('treasury')" id="nav-treasury" title="Treasury" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
+        <i data-lucide="vault" class="w-4 h-4 shrink-0"></i><span class="nav-label"> Treasury</span>
       </button>
 
-      <p class="px-3 pt-3 pb-1.5 text-[10px] uppercase tracking-widest text-emerald-500/80 dark:text-emerald-500/60 font-semibold">Compliance</p>
+      <p class="nav-section px-3 pt-3 pb-1.5 text-[10px] uppercase tracking-widest text-blue-400 dark:text-blue-500/70 font-semibold">Transactions</p>
 
-      <button onclick="showPage('reconciliation')" id="nav-reconciliation" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
-        <i data-lucide="git-compare-arrows" class="w-4 h-4"></i> Reconciliation
+      <button onclick="showPage('invoices')" id="nav-invoices" title="Payment Links" class="nav-item hidden w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
+        <i data-lucide="arrow-down-circle" class="w-4 h-4 shrink-0"></i><span class="nav-label"> Payment Links</span>
+        <span class="nav-badge ml-auto px-1.5 py-0.5 rounded-md bg-orange-100 dark:bg-orange-500/15 text-orange-600 dark:text-orange-400 text-[10px] font-semibold">2</span>
       </button>
-      <button onclick="showPage('audit')" id="nav-audit" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
-        <i data-lucide="shield-check" class="w-4 h-4"></i> Audit Trail
-      </button>
-      <button onclick="showPage('tax')" id="nav-tax" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
-        <i data-lucide="file-text" class="w-4 h-4"></i> Tax Filing
-        <span class="ml-auto px-1.5 py-0.5 rounded-md bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400 text-[10px] font-semibold">TW</span>
+      <button onclick="showPage('payments')" id="nav-payments" title="Bills" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
+        <i data-lucide="arrow-up-circle" class="w-4 h-4 shrink-0"></i><span class="nav-label"> Bills</span>
+        <span class="nav-badge ml-auto px-1.5 py-0.5 rounded-md bg-orange-100 dark:bg-orange-500/15 text-orange-600 dark:text-orange-400 text-[10px] font-semibold">1</span>
       </button>
 
-      <p class="px-3 pt-3 pb-1.5 text-[10px] uppercase tracking-widest text-gray-400/80 dark:text-gray-500/70 font-semibold">Settings</p>
+      <p class="nav-section px-3 pt-3 pb-1.5 text-[10px] uppercase tracking-widest text-emerald-500/80 dark:text-emerald-500/60 font-semibold">Compliance</p>
 
-      <button onclick="showPage('whitelist')" id="nav-whitelist" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
-        <i data-lucide="list-checks" class="w-4 h-4"></i> Whitelist
+      <button onclick="showPage('reconciliation')" id="nav-reconciliation" title="Reconciliation" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
+        <i data-lucide="git-compare-arrows" class="w-4 h-4 shrink-0"></i><span class="nav-label"> Reconciliation</span>
+      </button>
+      <button onclick="showPage('audit')" id="nav-audit" title="Audit Trail" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
+        <i data-lucide="shield-check" class="w-4 h-4 shrink-0"></i><span class="nav-label"> Audit Trail</span>
+      </button>
+      <button onclick="showPage('tax')" id="nav-tax" title="Tax Filing" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
+        <i data-lucide="file-text" class="w-4 h-4 shrink-0"></i><span class="nav-label"> Tax Filing</span>
+        <span class="nav-badge ml-auto px-1.5 py-0.5 rounded-md bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400 text-[10px] font-semibold">TW</span>
+      </button>
+
+      <p class="nav-section px-3 pt-3 pb-1.5 text-[10px] uppercase tracking-widest text-gray-400/80 dark:text-gray-500/70 font-semibold">Settings</p>
+
+      <button onclick="showPage('whitelist')" id="nav-whitelist" title="Whitelist" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
+        <i data-lucide="list-checks" class="w-4 h-4 shrink-0"></i><span class="nav-label"> Whitelist</span>
       </button>
     </nav>
 
@@ -280,16 +316,16 @@
       </div>
 
       <!-- User card trigger -->
-      <button onclick="toggleRolePopover()" class="w-full flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 cursor-pointer transition-colors">
+      <button onclick="toggleRolePopover()" class="user-btn w-full flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 cursor-pointer transition-colors">
         <div id="user-avatar" class="w-7 h-7 rounded-full bg-orange-500 flex items-center justify-center text-white text-[11px] font-semibold shrink-0">LC</div>
-        <div class="min-w-0 flex-1 text-left">
+        <div class="sidebar-user-text min-w-0 flex-1 text-left">
           <p id="user-name" class="text-xs font-medium text-gray-800 dark:text-gray-200 truncate">陳琳達</p>
           <div class="flex items-center gap-1.5 mt-0.5">
             <span id="user-role-dot" class="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0"></span>
             <span id="user-role-label" class="text-[10px] text-gray-400 truncate">Finance Specialist</span>
           </div>
         </div>
-        <i data-lucide="chevron-up-down" class="w-3.5 h-3.5 text-gray-400 shrink-0"></i>
+        <i data-lucide="chevron-up-down" class="sidebar-user-text w-3.5 h-3.5 text-gray-400 shrink-0"></i>
       </button>
     </div>
   </aside>
@@ -298,7 +334,11 @@
   <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
 
     <!-- Top Bar -->
-    <header class="h-14 shrink-0 bg-white dark:bg-[#13161e] border-b border-gray-100 dark:border-white/5 flex items-center px-6 gap-4">
+    <header class="h-14 shrink-0 bg-white dark:bg-[#13161e] border-b border-gray-100 dark:border-white/5 flex items-center px-4 md:px-6 gap-3 md:gap-4">
+      <!-- Mobile hamburger -->
+      <button id="mobile-menu-btn" onclick="openMobileSidebar()" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-white/8 transition-colors text-gray-500 dark:text-gray-400">
+        <i data-lucide="menu" class="w-4 h-4"></i>
+      </button>
       <h1 id="pageTitle" class="font-grotesk font-semibold text-base text-gray-900 dark:text-white flex-1">Nexora Technology Co., Ltd.</h1>
 
       <!-- Alert bell -->
@@ -3359,7 +3399,35 @@
       }
     });
     document.getElementById('pageTitle').textContent = titles[name] || name;
+    closeMobileSidebar();
     lucide.createIcons();
+  }
+
+  // ── Sidebar collapse ──
+  function toggleSidebar() {
+    const sidebar = document.getElementById('app-sidebar');
+    const collapsed = sidebar.classList.toggle('sidebar-collapsed');
+    const btn = document.getElementById('sidebar-collapse-btn');
+    if (btn) {
+      const icon = btn.querySelector('[data-lucide]');
+      if (icon) {
+        icon.setAttribute('data-lucide', collapsed ? 'panel-left-open' : 'panel-left-close');
+        lucide.createIcons();
+      }
+      btn.title = collapsed ? 'Expand sidebar' : 'Collapse sidebar';
+    }
+  }
+
+  // ── Mobile sidebar ──
+  function openMobileSidebar() {
+    document.getElementById('app-sidebar').classList.add('mobile-open');
+    document.getElementById('sidebar-backdrop').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMobileSidebar() {
+    document.getElementById('app-sidebar').classList.remove('mobile-open');
+    document.getElementById('sidebar-backdrop').classList.remove('active');
+    document.body.style.overflow = '';
   }
 
   // ── Role system ──
