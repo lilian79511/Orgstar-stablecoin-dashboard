@@ -378,7 +378,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
           <!-- Treasury Total -->
-          <div class="card card-top-orange bg-white dark:bg-[#1a1d27] p-4 flex flex-col">
+          <div class="card bg-white dark:bg-[#1a1d27] p-4 flex flex-col">
             <div class="flex items-center justify-between">
               <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">Treasury Total</span>
               <div class="w-7 h-7 rounded-lg bg-orange-50 dark:bg-orange-500/10 flex items-center justify-center">
@@ -411,7 +411,7 @@
           </div>
 
           <!-- Pending Bills (AP) -->
-          <div class="card card-top-violet bg-white dark:bg-[#1a1d27] p-4 flex flex-col">
+          <div class="card bg-white dark:bg-[#1a1d27] p-4 flex flex-col">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">Pending Bills</span>
@@ -422,29 +422,29 @@
               </div>
             </div>
             <!-- Inline list -->
-            <div class="mt-2 flex-1 divide-y divide-gray-50 dark:divide-white/4">
-              <div onclick="openApprovalDrawer('PAY-20260318-001')" class="flex items-center justify-between px-0 py-1.5 hover:bg-gray-50/60 dark:hover:bg-white/3 rounded-lg cursor-pointer transition-colors">
+            <div class="mt-2 flex-1 divide-y divide-gray-100/60 dark:divide-white/[0.04]">
+              <div onclick="openApprovalDrawer('PAY-20260318-001')" class="flex items-center justify-between px-0 py-1.5 hover:bg-gray-50/60 dark:hover:bg-white/3 rounded-none cursor-pointer transition-colors">
                 <div class="flex-1 min-w-0">
                   <p class="text-[11px] font-mono text-gray-400 truncate">PAY-20260318-001</p>
                   <p class="text-xs font-medium text-gray-800 dark:text-gray-200 truncate">Vendor Inc · 30,000 USDC</p>
                 </div>
                 <span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 shrink-0 ml-2">Pending Mgr</span>
               </div>
-              <div onclick="openApprovalDrawer('PAY-20260316-002')" class="flex items-center justify-between px-0 py-1.5 hover:bg-gray-50/60 dark:hover:bg-white/3 rounded-lg cursor-pointer transition-colors">
+              <div onclick="openApprovalDrawer('PAY-20260316-002')" class="flex items-center justify-between px-0 py-1.5 hover:bg-gray-50/60 dark:hover:bg-white/3 rounded-none cursor-pointer transition-colors">
                 <div class="flex-1 min-w-0">
                   <p class="text-[11px] font-mono text-gray-400 truncate">PAY-20260316-002</p>
                   <p class="text-xs font-medium text-gray-800 dark:text-gray-200 truncate">Shenzhen Parts · 75,000 USDT</p>
                 </div>
                 <span class="badge bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-400 shrink-0 ml-2">Pending CFO</span>
               </div>
-              <div onclick="openApprovalDrawer('PAY-20260315-003')" class="flex items-center justify-between px-0 py-1.5 hover:bg-gray-50/60 dark:hover:bg-white/3 rounded-lg cursor-pointer transition-colors">
+              <div onclick="openApprovalDrawer('PAY-20260315-003')" class="flex items-center justify-between px-0 py-1.5 hover:bg-gray-50/60 dark:hover:bg-white/3 rounded-none cursor-pointer transition-colors">
                 <div class="flex-1 min-w-0">
                   <p class="text-[11px] font-mono text-gray-400 truncate">PAY-20260315-003</p>
                   <p class="text-xs font-medium text-gray-800 dark:text-gray-200 truncate">Global Imports · 120,000 USDC</p>
                 </div>
                 <span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 shrink-0 ml-2">Pending Mgr</span>
               </div>
-              <div onclick="openApprovalDrawer('PAY-20260313-004')" class="flex items-center justify-between px-0 py-1.5 hover:bg-gray-50/60 dark:hover:bg-white/3 rounded-lg cursor-pointer transition-colors">
+              <div onclick="openApprovalDrawer('PAY-20260313-004')" class="flex items-center justify-between px-0 py-1.5 hover:bg-gray-50/60 dark:hover:bg-white/3 rounded-none cursor-pointer transition-colors">
                 <div class="flex-1 min-w-0">
                   <p class="text-[11px] font-mono text-gray-400 truncate">PAY-20260313-004</p>
                   <p class="text-xs font-medium text-gray-800 dark:text-gray-200 truncate">SaaS Corp · 5,000 USDT</p>
@@ -463,7 +463,7 @@
           </div>
 
           <!-- Reconciliation -->
-          <div class="card card-top-red bg-white dark:bg-[#1a1d27] p-4 flex flex-col">
+          <div class="card bg-white dark:bg-[#1a1d27] p-4 flex flex-col">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">Reconciliation</span>
@@ -474,22 +474,22 @@
               </div>
             </div>
             <!-- Inline list -->
-            <div class="mt-2 flex-1 divide-y divide-gray-50 dark:divide-white/4">
-              <div onclick="showPage('reconciliation')" class="flex items-center justify-between px-0 py-1.5 hover:bg-gray-50/60 dark:hover:bg-white/3 rounded-lg cursor-pointer transition-colors">
+            <div class="mt-2 flex-1 divide-y divide-gray-100/60 dark:divide-white/[0.04]">
+              <div onclick="showPage('reconciliation')" class="flex items-center justify-between px-0 py-1.5 hover:bg-gray-50/60 dark:hover:bg-white/3 rounded-none cursor-pointer transition-colors">
                 <div class="flex-1 min-w-0">
                   <p class="text-[11px] font-mono text-gray-400 truncate">0x7f3a…c91e</p>
                   <p class="text-xs font-medium text-gray-800 dark:text-gray-200 truncate">+4,900 USDC · Expected 5,000</p>
                 </div>
                 <span class="badge bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-400 shrink-0 ml-2">Discrepancy</span>
               </div>
-              <div onclick="showPage('reconciliation')" class="flex items-center justify-between px-0 py-1.5 hover:bg-gray-50/60 dark:hover:bg-white/3 rounded-lg cursor-pointer transition-colors">
+              <div onclick="showPage('reconciliation')" class="flex items-center justify-between px-0 py-1.5 hover:bg-gray-50/60 dark:hover:bg-white/3 rounded-none cursor-pointer transition-colors">
                 <div class="flex-1 min-w-0">
                   <p class="text-[11px] font-mono text-gray-400 truncate">0xb2d1…44fa</p>
                   <p class="text-xs font-medium text-gray-800 dark:text-gray-200 truncate">+8,200 USDC</p>
                 </div>
                 <span class="badge bg-gray-100 dark:bg-white/8 text-gray-600 dark:text-gray-400 shrink-0 ml-2">No Match</span>
               </div>
-              <div onclick="showPage('reconciliation')" class="flex items-center justify-between px-0 py-1.5 hover:bg-gray-50/60 dark:hover:bg-white/3 rounded-lg cursor-pointer transition-colors">
+              <div onclick="showPage('reconciliation')" class="flex items-center justify-between px-0 py-1.5 hover:bg-gray-50/60 dark:hover:bg-white/3 rounded-none cursor-pointer transition-colors">
                 <div class="flex-1 min-w-0">
                   <p class="text-[11px] font-mono text-gray-400 truncate">TQsun…rise9</p>
                   <p class="text-xs font-medium text-gray-800 dark:text-gray-200 truncate">+15,000 USDT</p>
