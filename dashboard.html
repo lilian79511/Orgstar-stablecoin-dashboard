@@ -237,8 +237,8 @@
 
       <p class="nav-section px-3 pt-3 pb-1.5 text-[10px] uppercase tracking-widest text-blue-400 dark:text-blue-500/70 font-semibold">Transactions</p>
 
-      <button onclick="showPage('invoices')" id="nav-invoices" title="Payment Links" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
-        <i data-lucide="arrow-down-circle" class="w-4 h-4 shrink-0"></i><span class="nav-label"> Payment Links</span>
+      <button onclick="showPage('invoices')" id="nav-invoices" title="Invoice" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
+        <i data-lucide="arrow-down-circle" class="w-4 h-4 shrink-0"></i><span class="nav-label"> Invoice</span>
         <span class="nav-badge ml-auto px-1.5 py-0.5 rounded-md bg-orange-100 dark:bg-orange-500/15 text-orange-600 dark:text-orange-400 text-[10px] font-semibold">2</span>
       </button>
       <button onclick="showPage('payments')" id="nav-payments" title="Approve Payments" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
@@ -251,19 +251,24 @@
       <button onclick="showPage('reconciliation')" id="nav-reconciliation" title="Reconciliation" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
         <i data-lucide="git-compare-arrows" class="w-4 h-4 shrink-0"></i><span class="nav-label"> Reconciliation</span>
       </button>
-      <button onclick="showPage('audit')" id="nav-audit" title="Audit Trail" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
-        <i data-lucide="shield-check" class="w-4 h-4 shrink-0"></i><span class="nav-label"> Audit Trail</span>
-      </button>
-      <button onclick="showPage('tax')" id="nav-tax" title="Tax Filing" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
-        <i data-lucide="file-text" class="w-4 h-4 shrink-0"></i><span class="nav-label"> Tax Filing</span>
-        <span class="nav-badge ml-auto px-1.5 py-0.5 rounded-md bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400 text-[10px] font-semibold">TW</span>
-      </button>
 
-      <p class="nav-section px-3 pt-3 pb-1.5 text-[10px] uppercase tracking-widest text-gray-400/80 dark:text-gray-500/70 font-semibold">Settings</p>
-
-      <button onclick="showPage('whitelist')" id="nav-whitelist" title="Whitelist" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
-        <i data-lucide="list-checks" class="w-4 h-4 shrink-0"></i><span class="nav-label"> Whitelist</span>
+      <!-- Coming Soon accordion -->
+      <button onclick="toggleComingSoon()" id="nav-coming-soon-toggle" class="nav-section nav-label w-full flex items-center justify-between px-3 pt-3 pb-1.5 text-[10px] uppercase tracking-widest text-gray-400/80 dark:text-gray-500/70 font-semibold hover:text-gray-600 dark:hover:text-gray-400 transition-colors">
+        <span>Coming Soon</span>
+        <i data-lucide="chevron-down" id="coming-soon-chevron" class="w-3 h-3 transition-transform duration-200"></i>
       </button>
+      <div id="coming-soon-items" class="hidden space-y-0.5">
+        <button onclick="showPage('audit')" id="nav-audit" title="Audit Trail" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
+          <i data-lucide="shield-check" class="w-4 h-4 shrink-0"></i><span class="nav-label"> Audit Trail</span>
+        </button>
+        <button onclick="showPage('tax')" id="nav-tax" title="Tax Filing" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
+          <i data-lucide="file-text" class="w-4 h-4 shrink-0"></i><span class="nav-label"> Tax Filing</span>
+          <span class="nav-badge ml-auto px-1.5 py-0.5 rounded-md bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400 text-[10px] font-semibold">TW</span>
+        </button>
+        <button onclick="showPage('whitelist')" id="nav-whitelist" title="Whitelist" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
+          <i data-lucide="list-checks" class="w-4 h-4 shrink-0"></i><span class="nav-label"> Whitelist</span>
+        </button>
+      </div>
     </nav>
 
     <!-- User + Role Switcher -->
@@ -943,7 +948,7 @@
               <i data-lucide="upload" class="w-4 h-4"></i> Import ERP / CSV
             </button>
             <button onclick="openModal('invoice')" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium transition-colors">
-              <i data-lucide="arrow-down-circle" class="w-4 h-4"></i> Generate Link
+              <i data-lucide="plus" class="w-4 h-4"></i> Generate Invoice
             </button>
           </div>
         </div>
@@ -2539,7 +2544,7 @@
       <div class="flex gap-3 pt-1">
         <button type="button" onclick="closeModal('invoice')" class="flex-1 px-4 py-2.5 rounded-lg border border-gray-200 dark:border-white/10 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Cancel</button>
         <button type="submit" class="flex-1 px-4 py-2.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium transition-colors flex items-center justify-center gap-2">
-          <i data-lucide="arrow-down-circle" class="w-4 h-4"></i> Generate Link
+          <i data-lucide="plus" class="w-4 h-4"></i> Generate Invoice
         </button>
       </div>
     </form>
@@ -3486,6 +3491,14 @@
     document.getElementById('app-sidebar').classList.remove('mobile-open');
     document.getElementById('sidebar-backdrop').classList.remove('active');
     document.body.style.overflow = '';
+  }
+
+  // ── Coming Soon accordion ──
+  function toggleComingSoon() {
+    const items = document.getElementById('coming-soon-items');
+    const chevron = document.getElementById('coming-soon-chevron');
+    const open = items.classList.toggle('hidden');
+    chevron.style.transform = open ? '' : 'rotate(180deg)';
   }
 
   // ── Role system ──
