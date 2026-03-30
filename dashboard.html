@@ -241,8 +241,8 @@
         <i data-lucide="arrow-down-circle" class="w-4 h-4 shrink-0"></i><span class="nav-label"> Payment Links</span>
         <span class="nav-badge ml-auto px-1.5 py-0.5 rounded-md bg-orange-100 dark:bg-orange-500/15 text-orange-600 dark:text-orange-400 text-[10px] font-semibold">2</span>
       </button>
-      <button onclick="showPage('payments')" id="nav-payments" title="Bills" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
-        <i data-lucide="arrow-up-circle" class="w-4 h-4 shrink-0"></i><span class="nav-label"> Bills</span>
+      <button onclick="showPage('payments')" id="nav-payments" title="Approve Payments" class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors">
+        <i data-lucide="arrow-up-circle" class="w-4 h-4 shrink-0"></i><span class="nav-label"> Approve Payments</span>
         <span class="nav-badge ml-auto px-1.5 py-0.5 rounded-md bg-orange-100 dark:bg-orange-500/15 text-orange-600 dark:text-orange-400 text-[10px] font-semibold">1</span>
       </button>
 
@@ -891,7 +891,7 @@
                   <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400">INV-20260316-003</td>
                   <td class="px-5 py-3.5 text-xs text-gray-700 dark:text-gray-300">Sunrise Imports</td>
                   <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-in">+4,900</p><span class="pool-tag pool-eth"><span class="pool-dot pool-dot-eth"></span>USDC</span></td>
-                  <td class="px-5 py-3.5"><span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400"><i data-lucide="circle-half-stroke" class="w-2.5 h-2.5"></i> Partially Matched</span></td>
+                  <td class="px-5 py-3.5"><span class="badge bg-amber-50 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400"><i data-lucide="split" class="w-2.5 h-2.5"></i> Partially Matched</span></td>
                   <td class="px-5 py-3.5 text-xs text-gray-400">Mar 16, 2026</td>
                   <td class="px-5 py-3.5 text-right"></td>
                 </tr>
@@ -1027,7 +1027,7 @@
       <div id="page-payments" class="page hidden p-6 space-y-5">
         <div class="flex items-center justify-between">
           <div>
-            <h2 class="font-grotesk font-semibold text-lg text-gray-900 dark:text-white">Bills</h2>
+            <h2 class="font-grotesk font-semibold text-lg text-gray-900 dark:text-white">Approve Payments</h2>
             <p class="text-xs text-gray-400 mt-0.5">Outbound payments and approval status</p>
           </div>
           <button onclick="openModal('payment')" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium transition-colors">
@@ -1947,7 +1947,7 @@
                     <td class="px-5 py-3.5"><p class="text-sm font-medium text-gray-800 dark:text-gray-200">Sunrise Imports</p><p class="text-[10px] text-gray-400">Q1 Merchandise</p></td>
                     <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold text-amber-600 dark:text-amber-400">4,900 <span class="text-[10px] font-normal text-gray-400">/ 5,000</span></p><span class="pool-tag pool-eth"><span class="pool-dot pool-dot-eth"></span>USDC</span></td>
                     <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Mar 28, 2026</td>
-                    <td class="px-5 py-3.5"><span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400"><i data-lucide="circle-half-stroke" class="w-2.5 h-2.5"></i> Partial</span></td>
+                    <td class="px-5 py-3.5"><span class="badge bg-amber-50 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400"><i data-lucide="split" class="w-2.5 h-2.5"></i> Partial</span></td>
                     <td class="px-5 py-3.5 text-right"><button onclick="event.stopPropagation();openDrawer('INV-20260316-003')" class="text-xs text-orange-500 hover:text-orange-600 font-medium">Review</button></td>
                   </tr>
                   <tr class="hover:bg-gray-100/40 dark:hover:bg-white/[0.05] transition-colors cursor-pointer" data-inv-status="pending" onclick="openDrawer('INV-20260322-004')">
@@ -2999,17 +2999,17 @@
 
       <!-- Financial breakdown grid -->
       <div class="rounded-xl border border-gray-100 dark:border-white/8 overflow-hidden">
-        <div class="bg-gray-50 dark:bg-white/4 px-4 py-2.5">
+        <div class="bg-gray-100/70 dark:bg-white/[0.06] px-4 py-2.5 border-b border-gray-100 dark:border-white/8">
           <p class="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Financial Breakdown</p>
         </div>
-        <div id="receipt-breakdown" class="divide-y divide-gray-50 dark:divide-white/5">
+        <div id="receipt-breakdown" class="divide-y divide-gray-100 dark:divide-white/8">
         </div>
       </div>
 
       <!-- Tx hash -->
       <div class="space-y-1">
         <p class="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Transaction Hash</p>
-        <p id="receipt-tx-hash" class="font-mono text-[11px] text-gray-600 dark:text-gray-300 break-all bg-gray-50 dark:bg-white/4 rounded-lg px-3 py-2"></p>
+        <p id="receipt-tx-hash" class="font-mono text-[11px] text-gray-600 dark:text-gray-300 break-all bg-gray-100/70 dark:bg-white/[0.06] rounded-lg px-3 py-2"></p>
       </div>
 
       <!-- Memo -->
@@ -5504,8 +5504,8 @@
       const btn = document.getElementById('rtab-' + t);
       const panel = document.getElementById('rtab-content-' + t);
       if (btn) btn.className = (t === name)
-        ? 'px-4 py-2.5 text-sm font-medium border-b-2 border-orange-500 text-orange-600 dark:text-orange-400 transition-colors whitespace-nowrap flex items-center gap-1.5'
-        : 'px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors whitespace-nowrap flex items-center gap-1.5';
+        ? 'px-4 py-2.5 text-sm font-medium border-b-2 border-orange-500 text-orange-600 dark:text-orange-400 transition-colors whitespace-nowrap flex items-center gap-1.5 -mb-px'
+        : 'px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors whitespace-nowrap flex items-center gap-1.5 -mb-px';
       if (panel) panel.classList.toggle('hidden', t !== name);
     });
   }
@@ -5533,7 +5533,7 @@
     matchedRow.className = 'hover:bg-gray-100/40 dark:hover:bg-white/[0.05] transition-colors';
     const dateStr2 = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
     const statusBadge = isPartial
-      ? `<span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400"><i data-lucide="circle-half-stroke" class="w-2.5 h-2.5"></i> Partial</span>`
+      ? `<span class="badge bg-amber-50 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400"><i data-lucide="split" class="w-2.5 h-2.5"></i> Partial</span>`
       : `<span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"><i data-lucide="check-circle-2" class="w-2.5 h-2.5"></i> Confirmed</span>`;
     const receivedDisplay = isPartial
       ? `<p class="text-sm font-semibold text-amber-600 dark:text-amber-400">${amount.toLocaleString()}</p><p class="text-[10px] text-red-400">Short −${shortfall} ${currency}</p>`
