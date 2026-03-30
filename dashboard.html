@@ -154,6 +154,12 @@
     .dark .filter-select:hover { background:rgba(255,255,255,0.08); }
     .filter-select::-webkit-calendar-picker-indicator { cursor:pointer; opacity:0.5; }
     .dark .filter-select::-webkit-calendar-picker-indicator { filter:invert(1); opacity:0.35; cursor:pointer; }
+    /* ── Form selects — custom chevron icon at 8px from right border ── */
+    select:not(.filter-select) { -webkit-appearance:none; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 8px center; padding-right:2rem !important; }
+    .dark select:not(.filter-select) { background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23d1d5db' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); }
+    /* ── Date inputs — calendar icon at 8px from right border ── */
+    input[type="date"]:not(.filter-select)::-webkit-calendar-picker-indicator { cursor:pointer; opacity:0.5; margin-right:8px; }
+    .dark input[type="date"]:not(.filter-select)::-webkit-calendar-picker-indicator { filter:invert(1); opacity:0.5; cursor:pointer; margin-right:8px; }
 
     /* ── Modal backdrop / box ── */
     .modal-backdrop { position:fixed; inset:0; z-index:50; display:flex; align-items:center; justify-content:center; padding:1rem; background:rgba(0,0,0,0.4); backdrop-filter:blur(4px); }
@@ -2473,14 +2479,14 @@
 
       <!-- GST + Gas fee toggles -->
       <div class="grid grid-cols-2 gap-3">
-        <label class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 cursor-pointer hover:border-orange-300 dark:hover:border-orange-500/40 transition-colors">
+        <label class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] cursor-pointer hover:border-orange-300 dark:hover:border-orange-500/40 transition-colors">
           <input id="inv-gst" type="checkbox" class="w-4 h-4 accent-orange-500 shrink-0" />
           <div>
             <p class="text-xs font-medium text-gray-700 dark:text-gray-300">Incl. GST</p>
             <p class="text-[10px] text-gray-400">Amount includes tax</p>
           </div>
         </label>
-        <label class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 cursor-pointer hover:border-orange-300 dark:hover:border-orange-500/40 transition-colors">
+        <label class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.04] cursor-pointer hover:border-orange-300 dark:hover:border-orange-500/40 transition-colors">
           <input id="inv-gasfee" type="checkbox" class="w-4 h-4 accent-orange-500 shrink-0" />
           <div>
             <p class="text-xs font-medium text-gray-700 dark:text-gray-300">Gas fee incl.</p>
