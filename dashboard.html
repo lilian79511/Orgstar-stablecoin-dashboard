@@ -5973,7 +5973,7 @@
 
 <!-- ══════════ ONBOARDING MODAL ══════════ -->
 <div id="modal-onboarding" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4">
-  <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+  <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" id="ob-backdrop"></div>
   <div class="relative w-full max-w-md bg-white dark:bg-[#1a1d27] rounded-2xl shadow-2xl border border-gray-100 dark:border-white/8 overflow-hidden">
 
     <!-- Header -->
@@ -6008,8 +6008,7 @@
         <p class="text-[10px] text-gray-400">Supports Ethereum, Tron, Polygon, and Solana addresses.</p>
       </div>
       <div class="flex gap-2 pt-1">
-        <button onclick="finishOnboarding()" class="px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 text-xs font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Skip for now</button>
-        <button onclick="obStep1Next()" class="flex-1 px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold transition-colors flex items-center justify-center gap-2">
+        <button onclick="obStep1Next()" class="w-full px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold transition-colors flex items-center justify-center gap-2">
           Continue <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
         </button>
       </div>
