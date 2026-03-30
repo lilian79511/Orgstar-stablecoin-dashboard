@@ -1527,6 +1527,10 @@
             Matched
             <span id="matched-count-badge" class="px-1.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 text-[10px] font-semibold">1</span>
           </button>
+          <button onclick="switchReconTab('bills')" id="rtab-bills"
+            class="px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors whitespace-nowrap flex items-center gap-1.5 -mb-px">
+            Bills
+          </button>
         </div>
 
         <!-- ═══ TAB: RECONCILE ═══ -->
@@ -2078,6 +2082,57 @@
 
         <!-- ═══ Spacer for old panel refs ═══ (keep for JS compat) -->
         <div id="matched-pairs" class="hidden"></div>
+
+        <!-- ═══ TAB: BILLS ═══ -->
+        <div id="rtab-content-bills" class="hidden">
+          <div class="card bg-white dark:bg-[#1a1d27] overflow-hidden">
+            <div class="px-5 py-3.5 border-b border-gray-50 dark:border-white/5 flex items-center gap-2">
+              <i data-lucide="arrow-up-circle" class="w-4 h-4 text-violet-500"></i>
+              <h3 class="font-grotesk text-sm font-semibold text-gray-900 dark:text-white flex-1">Paid Bills</h3>
+              <p class="text-[10px] text-gray-400">Completed payments — link on-chain transactions to reconcile</p>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full min-w-[640px]">
+                <thead class="border-b border-gray-50 dark:border-white/5">
+                  <tr>
+                    <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Date</th>
+                    <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">ID</th>
+                    <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Payee</th>
+                    <th class="px-5 py-3 text-right text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Amount</th>
+                    <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Purpose</th>
+                    <th class="px-5 py-3 text-left text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Match Status</th>
+                    <th class="px-5 py-3"></th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100/60 dark:divide-white/[0.04]">
+
+                  <!-- AWS Services — has a suggested match in reconcile -->
+                  <tr class="hover:bg-gray-100/40 dark:hover:bg-white/[0.05] transition-colors cursor-pointer" onclick="openApprovalDrawer('PAY-20260310-007')">
+                    <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 10, 2026</td>
+                    <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260310-007</td>
+                    <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">AWS Services</td>
+                    <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">2,200</p><span class="pool-tag pool-eth"><span class="pool-dot pool-dot-eth"></span>USDC</span></td>
+                    <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Cloud Infrastructure</td>
+                    <td class="px-5 py-3.5"><span class="badge bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400"><i data-lucide="zap" class="w-2.5 h-2.5"></i> Suggested</span></td>
+                    <td class="px-5 py-3.5 text-right"><button onclick="event.stopPropagation();switchReconTab('reconcile')" class="text-xs text-orange-500 hover:text-orange-600 font-medium">Reconcile</button></td>
+                  </tr>
+
+                  <!-- Office Depot — no transaction linked -->
+                  <tr class="hover:bg-gray-100/40 dark:hover:bg-white/[0.05] transition-colors cursor-pointer" onclick="openApprovalDrawer('PAY-20260314-006')">
+                    <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">Mar 14, 2026</td>
+                    <td class="px-5 py-3.5 text-xs font-mono text-gray-600 dark:text-gray-400 whitespace-nowrap">PAY-20260314-006</td>
+                    <td class="px-5 py-3.5 text-sm font-medium text-gray-800 dark:text-gray-200">Office Depot</td>
+                    <td class="px-5 py-3.5 text-right"><p class="text-sm font-semibold amt-out">450</p><span class="pool-tag pool-eth"><span class="pool-dot pool-dot-eth"></span>USDC</span></td>
+                    <td class="px-5 py-3.5 text-xs text-gray-500 dark:text-gray-400">Office Supplies</td>
+                    <td class="px-5 py-3.5"><span class="badge bg-gray-200/50 dark:bg-white/[0.07] text-gray-500 dark:text-gray-300"><i data-lucide="link-2-off" class="w-2.5 h-2.5"></i> Unmatched</span></td>
+                    <td class="px-5 py-3.5 text-right"><button onclick="event.stopPropagation();switchReconTab('reconcile')" class="text-xs text-orange-500 hover:text-orange-600 font-medium">Reconcile</button></td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
 
       </div><!-- /reconciliation -->
 
@@ -5500,7 +5555,7 @@
 
   // ── Reconciliation tab switching ──
   function switchReconTab(name) {
-    ['reconcile','invoice','transactions','matched'].forEach(t => {
+    ['reconcile','invoice','transactions','matched','bills'].forEach(t => {
       const btn = document.getElementById('rtab-' + t);
       const panel = document.getElementById('rtab-content-' + t);
       if (btn) btn.className = (t === name)
