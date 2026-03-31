@@ -1608,10 +1608,7 @@
                       <p class="text-sm font-semibold text-gray-900 dark:text-white mt-0.5">Acme Corp</p>
                       <p class="text-xs text-gray-400 mt-0.5">Due Apr 1, 2026</p>
                     </div>
-                    <div class="text-right">
-                      <p class="text-sm font-semibold amt-in">5,000 <span class="font-normal text-gray-400 text-xs">USDC</span></p>
-                      <span class="badge bg-gray-200/50 dark:bg-white/[0.07] text-gray-500 dark:text-gray-300 text-[10px] mt-1"><i data-lucide="clock" class="w-2 h-2"></i> Awaiting</span>
-                    </div>
+                    <p class="text-sm font-semibold amt-in">5,000 <span class="font-normal text-gray-400 text-xs">USDC</span></p>
                   </div>
                 </div>
                 <!-- Right: Transaction -->
@@ -1623,7 +1620,7 @@
                   <div class="flex items-start justify-between">
                     <div>
                       <p class="text-[11px] font-mono text-gray-500 dark:text-gray-400 truncate max-w-[200px]" title="0x5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f">0x5e6f7a8b9c0d1e2f…</p>
-                      <p class="text-[10px] text-gray-400 mt-0.5">Mar 18 · 14:20 UTC</p>
+                      <p class="text-xs text-gray-400 mt-0.5">Mar 18 · 14:20 UTC</p>
                     </div>
                     <p class="text-sm font-semibold amt-in">+5,000 <span class="font-normal text-gray-400 text-xs">USDC</span></p>
                   </div>
@@ -1651,10 +1648,7 @@
                       <p class="text-sm font-semibold text-gray-900 dark:text-white mt-0.5">Sunrise Imports</p>
                       <p class="text-xs text-gray-400 mt-0.5">Due Mar 28, 2026</p>
                     </div>
-                    <div class="text-right">
-                      <p class="text-sm font-semibold amt-in">5,000 <span class="font-normal text-gray-400 text-xs">USDC</span></p>
-                      <span class="badge bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 text-[10px] mt-1"><i data-lucide="alert-triangle" class="w-2 h-2"></i> Short</span>
-                    </div>
+                    <p class="text-sm font-semibold amt-in">5,000 <span class="font-normal text-gray-400 text-xs">USDC</span></p>
                   </div>
                 </div>
                 <div class="p-5 space-y-2 cursor-pointer hover:bg-blue-50/20 dark:hover:bg-blue-500/4 transition-colors" id="pair-sunrise-tx" onclick="openReconTxDrawer('0x9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b',4900,'USDC','eth','Mar 16, 2026 · 11:02 UTC','19,489,201','1.5')">
@@ -1665,7 +1659,7 @@
                   <div class="flex items-start justify-between">
                     <div>
                       <p class="text-[11px] font-mono text-gray-500 dark:text-gray-400 truncate max-w-[200px]">0x9a8b7c6d5e4f3a2b…</p>
-                      <p class="text-[10px] text-gray-400 mt-0.5">Mar 16 · 11:02 UTC</p>
+                      <p class="text-xs text-gray-400 mt-0.5">Mar 16 · 11:02 UTC</p>
                     </div>
                     <p class="text-sm font-semibold text-amber-600 dark:text-amber-400">+4,900 <span class="font-normal text-gray-400 text-xs">USDC</span></p>
                   </div>
@@ -1755,7 +1749,7 @@
                   <div class="flex items-start justify-between">
                     <div>
                       <p class="text-[11px] font-mono text-gray-500 dark:text-gray-400 truncate max-w-[200px]">0xb2d144fa…</p>
-                      <p class="text-[10px] text-gray-400 mt-0.5">Mar 20 · 09:15 UTC</p>
+                      <p class="text-xs text-gray-400 mt-0.5">Mar 20 · 09:15 UTC</p>
                     </div>
                     <p class="text-sm font-semibold amt-in">+8,200 <span class="font-normal text-gray-400 text-xs">USDC</span></p>
                   </div>
@@ -1782,16 +1776,13 @@
                       <p class="text-sm font-semibold text-gray-900 dark:text-white mt-0.5">Delta Components</p>
                       <p class="text-xs text-gray-400 mt-0.5">Due Apr 5, 2026</p>
                     </div>
-                    <div class="text-right">
-                      <p class="text-sm font-semibold amt-in">3,500 <span class="font-normal text-gray-400 text-xs">USDT</span></p>
-                      <span class="badge bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px] mt-1"><i data-lucide="clock" class="w-2 h-2"></i> Pending</span>
-                    </div>
+                    <p class="text-sm font-semibold amt-in">3,500 <span class="font-normal text-gray-400 text-xs">USDT</span></p>
                   </div>
                 </div>
                 <!-- Right: No transaction -->
                 <div class="p-5 flex flex-col items-center justify-center min-h-[120px] text-center bg-gray-50/40 dark:bg-white/[0.06] space-y-3" id="pair-no-tx-tx">
                   <div class="w-9 h-9 rounded-full bg-gray-200/50 dark:bg-white/[0.07] flex items-center justify-center">
-                    <i data-lucide="wifi-off" class="w-4 h-4 text-gray-400"></i>
+                    <i data-lucide="search-x" class="w-4 h-4 text-gray-400"></i>
                   </div>
                   <p class="text-xs text-gray-400">No transaction detected</p>
                   <button onclick="openChangeTxModal('pair-no-tx')" class="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 text-xs font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center gap-1.5">
@@ -1818,12 +1809,9 @@
                     <div>
                       <p class="text-[10px] font-mono text-gray-400">PAY-20260310-007</p>
                       <p class="text-sm font-semibold text-gray-900 dark:text-white mt-0.5">AWS Services</p>
-                      <p class="text-xs text-gray-400 mt-0.5">Cloud Infrastructure · Paid Mar 10</p>
+                      <p class="text-xs text-gray-400 mt-0.5">Cloud Infrastructure</p>
                     </div>
-                    <div class="text-right">
-                      <p class="text-sm font-semibold amt-out">2,200 <span class="font-normal text-gray-400 text-xs">USDC</span></p>
-                      <span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-[10px] mt-1"><i data-lucide="check-circle-2" class="w-2 h-2"></i> Paid</span>
-                    </div>
+                    <p class="text-sm font-semibold amt-out">2,200 <span class="font-normal text-gray-400 text-xs">USDC</span></p>
                   </div>
                 </div>
                 <!-- Right: Outgoing Transaction -->
@@ -1835,7 +1823,7 @@
                   <div class="flex items-start justify-between">
                     <div>
                       <p class="text-[11px] font-mono text-gray-500 dark:text-gray-400 truncate max-w-[200px]">0xa1b2c3d4e5f6a7b8…</p>
-                      <p class="text-[10px] text-gray-400 mt-0.5">Mar 10 · 16:06 UTC</p>
+                      <p class="text-xs text-gray-400 mt-0.5">Mar 10 · 16:06 UTC</p>
                     </div>
                     <p class="text-sm font-semibold amt-out">−2,200 <span class="font-normal text-gray-400 text-xs">USDC</span></p>
                   </div>
@@ -1864,18 +1852,15 @@
                     <div>
                       <p class="text-[10px] font-mono text-gray-400">PAY-20260314-006</p>
                       <p class="text-sm font-semibold text-gray-900 dark:text-white mt-0.5">Office Depot</p>
-                      <p class="text-xs text-gray-400 mt-0.5">Office Supplies · Auto-paid Mar 14</p>
+                      <p class="text-xs text-gray-400 mt-0.5">Office Supplies</p>
                     </div>
-                    <div class="text-right">
-                      <p class="text-sm font-semibold amt-out">450 <span class="font-normal text-gray-400 text-xs">USDC</span></p>
-                      <span class="badge bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-[10px] mt-1"><i data-lucide="check-circle-2" class="w-2 h-2"></i> Paid</span>
-                    </div>
+                    <p class="text-sm font-semibold amt-out">450 <span class="font-normal text-gray-400 text-xs">USDC</span></p>
                   </div>
                 </div>
                 <!-- Right: No transaction found -->
                 <div class="p-5 flex flex-col items-center justify-center min-h-[120px] text-center bg-gray-50/40 dark:bg-white/[0.06] space-y-3" id="pair-office-bill-tx">
                   <div class="w-9 h-9 rounded-full bg-gray-200/50 dark:bg-white/[0.07] flex items-center justify-center">
-                    <i data-lucide="wifi-off" class="w-4 h-4 text-gray-400"></i>
+                    <i data-lucide="search-x" class="w-4 h-4 text-gray-400"></i>
                   </div>
                   <p class="text-xs text-gray-400">No outgoing transaction linked</p>
                   <button onclick="openChangeTxModal('pair-office-bill')" class="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-white/10 text-xs font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center gap-1.5">
@@ -2993,7 +2978,7 @@
         </div>
         <div class="space-y-1.5 col-span-2">
           <label class="text-xs font-semibold text-gray-700 dark:text-gray-300">Vendor Address</label>
-          <input id="ubill-address" type="text" placeholder="e.g. 123 Industrial Rd, Shenzhen, CN"
+          <input id="ubill-address" type="text" placeholder="e.g. 0x1234… or TQxyz… (wallet address)"
             class="w-full px-3 py-2 text-xs rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
         </div>
         <div class="space-y-1.5">
@@ -6147,7 +6132,7 @@
         <p class="text-xs text-gray-400 leading-relaxed">Enter the on-chain wallet address you want to monitor. Orgstar will automatically detect incoming and outgoing stablecoin transactions for reconciliation.</p>
       </div>
       <div class="space-y-1.5">
-        <label class="text-[10px] uppercase tracking-wider font-semibold text-gray-500 dark:text-gray-400">Wallet Address <span class="text-red-400">*</span></label>
+        <label class="text-xs font-semibold text-gray-700 dark:text-gray-300">Wallet Address <span class="text-red-400">*</span></label>
         <input id="ob-wallet-input" type="text" placeholder="0x… or TQ… or a Solana address"
           class="w-full px-3 py-2.5 text-xs rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-[#0d0f14] text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition font-mono"
           oninput="obClearWalletError()" />
@@ -6166,8 +6151,8 @@
         <p class="text-xs text-gray-400 leading-relaxed">Add an invoice for incoming payments (AR). Orgstar will auto-match when the payment arrives on-chain.</p>
       </div>
       <!-- Tabs -->
-      <div class="px-6 flex border-b border-gray-100 dark:border-white/8">
-        <button class="px-4 py-2.5 text-xs font-semibold text-orange-500 border-b-2 border-orange-500 -mb-px transition-colors">Manual Entry</button>
+      <div class="flex border-b border-gray-100 dark:border-white/8">
+        <button class="pl-6 pr-4 py-2.5 text-xs font-semibold text-orange-500 border-b-2 border-orange-500 -mb-px transition-colors">Manual Entry</button>
         <button disabled class="px-4 py-2.5 text-xs font-medium text-gray-400 cursor-not-allowed flex items-center gap-1.5">CSV / File <span class="badge bg-gray-100 dark:bg-white/10 text-gray-400 text-[9px] py-0 px-1.5">Soon</span></button>
       </div>
       <form id="ob-inv-form" class="px-6 pt-4 pb-5 space-y-4" onsubmit="obSubmitInvoice(event)">
@@ -6227,8 +6212,8 @@
         <p class="text-xs text-gray-400 leading-relaxed">Add a vendor bill for outgoing payments (AP). Orgstar will link it to the matching on-chain transaction.</p>
       </div>
       <!-- Tabs -->
-      <div class="px-6 flex border-b border-gray-100 dark:border-white/8">
-        <button class="px-4 py-2.5 text-xs font-semibold text-orange-500 border-b-2 border-orange-500 -mb-px transition-colors">Manual Entry</button>
+      <div class="flex border-b border-gray-100 dark:border-white/8">
+        <button class="pl-6 pr-4 py-2.5 text-xs font-semibold text-orange-500 border-b-2 border-orange-500 -mb-px transition-colors">Manual Entry</button>
         <button disabled class="px-4 py-2.5 text-xs font-medium text-gray-400 cursor-not-allowed flex items-center gap-1.5">CSV / File <span class="badge bg-gray-100 dark:bg-white/10 text-gray-400 text-[9px] py-0 px-1.5">Soon</span></button>
       </div>
       <form id="ob-bill-form" class="px-6 pt-4 pb-5 space-y-4" onsubmit="obSubmitBill(event)">
@@ -6245,7 +6230,7 @@
           </div>
           <div class="space-y-1.5 col-span-2">
             <label class="text-xs font-semibold text-gray-700 dark:text-gray-300">Vendor Address</label>
-            <input id="ob-bill-address" type="text" placeholder="e.g. 123 Industrial Rd, Shenzhen, CN"
+            <input id="ob-bill-address" type="text" placeholder="e.g. 0x1234… or TQxyz… (wallet address)"
               class="w-full px-3 py-2 text-xs rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-[#0d0f14] text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
           </div>
           <div class="space-y-1.5">
