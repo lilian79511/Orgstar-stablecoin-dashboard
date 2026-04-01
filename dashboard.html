@@ -2978,7 +2978,7 @@
         </div>
         <div class="space-y-1.5 col-span-2">
           <label class="text-xs font-semibold text-gray-700 dark:text-gray-300">Vendor Address</label>
-          <input id="ubill-address" type="text" placeholder="e.g. 0x1234… or TQxyz… (wallet address)"
+          <input id="ubill-address" type="text" placeholder="e.g. 0x1234… or TQxyz…"
             class="w-full px-3 py-2 text-xs rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/4 text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
         </div>
         <div class="space-y-1.5">
@@ -5984,11 +5984,11 @@
   }
 
   function goOnboardStep(n) {
-    [1,2,3,4].forEach(i => {
+    [1,2,3,4,5].forEach(i => {
       document.getElementById('ob-step-' + i)?.classList.toggle('hidden', i !== n);
     });
-    // progress dots — active dot is wider pill, inactive is small circle
-    [1,2,3,4].forEach(i => {
+    // progress dots — active dot is wider pill, completed = muted orange, upcoming = gray
+    [1,2,3,4,5].forEach(i => {
       const dot = document.getElementById('ob-dot-' + i);
       if (!dot) return;
       if (i === n) {
@@ -6000,8 +6000,42 @@
       }
     });
     const counter = document.getElementById('ob-step-counter');
-    if (counter) counter.textContent = 'Step ' + n + ' of 4';
+    if (counter) counter.textContent = 'Step ' + n + ' of 5';
     lucide.createIcons();
+  }
+
+  function obSubmitProfile(e) {
+    e.preventDefault();
+    const name    = document.getElementById('ob-profile-name')?.value.trim();
+    const roleKey = document.getElementById('ob-profile-role')?.value;
+    const company = document.getElementById('ob-profile-company')?.value.trim();
+    if (!name || !roleKey || !company) {
+      showToast('Please fill in all fields', 'error');
+      return;
+    }
+    // Derive initials: first letter of each word, max 2
+    const initials = name.split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+    const role = ROLES[roleKey];
+    // Update top bar company name
+    const titleEl = document.getElementById('pageTitle');
+    if (titleEl) titleEl.textContent = company;
+    // Update sidebar user profile
+    const avatarEl = document.getElementById('user-avatar');
+    if (avatarEl) {
+      avatarEl.textContent = initials;
+      avatarEl.className = avatarEl.className.replace(/\bbg-\S+/, role.avatarBg);
+    }
+    const nameEl = document.getElementById('user-name');
+    if (nameEl) nameEl.textContent = name;
+    const roleLabel = document.getElementById('user-role-label');
+    if (roleLabel) roleLabel.textContent = role.label;
+    const roleDot = document.getElementById('user-role-dot');
+    if (roleDot) roleDot.className = 'w-1.5 h-1.5 rounded-full shrink-0 ' + role.dotColor;
+    // Persist for later steps
+    window._obProfileName    = name;
+    window._obProfileRole    = roleKey;
+    window._obProfileCompany = company;
+    goOnboardStep(2);
   }
 
   function isValidWalletAddress(addr) {
@@ -6041,12 +6075,12 @@
     if (preview) preview.textContent = addr.length > 22 ? addr.slice(0,10) + '…' + addr.slice(-8) : addr;
     const wInput = document.getElementById('new-wallet-address');
     if (wInput) wInput.value = addr;
-    goOnboardStep(2);
+    goOnboardStep(3);
   }
 
   function obStep2Skip() {
     window._obInvoiceUploaded = false;
-    goOnboardStep(3);
+    goOnboardStep(4);
   }
 
   function obSubmitInvoice(e) {
@@ -6055,7 +6089,7 @@
     window._obInvoiceUploaded = true;
     window._obUploadedInvoiceRef = ref;
     showToast('Invoice ' + ref + ' uploaded', 'success');
-    goOnboardStep(3);
+    goOnboardStep(4);
   }
 
   function obStep3Skip() {
@@ -6073,7 +6107,7 @@
   }
 
   function obShowResults() {
-    goOnboardStep(4);
+    goOnboardStep(5);
     const hasUploads = !!(window._obInvoiceUploaded || window._obBillUploaded);
     document.getElementById('ob-result-matched')?.classList.toggle('hidden', !hasUploads);
     document.getElementById('ob-result-none')?.classList.toggle('hidden', hasUploads);
@@ -6115,18 +6149,51 @@
     <div class="px-6 py-3.5 border-b border-gray-100 dark:border-white/8 flex items-center justify-between gap-4">
       <p class="font-grotesk font-semibold text-sm text-gray-900 dark:text-white">Get started with Orgstar</p>
       <div class="flex items-center gap-2 shrink-0">
-        <span id="ob-step-counter" class="text-[10px] font-medium text-gray-400 tabular-nums">Step 1 of 4</span>
+        <span id="ob-step-counter" class="text-[10px] font-medium text-gray-400 tabular-nums">Step 1 of 5</span>
         <div class="flex items-center gap-1">
           <div id="ob-dot-1" class="w-5 h-1.5 rounded-full bg-orange-500 transition-all"></div>
           <div id="ob-dot-2" class="w-1.5 h-1.5 rounded-full bg-gray-200 dark:bg-white/15 transition-all"></div>
           <div id="ob-dot-3" class="w-1.5 h-1.5 rounded-full bg-gray-200 dark:bg-white/15 transition-all"></div>
           <div id="ob-dot-4" class="w-1.5 h-1.5 rounded-full bg-gray-200 dark:bg-white/15 transition-all"></div>
+          <div id="ob-dot-5" class="w-1.5 h-1.5 rounded-full bg-gray-200 dark:bg-white/15 transition-all"></div>
         </div>
       </div>
     </div>
 
-    <!-- Step 1: Enter wallet address -->
+    <!-- Step 1: Your profile -->
     <div id="ob-step-1" class="px-6 py-6 space-y-4">
+      <div>
+        <h4 class="font-grotesk font-semibold text-base text-gray-900 dark:text-white mb-1">Welcome to Orgstar</h4>
+        <p class="text-xs text-gray-400 leading-relaxed">Tell us a bit about yourself to personalise your workspace.</p>
+      </div>
+      <div class="space-y-1.5">
+        <label class="text-xs font-semibold text-gray-700 dark:text-gray-300">Your Name <span class="text-red-400">*</span></label>
+        <input id="ob-profile-name" type="text" placeholder="e.g. Linda Chen"
+          class="w-full px-3 py-2 text-xs rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-[#0d0f14] text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
+      </div>
+      <div class="space-y-1.5">
+        <label class="text-xs font-semibold text-gray-700 dark:text-gray-300">Your Role <span class="text-red-400">*</span></label>
+        <select id="ob-profile-role"
+          class="w-full px-3 py-2 text-xs rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-[#0d0f14] text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500 transition cursor-pointer">
+          <option value="" disabled selected>Select your role…</option>
+          <option value="finance">Finance Specialist</option>
+          <option value="manager">Department Manager</option>
+          <option value="cfo">Chief Financial Officer</option>
+          <option value="auditor">Auditor</option>
+        </select>
+      </div>
+      <div class="space-y-1.5">
+        <label class="text-xs font-semibold text-gray-700 dark:text-gray-300">Company / Organisation <span class="text-red-400">*</span></label>
+        <input id="ob-profile-company" type="text" placeholder="e.g. Acme Corp"
+          class="w-full px-3 py-2 text-xs rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-[#0d0f14] text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
+      </div>
+      <button onclick="obSubmitProfile(event)" class="w-full px-4 py-2.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold transition-colors flex items-center justify-center gap-2 mt-2">
+        Continue <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+      </button>
+    </div>
+
+    <!-- Step 2: Enter wallet address -->
+    <div id="ob-step-2" class="hidden px-6 py-6 space-y-4">
       <div>
         <h4 class="font-grotesk font-semibold text-base text-gray-900 dark:text-white mb-1">Track your wallet</h4>
         <p class="text-xs text-gray-400 leading-relaxed">Enter the on-chain wallet address you want to monitor. Orgstar will automatically detect incoming and outgoing stablecoin transactions for reconciliation.</p>
@@ -6144,8 +6211,8 @@
       </button>
     </div>
 
-    <!-- Step 2: Upload Invoice (inline form) -->
-    <div id="ob-step-2" class="hidden">
+    <!-- Step 3: Upload Invoice (inline form) -->
+    <div id="ob-step-3" class="hidden">
       <div class="px-6 pt-6 pb-3">
         <h4 class="font-grotesk font-semibold text-base text-gray-900 dark:text-white mb-1">Upload Invoice <span class="text-gray-400 dark:text-gray-500 text-sm font-normal">(optional)</span></h4>
         <p class="text-xs text-gray-400 leading-relaxed">Add an invoice for incoming payments (AR). Orgstar will auto-match when the payment arrives on-chain.</p>
@@ -6205,8 +6272,8 @@
       </form>
     </div>
 
-    <!-- Step 3: Upload Bill (inline form) -->
-    <div id="ob-step-3" class="hidden">
+    <!-- Step 4: Upload Bill (inline form) -->
+    <div id="ob-step-4" class="hidden">
       <div class="px-6 pt-6 pb-3">
         <h4 class="font-grotesk font-semibold text-base text-gray-900 dark:text-white mb-1">Upload Bill <span class="text-gray-400 dark:text-gray-500 text-sm font-normal">(optional)</span></h4>
         <p class="text-xs text-gray-400 leading-relaxed">Add a vendor bill for outgoing payments (AP). Orgstar will link it to the matching on-chain transaction.</p>
@@ -6230,7 +6297,7 @@
           </div>
           <div class="space-y-1.5 col-span-2">
             <label class="text-xs font-semibold text-gray-700 dark:text-gray-300">Vendor Address</label>
-            <input id="ob-bill-address" type="text" placeholder="e.g. 0x1234… or TQxyz… (wallet address)"
+            <input id="ob-bill-address" type="text" placeholder="e.g. 0x1234… or TQxyz…"
               class="w-full px-3 py-2 text-xs rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-[#0d0f14] text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-500 transition" />
           </div>
           <div class="space-y-1.5">
@@ -6271,8 +6338,8 @@
       </form>
     </div>
 
-    <!-- Step 4: Results -->
-    <div id="ob-step-4" class="hidden px-6 py-6 space-y-4">
+    <!-- Step 5: Results -->
+    <div id="ob-step-5" class="hidden px-6 py-6 space-y-4">
       <!-- Matched state -->
       <div id="ob-result-matched" class="hidden">
         <div class="flex items-start gap-3 mb-4">
