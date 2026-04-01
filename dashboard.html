@@ -6004,15 +6004,30 @@
     lucide.createIcons();
   }
 
+  const _errCls = ['border-red-400', 'dark:border-red-500/60', 'focus:ring-red-400'];
+  function _obFieldErr(id, show) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (show) el.classList.add(..._errCls); else el.classList.remove(..._errCls);
+  }
+
   function obSubmitProfile(e) {
     e.preventDefault();
-    const name    = document.getElementById('ob-profile-name')?.value.trim();
-    const roleKey = document.getElementById('ob-profile-role')?.value;
-    const company = document.getElementById('ob-profile-company')?.value.trim();
-    if (!name || !roleKey || !company) {
-      showToast('Please fill in all fields', 'error');
-      return;
-    }
+    const nameEl    = document.getElementById('ob-profile-name');
+    const roleEl    = document.getElementById('ob-profile-role');
+    const companyEl = document.getElementById('ob-profile-company');
+    const name    = nameEl?.value.trim();
+    const roleKey = roleEl?.value;
+    const company = companyEl?.value.trim();
+    // Inline field highlighting
+    _obFieldErr('ob-profile-name',    !name);
+    _obFieldErr('ob-profile-role',    !roleKey);
+    _obFieldErr('ob-profile-company', !company);
+    if (!name || !roleKey || !company) return;
+    // Clear any previous error state
+    _obFieldErr('ob-profile-name',    false);
+    _obFieldErr('ob-profile-role',    false);
+    _obFieldErr('ob-profile-company', false);
     // Derive initials: first letter of each word, max 2
     const initials = name.split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
     const role = ROLES[roleKey];
