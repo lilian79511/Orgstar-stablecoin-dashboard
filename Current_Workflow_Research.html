@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orgstar — Current Workflow Research & Journey Maps</title>
+<style>
+  :root {
+    --navy: #1B3A5C;
+    --teal: #0D6E8A;
+    --orange: #E07B29;
+    --red: #C0392B;
+    --green: #1A7A4A;
+    --purple: #6B3FA0;
+    --light: #EAF4F8;
+    --mid: #D0E8F0;
+    --bg: #F5F8FA;
+    --white: #FFFFFF;
+    --text: #2C2C2C;
+    --muted: #5A6A75;
+    --border: #C8DCE8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6; }
+
+  /* ── Layout ── */
+  .page-header { background: var(--navy); color: white; padding: 48px 60px 40px; }
+  .page-header h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.5px; }
+  .page-header p  { font-size: 15px; color: #9BB8CC; margin-top: 8px; }
+  .header-meta { display: flex; gap: 32px; margin-top: 28px; }
+  .header-meta-item { text-align: center; }
+  .header-meta-item .num { font-size: 36px; font-weight: 800; color: var(--orange); }
+  .header-meta-item .label { font-size: 12px; color: #7FA8C0; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 48px 32px; }
+  .section-title { font-size: 22px; font-weight: 700; color: var(--navy); border-left: 4px solid var(--orange); padding-left: 16px; margin-bottom: 24px; }
+  .section { margin-bottom: 72px; }
+
+  /* ── Tabs ── */
+  .tabs { display: flex; gap: 4px; margin-bottom: 32px; border-bottom: 2px solid var(--border); }
+  .tab { padding: 10px 22px; cursor: pointer; font-weight: 600; font-size: 14px; color: var(--muted); border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.2s; white-space: nowrap; }
+  .tab:hover { color: var(--navy); }
+  .tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ── Persona Card ── */
+  .persona-grid { display: grid; grid-template-columns: 280px 1fr; gap: 24px; background: white; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 40px; box-shadow: 0 2px 12px rgba(27,58,92,0.07); }
+  .persona-left { background: var(--navy); color: white; padding: 32px 24px; }
+  .persona-avatar { width: 72px; height: 72px; border-radius: 50%; background: var(--teal); display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 16px; }
+  .persona-name { font-size: 22px; font-weight: 800; }
+  .persona-title { font-size: 13px; color: #7FA8C0; margin-top: 4px; margin-bottom: 20px; }
+  .persona-tag { display: inline-block; background: rgba(255,255,255,0.12); border-radius: 4px; padding: 3px 10px; font-size: 12px; margin: 2px 2px 2px 0; }
+  .persona-quote { margin-top: 24px; font-style: italic; font-size: 13px; color: #B8D4E4; line-height: 1.6; border-left: 3px solid var(--orange); padding-left: 12px; }
+  .persona-right { padding: 28px 32px; }
+  .persona-section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; margin-top: 20px; }
+  .persona-section-label:first-child { margin-top: 0; }
+  .persona-goals { display: flex; flex-wrap: wrap; gap: 8px; }
+  .goal-chip { background: #E8F5EE; color: var(--green); border: 1px solid #A8D8BC; border-radius: 20px; padding: 4px 12px; font-size: 13px; font-weight: 500; }
+  .pain-chip { background: #FEF0EE; color: var(--red); border: 1px solid #F0B0A8; border-radius: 20px; padding: 4px 12px; font-size: 13px; font-weight: 500; }
+  .tool-chip { background: var(--light); color: var(--teal); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 13px; font-weight: 500; }
+  .persona-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; }
+  .persona-stat { background: var(--bg); border-radius: 8px; padding: 12px; text-align: center; }
+  .persona-stat .val { font-size: 20px; font-weight: 800; color: var(--navy); }
+  .persona-stat .key { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* ── Journey Map ── */
+  .journey-header { background: var(--navy); color: white; border-radius: 10px 10px 0 0; padding: 18px 24px; display: flex; align-items: center; gap: 12px; }
+  .journey-header h3 { font-size: 16px; font-weight: 700; }
+  .journey-header .subtext { font-size: 12px; color: #7FA8C0; }
+  .journey-table { width: 100%; border-collapse: collapse; background: white; border-radius: 0 0 10px 10px; overflow: hidden; box-shadow: 0 2px 12px rgba(27,58,92,0.07); margin-bottom: 40px; }
+  .journey-table th { background: var(--light); color: var(--navy); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; padding: 12px 16px; text-align: left; border-bottom: 2px solid var(--border); }
+  .journey-table td { padding: 14px 16px; vertical-align: top; border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.6; }
+  .journey-table tr:last-child td { border-bottom: none; }
+  .journey-table tr:hover td { background: #FAFCFE; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--navy); color: white; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; margin-right: 8px; flex-shrink: 0; }
+  .step-name { display: flex; align-items: center; font-weight: 600; color: var(--navy); }
+  .emotion { display: flex; align-items: center; gap: 6px; }
+  .emotion-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .emotion.positive .emotion-dot { background: var(--green); }
+  .emotion.neutral .emotion-dot  { background: var(--orange); }
+  .emotion.negative .emotion-dot { background: var(--red); }
+  .emotion.critical .emotion-dot { background: #8B0000; }
+  .pain-list { list-style: none; }
+  .pain-list li { display: flex; gap: 6px; margin-bottom: 4px; }
+  .pain-list li::before { content: "⚠"; font-size: 11px; color: var(--red); flex-shrink: 0; margin-top: 1px; }
+  .tool-list li::before { content: "🔧"; font-size: 11px; flex-shrink: 0; margin-top: 1px; }
+  .tool-list { list-style: none; }
+  .tool-list li { display: flex; gap: 6px; margin-bottom: 4px; }
+  .opp-badge { background: #E8F0FE; color: #2B5CE6; border: 1px solid #A8C0F0; border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 600; display: inline-block; margin-top: 4px; }
+  .opp-badge.high { background: #E8F5EE; color: var(--green); border-color: #A8D8BC; }
+  .opp-badge.critical { background: #FEF0EE; color: var(--red); border-color: #F0B0A8; }
+
+  /* ── Emotion bar ── */
+  .emotion-bar { margin: 40px 0 24px; }
+  .emotion-bar-title { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+  .emotion-track { display: flex; height: 48px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+  .emotion-track-segment { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: white; text-align: center; padding: 4px; line-height: 1.3; }
+  .em-positive { background: #1A7A4A; }
+  .em-neutral   { background: #B07A20; }
+  .em-negative  { background: #B03A2A; }
+  .em-critical  { background: #6B0000; }
+  .em-mixed     { background: #4A5A8A; }
+
+  /* ── Gap summary ── */
+  .gap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 48px; }
+  .gap-card { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 20px; box-shadow: 0 1px 6px rgba(27,58,92,0.05); }
+  .gap-card.critical { border-top: 4px solid var(--red); }
+  .gap-card.high     { border-top: 4px solid var(--orange); }
+  .gap-card.medium   { border-top: 4px solid var(--teal); }
+  .gap-icon { font-size: 24px; margin-bottom: 8px; }
+  .gap-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .gap-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .gap-badge { display: inline-block; margin-top: 10px; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+  .gap-badge.critical { background: #FEF0EE; color: var(--red); }
+  .gap-badge.high     { background: #FFF3E8; color: var(--orange); }
+  .gap-badge.medium   { background: var(--light); color: var(--teal); }
+
+  /* ── Mapping table ── */
+  .mapping-table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 12px rgba(27,58,92,0.07); }
+  .mapping-table th { background: var(--navy); color: white; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; padding: 14px 18px; text-align: left; }
+  .mapping-table td { padding: 14px 18px; vertical-align: top; border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.6; }
+  .mapping-table tr:last-child td { border-bottom: none; }
+  .mapping-table tr:nth-child(even) td { background: var(--bg); }
+  .match { color: var(--green); font-weight: 600; }
+  .gap-text { color: var(--red); font-weight: 600; }
+  .partial { color: var(--orange); font-weight: 600; }
+
+  /* ── How we fix it ── */
+  .fix-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .fix-card { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 20px; display: flex; gap: 16px; }
+  .fix-icon { font-size: 28px; flex-shrink: 0; }
+  .fix-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .fix-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .fix-segment { font-size: 11px; font-weight: 600; color: var(--teal); margin-top: 8px; }
+
+  /* ── footer ── */
+  .page-footer { background: var(--navy); color: #7FA8C0; text-align: center; padding: 24px; font-size: 12px; margin-top: 48px; }
+</style>
+</head>
+<body>
+
+<!-- ── PAGE HEADER ── -->
+<div class="page-header">
+  <h1>Current Workflow Research & Journey Maps</h1>
+  <p>Orgstar Innovation Technology · Principal Product Designer Research · March 2026</p>
+  <div class="header-meta">
+    <div class="header-meta-item"><div class="num">7</div><div class="label">Interview Sessions</div></div>
+    <div class="header-meta-item"><div class="num">3</div><div class="label">Target Segments</div></div>
+    <div class="header-meta-item"><div class="num">4</div><div class="label">User Roles Mapped</div></div>
+    <div class="header-meta-item"><div class="num">11</div><div class="label">Workflow Pain Points</div></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ── SECTION 1: PERSONAS ── -->
+  <div class="section">
+    <div class="section-title">User Personas</div>
+    <p style="color:var(--muted);margin-bottom:28px;font-size:13px;">Grounded in interview data from 7 sessions with banking professionals, accountants, regulatory advisors, and technical experts. Three primary personas across two segments.</p>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab active" onclick="showTab('p1',this)">Segment A · Cross-Border CFO</div>
+      <div class="tab" onclick="showTab('p2',this)">Segment A · Finance Operator</div>
+      <div class="tab" onclick="showTab('p3',this)">Segment B · 2nd Gen Successor</div>
+      <div class="tab" onclick="showTab('p4',this)">Segment C · Web3 COO</div>
+      <div class="tab" onclick="showTab('p5',this)">External · CPA Accountant</div>
+    </div>
+
+    <!-- Persona 1: CFO -->
+    <div id="tab-p1" class="tab-content active">
+      <div class="persona-grid">
+        <div class="persona-left">
+          <div class="persona-avatar">👨‍💼</div>
+          <div class="persona-name">David Chen</div>
+          <div class="persona-title">CFO / Finance Director · Cross-Border Trading Co.</div>
+          <div style="margin-top:12px;">
+            <span class="persona-tag">Cross-Border</span>
+            <span class="persona-tag">High Volume</span>
+            <span class="persona-tag">USDT Active</span>
+          </div>
+          <div class="persona-quote">"我用個人錢包收款，但財務部根本無法對帳，會計師也看不懂鏈上記錄。"<br><br>"I receive payments via personal wallet, but the finance team can't reconcile anything, and our accountant has no idea how to read on-chain records."</div>
+        </div>
+        <div class="persona-right">
+          <div class="persona-section-label">Goals</div>
+          <div class="persona-goals">
+            <span class="goal-chip">Reduce FX fees vs SWIFT</span>
+            <span class="goal-chip">Speed up settlement 3→0 days</span>
+            <span class="goal-chip">Clean audit trail for accountant</span>
+            <span class="goal-chip">Protect from tax investigation</span>
+          </div>
+          <div class="persona-section-label">Pain Points</div>
+          <div class="persona-goals">
+            <span class="pain-chip">No on-chain reconciliation tool</span>
+            <span class="pain-chip">Excel breaks at scale</span>
+            <span class="pain-chip">Accountant can't certify</span>
+            <span class="pain-chip">No FX rate at timestamp</span>
+            <span class="pain-chip">Boss is sole key holder</span>
+          </div>
+          <div class="persona-section-label">Current Tools</div>
+          <div class="persona-goals">
+            <span class="tool-chip">MetaMask / OKX wallet</span>
+            <span class="tool-chip">Excel</span>
+            <span class="tool-chip">Etherscan (manual)</span>
+            <span class="tool-chip">SWIFT for large transfers</span>
+            <span class="tool-chip">WhatsApp for approvals</span>
+          </div>
+          <div class="persona-stats">
+            <div class="persona-stat"><div class="val">230–470<span style="font-size:12px">bps</span></div><div class="key">SWIFT FX cost</div></div>
+            <div class="persona-stat"><div class="val">3–5<span style="font-size:12px">days</span></div><div class="key">Settlement time</div></div>
+            <div class="persona-stat"><div class="val">NT$180</div><div class="key">Saved per invoice w/ automation</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Persona 2: Operator -->
+    <div id="tab-p2" class="tab-content">
+      <div class="persona-grid">
+        <div class="persona-left">
+          <div class="persona-avatar">👩‍💻</div>
+          <div class="persona-name">Amy Lin</div>
+          <div class="persona-title">Finance Specialist / Payment Operator</div>
+          <div style="margin-top:12px;">
+            <span class="persona-tag">Operator Role</span>
+            <span class="persona-tag">Execution User</span>
+            <span class="persona-tag">Risk-Averse</span>
+          </div>
+          <div class="persona-quote">"如果轉錯帳，我不知道怎麼辦，也沒有辦法撤銷。我怕被怪罪。"<br><br>"If I send to the wrong address, there's no way to undo it. I'm terrified of being blamed for an irreversible mistake."</div>
+        </div>
+        <div class="persona-right">
+          <div class="persona-section-label">Goals</div>
+          <div class="persona-goals">
+            <span class="goal-chip">Make zero errors</span>
+            <span class="goal-chip">Get clear approval before acting</span>
+            <span class="goal-chip">Have documentation for every action</span>
+            <span class="goal-chip">Know who to escalate to</span>
+          </div>
+          <div class="persona-section-label">Pain Points</div>
+          <div class="persona-goals">
+            <span class="pain-chip">No pre-send verification step</span>
+            <span class="pain-chip">Boss holds all keys, must beg for access</span>
+            <span class="pain-chip">No formal approval trail</span>
+            <span class="pain-chip">WhatsApp screenshots ≠ audit record</span>
+            <span class="pain-chip">Manually enters same data twice</span>
+          </div>
+          <div class="persona-section-label">Current Tools</div>
+          <div class="persona-goals">
+            <span class="tool-chip">Excel (manual ledger)</span>
+            <span class="tool-chip">WhatsApp (approval screenshots)</span>
+            <span class="tool-chip">Etherscan (copy-paste TxID)</span>
+            <span class="tool-chip">Email for invoice attach</span>
+          </div>
+          <div class="persona-stats">
+            <div class="persona-stat"><div class="val">30<span style="font-size:12px">min</span></div><div class="key">Manual work per transaction</div></div>
+            <div class="persona-stat"><div class="val">0</div><div class="key">Formal approval workflow</div></div>
+            <div class="persona-stat"><div class="val">14%</div><div class="key">Invoice exception rate (industry avg)</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Persona 3: 2nd Gen -->
+    <div id="tab-p3" class="tab-content">
+      <div class="persona-grid">
+        <div class="persona-left">
+          <div class="persona-avatar">🏦</div>
+          <div class="persona-name">Kevin Hsu</div>
+          <div class="persona-title">CEO / 2nd Generation · Listed Family Company</div>
+          <div style="margin-top:12px;">
+            <span class="persona-tag">Family Wealth</span>
+            <span class="persona-tag">US Green Card</span>
+            <span class="persona-tag">IRS Liability</span>
+          </div>
+          <div class="persona-quote">"如果電腦被扣押，裡面每筆錢的紀錄都會全部曝光。"<br><br>"If my laptop gets seized, every single transaction record gets exposed. I need a firewall between my private and company funds."</div>
+        </div>
+        <div class="persona-right">
+          <div class="persona-section-label">Goals</div>
+          <div class="persona-goals">
+            <span class="goal-chip">Separate personal and corporate wallets</span>
+            <span class="goal-chip">Pass board audit when needed</span>
+            <span class="goal-chip">Protect from IRS global income tracking</span>
+            <span class="goal-chip">Maintain asset privacy from competitors</span>
+          </div>
+          <div class="persona-section-label">Pain Points</div>
+          <div class="persona-goals">
+            <span class="pain-chip">Personal MetaMask = company treasury</span>
+            <span class="pain-chip">No Segregation of Duties</span>
+            <span class="pain-chip">IRS global income — no reporting tool</span>
+            <span class="pain-chip">Board can't audit what they can't see</span>
+            <span class="pain-chip">Coercion risk (key person, physical threat)</span>
+          </div>
+          <div class="persona-section-label">Current Tools</div>
+          <div class="persona-goals">
+            <span class="tool-chip">MetaMask (personal)</span>
+            <span class="tool-chip">Ledger hardware wallet</span>
+            <span class="tool-chip">OTC desk (ad hoc)</span>
+            <span class="tool-chip">Hired CPA (limited crypto knowledge)</span>
+          </div>
+          <div class="persona-stats">
+            <div class="persona-stat"><div class="val">$10M+</div><div class="key">Typical asset under management</div></div>
+            <div class="persona-stat"><div class="val">0</div><div class="key">IRS reporting tools available</div></div>
+            <div class="persona-stat"><div class="val">1</div><div class="key">Person holds all keys</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Persona 4: Web3 COO -->
+    <div id="tab-p4" class="tab-content">
+      <div class="persona-grid">
+        <div class="persona-left">
+          <div class="persona-avatar">⛓️</div>
+          <div class="persona-name">Jake Wu</div>
+          <div class="persona-title">COO / Operations Lead · Crypto Exchange / GameFi</div>
+          <div style="margin-top:12px;">
+            <span class="persona-tag">Web3 Native</span>
+            <span class="persona-tag">Very High Volume</span>
+            <span class="persona-tag">Institutional Grade</span>
+          </div>
+          <div class="persona-quote">"我們的CFO同時是審批者也是執行者，這是巨大的利益衝突。Big4會計師說沒有職能分立就沒辦法簽核。"</div>
+        </div>
+        <div class="persona-right">
+          <div class="persona-section-label">Goals</div>
+          <div class="persona-goals">
+            <span class="goal-chip">Pass Big4 audit</span>
+            <span class="goal-chip">Eliminate key-person risk</span>
+            <span class="goal-chip">Role-based treasury access</span>
+            <span class="goal-chip">Auto-format chain data for accountants</span>
+          </div>
+          <div class="persona-section-label">Pain Points</div>
+          <div class="persona-goals">
+            <span class="pain-chip">CFO approves AND executes = fraud risk</span>
+            <span class="pain-chip">1–2 people hold all private keys</span>
+            <span class="pain-chip">No Segregation of Duties</span>
+            <span class="pain-chip">Big4 won't certify without clean trail</span>
+            <span class="pain-chip">Employee payroll has no audit record</span>
+          </div>
+          <div class="persona-section-label">Current Tools</div>
+          <div class="persona-goals">
+            <span class="tool-chip">Gnosis Safe (basic multi-sig)</span>
+            <span class="tool-chip">Notion (manual tracking)</span>
+            <span class="tool-chip">Excel for accounting export</span>
+            <span class="tool-chip">Internal Telegram approvals</span>
+          </div>
+          <div class="persona-stats">
+            <div class="persona-stat"><div class="val">1000+</div><div class="key">Transactions/month</div></div>
+            <div class="persona-stat"><div class="val">0</div><div class="key">SoD policies enforced</div></div>
+            <div class="persona-stat"><div class="val">NT$740M</div><div class="key">Potential annual process savings (3.6K tx/mo)</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Persona 5: CPA -->
+    <div id="tab-p5" class="tab-content">
+      <div class="persona-grid">
+        <div class="persona-left">
+          <div class="persona-avatar">🧾</div>
+          <div class="persona-name">Eric / Yukuai</div>
+          <div class="persona-title">Blockchain CPA · Serves crypto-native clients (MAX Exchange etc.)</div>
+          <div style="margin-top:12px;">
+            <span class="persona-tag">External Stakeholder</span>
+            <span class="persona-tag">Trust Gatekeeper</span>
+            <span class="persona-tag">GTM Channel</span>
+          </div>
+          <div class="persona-quote">"國稅局已正式發函問我們怎麼抓取鏈上金流。查稅大行動正在醞釀。我需要一個工具能給我乾淨的憑證，不然我沒辦法簽核。"</div>
+        </div>
+        <div class="persona-right">
+          <div class="persona-section-label">Goals</div>
+          <div class="persona-goals">
+            <span class="goal-chip">Verifiable, certified transaction data</span>
+            <span class="goal-chip">FX rate locked at settlement timestamp</span>
+            <span class="goal-chip">Read-only audit portal per client</span>
+            <span class="goal-chip">Exportable accounting-format reports</span>
+          </div>
+          <div class="persona-section-label">Pain Points</div>
+          <div class="persona-goals">
+            <span class="pain-chip">Clients bring MetaMask with no records</span>
+            <span class="pain-chip">No official FX rate at timestamp</span>
+            <span class="pain-chip">No standardized crypto accounting format</span>
+            <span class="pain-chip">National Tax Bureau is coming — no tools</span>
+            <span class="pain-chip">Can't certify without clean audit trail</span>
+          </div>
+          <div class="persona-section-label">Current Tools</div>
+          <div class="persona-goals">
+            <span class="tool-chip">Etherscan (manual export)</span>
+            <span class="tool-chip">Excel (manual formatting)</span>
+            <span class="tool-chip">Client-provided screenshots</span>
+            <span class="tool-chip">Chainalysis (sometimes)</span>
+          </div>
+          <div class="persona-stats">
+            <div class="persona-stat"><div class="val">Big4</div><div class="key">Won't touch crypto clients yet</div></div>
+            <div class="persona-stat"><div class="val">Crowe TW</div><div class="key">Audits MAX Exchange already</div></div>
+            <div class="persona-stat"><div class="val">IRS</div><div class="key">Global income reporting on green card holders</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 2: JOURNEY MAPS ── -->
+  <div class="section">
+    <div class="section-title">As-Is Workflow Journey Maps</div>
+    <p style="color:var(--muted);margin-bottom:28px;font-size:13px;">How target users manage stablecoin transactions <em>today</em>, before Orgstar. Each step shows the tools used, the emotional state, and the pain points that are product opportunities.</p>
+
+    <div class="tabs">
+      <div class="tab active" onclick="showTab('j1',this)">Cross-Border Payment (CFO + Operator)</div>
+      <div class="tab" onclick="showTab('j2',this)">2nd Gen Asset Management</div>
+      <div class="tab" onclick="showTab('j3',this)">Web3 Enterprise Treasury</div>
+      <div class="tab" onclick="showTab('j4',this)">Accountant Audit Process</div>
+    </div>
+
+    <!-- Journey 1 -->
+    <div id="tab-j1" class="tab-content active">
+      <div class="journey-header">
+        <div>
+          <h3>Cross-Border Stablecoin Payment — Current State</h3>
+          <div class="subtext">Persona: David (CFO) + Amy (Operator) · Segment A · Trigger: Overseas supplier invoice received</div>
+        </div>
+      </div>
+      <div class="emotion-bar">
+        <div class="emotion-bar-title">Emotional Journey</div>
+        <div class="emotion-track">
+          <div class="emotion-track-segment em-neutral">Invoice<br>Received</div>
+          <div class="emotion-track-segment em-neutral">Internal<br>Discussion</div>
+          <div class="emotion-track-segment em-negative">Get Wallet<br>Access</div>
+          <div class="emotion-track-segment em-critical">Execute<br>Transfer</div>
+          <div class="emotion-track-segment em-negative">Manual<br>Record</div>
+          <div class="emotion-track-segment em-critical">Accountant<br>Review</div>
+          <div class="emotion-track-segment em-negative">Tax Filing<br>Attempt</div>
+        </div>
+      </div>
+      <table class="journey-table">
+        <thead><tr>
+          <th style="width:16%">Step</th>
+          <th style="width:12%">Emotion</th>
+          <th style="width:20%">What They Do</th>
+          <th style="width:18%">Tools Used</th>
+          <th style="width:20%">Pain Points</th>
+          <th style="width:14%">Orgstar Opportunity</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><div class="step-name"><span class="step-num">1</span>Invoice Arrives</div></td>
+            <td><div class="emotion neutral"><div class="emotion-dot"></div>Neutral</div></td>
+            <td>Supplier emails PDF invoice. Amy enters the amount and payee into an Excel tracker. Checks if company has enough USDT balance — by logging into personal wallet.</td>
+            <td><ul class="tool-list"><li>Email</li><li>Excel spreadsheet</li><li>MetaMask / OKX wallet</li></ul></td>
+            <td><ul class="pain-list"><li>No wallet dashboard integrated with invoice</li><li>Balance check is manual, wallet is personal</li></ul></td>
+            <td><span class="opp-badge high">Dashboard: live wallet balance + invoice matching</span></td>
+          </tr>
+          <tr>
+            <td><div class="step-name"><span class="step-num">2</span>Internal Approval</div></td>
+            <td><div class="emotion neutral"><div class="emotion-dot"></div>Anxious</div></td>
+            <td>Amy sends a WhatsApp message to CFO with invoice photo and amount. Waits for CFO to reply "OK" or a thumbs up emoji. Sometimes takes hours or days.</td>
+            <td><ul class="tool-list"><li>WhatsApp</li><li>Phone camera screenshot</li><li>Sometimes email</li></ul></td>
+            <td><ul class="pain-list"><li>No formal approval trail — emoji is not audit evidence</li><li>No time stamp that meets legal standard</li><li>Bottleneck on single approver</li></ul></td>
+            <td><span class="opp-badge critical">Approval Workflow: structured multi-level sign-off with timestamp + identity</span></td>
+          </tr>
+          <tr>
+            <td><div class="step-name"><span class="step-num">3</span>Get Wallet Access</div></td>
+            <td><div class="emotion negative"><div class="emotion-dot"></div>Frustrated</div></td>
+            <td>Amy does not have wallet access. Must physically find CFO or have CFO do the transfer themselves on their personal phone. Sometimes waits until CFO is back in office.</td>
+            <td><ul class="tool-list"><li>Physical handoff</li><li>Verbal instruction</li><li>CFO's personal phone</li></ul></td>
+            <td><ul class="pain-list"><li>Key-person single point of failure</li><li>No Segregation of Duties</li><li>Process blocks for hours when CFO travels</li></ul></td>
+            <td><span class="opp-badge critical">RBAC + Multi-sig: Operator initiates, CFO approves, execution returns to operator</span></td>
+          </tr>
+          <tr>
+            <td><div class="step-name"><span class="step-num">4</span>Execute Transfer</div></td>
+            <td><div class="emotion critical"><div class="emotion-dot"></div>High Anxiety</div></td>
+            <td>CFO manually copies supplier's wallet address from WhatsApp message. Double-checks first 4 and last 4 characters. Sends. No simulation. No confirmation mechanism. Irreversible.</td>
+            <td><ul class="tool-list"><li>MetaMask / OKX</li><li>Copy-paste wallet address</li><li>No verification tool</li></ul></td>
+            <td><ul class="pain-list"><li>Address copy error risk (clipboard hijack malware)</li><li>No pre-send simulation or dry run</li><li>Irreversible — no undo button</li><li>Gas fees unpredictable</li></ul></td>
+            <td><span class="opp-badge critical">Simulation Sandbox: pre-broadcast dry-run + KYT blacklist check + address verification</span></td>
+          </tr>
+          <tr>
+            <td><div class="step-name"><span class="step-num">5</span>Record the Transaction</div></td>
+            <td><div class="emotion negative"><div class="emotion-dot"></div>Tedious</div></td>
+            <td>Amy opens Etherscan, finds the TxHash, copies it to Excel. Manually records: amount, date, supplier name, purpose. Has to look up the USD/TWD rate at that time from CoinGecko. Copies to a second sheet for the accountant.</td>
+            <td><ul class="tool-list"><li>Etherscan (manual)</li><li>CoinGecko / CMC</li><li>Excel (two sheets)</li><li>Copy-paste TxHash</li></ul></td>
+            <td><ul class="pain-list"><li>30+ minutes per transaction</li><li>FX rate not "official" — accountant may reject</li><li>Double data entry — errors accumulate</li><li>No link between invoice PDF and on-chain record</li></ul></td>
+            <td><span class="opp-badge critical">Auto-capture: on-chain data sync + official FX timestamp lock + invoice attachment</span></td>
+          </tr>
+          <tr>
+            <td><div class="step-name"><span class="step-num">6</span>Accountant Review</div></td>
+            <td><div class="emotion critical"><div class="emotion-dot"></div>Blocked</div></td>
+            <td>Amy emails Excel file to CPA. CPA cannot certify because: (a) no official FX rate at exact timestamp, (b) no verifiable approval trail, (c) they can't cross-reference Excel with actual chain. CPA requests more info. Cycle repeats.</td>
+            <td><ul class="tool-list"><li>Email (Excel attachment)</li><li>CPA phone call</li><li>Etherscan links</li></ul></td>
+            <td><ul class="pain-list"><li>Accountant cannot certify non-official FX rates</li><li>No audit trail proving authorization</li><li>CPA has no direct chain access</li><li>Audit cycle extends 2–4 weeks extra</li></ul></td>
+            <td><span class="opp-badge high">Auditor portal: read-only CPA access + official rate + approval chain proof</span></td>
+          </tr>
+          <tr>
+            <td><div class="step-name"><span class="step-num">7</span>Tax Filing</div></td>
+            <td><div class="emotion critical"><div class="emotion-dot"></div>Dread</div></td>
+            <td>CFO and accountant attempt to classify USDT received as income. No official Taiwan accounting code exists for stablecoin. Files under "other assets." Worries about audit. Some companies simply don't declare.</td>
+            <td><ul class="tool-list"><li>CPA judgment call</li><li>No official guidance</li><li>Manual classification</li></ul></td>
+            <td><ul class="pain-list"><li>No official Taiwan GL account code for stablecoins</li><li>Risk of clean opinion being refused</li><li>National Tax Bureau is preparing enforcement</li></ul></td>
+            <td><span class="opp-badge high">GL pre-classification layer + FSC-compliant accounting format export</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Journey 2: 2nd Gen -->
+    <div id="tab-j2" class="tab-content">
+      <div class="journey-header">
+        <div>
+          <h3>Family Asset & Cross-Border Capital Management — Current State</h3>
+          <div class="subtext">Persona: Kevin (2nd Gen CEO) · Segment B · Trigger: Need to move large sum internationally or pay overseas subsidiary</div>
+        </div>
+      </div>
+      <div class="emotion-bar">
+        <div class="emotion-bar-title">Emotional Journey</div>
+        <div class="emotion-track">
+          <div class="emotion-track-segment em-neutral">Decision<br>to Move</div>
+          <div class="emotion-track-segment em-neutral">OTC<br>Arrangement</div>
+          <div class="emotion-track-segment em-negative">Execute<br>Personally</div>
+          <div class="emotion-track-segment em-negative">Internal<br>Recording</div>
+          <div class="emotion-track-segment em-critical">Board<br>Questions</div>
+          <div class="emotion-track-segment em-critical">Tax Season<br>/ IRS</div>
+        </div>
+      </div>
+      <table class="journey-table">
+        <thead><tr>
+          <th style="width:16%">Step</th>
+          <th style="width:12%">Emotion</th>
+          <th style="width:22%">What They Do</th>
+          <th style="width:16%">Tools Used</th>
+          <th style="width:20%">Pain Points</th>
+          <th style="width:14%">Orgstar Opportunity</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><div class="step-name"><span class="step-num">1</span>Decide to Move Capital</div></td>
+            <td><div class="emotion neutral"><div class="emotion-dot"></div>Confident</div></td>
+            <td>Kevin decides to move $2M USDC to a Hong Kong holding company. No internal approval process exists — he IS the approval. Calls a trusted OTC broker on Signal.</td>
+            <td><ul class="tool-list"><li>Signal (encrypted messaging)</li><li>Personal relationships</li><li>No formal process</li></ul></td>
+            <td><ul class="pain-list"><li>Zero governance trail</li><li>No Segregation of Duties even at this level</li><li>Board has no visibility</li></ul></td>
+            <td><span class="opp-badge high">Private execution chain: full internal record without public exposure</span></td>
+          </tr>
+          <tr>
+            <td><div class="step-name"><span class="step-num">2</span>Execute via Personal Wallet</div></td>
+            <td><div class="emotion negative"><div class="emotion-dot"></div>Tense</div></td>
+            <td>Kevin transfers from his personal Ledger hardware wallet. Personal and company funds sit in the same wallet. The transaction is on public chain but nothing links it to the company.</td>
+            <td><ul class="tool-list"><li>Ledger hardware wallet</li><li>Personal MetaMask</li><li>Public blockchain</li></ul></td>
+            <td><ul class="pain-list"><li>Personal = company wallet = no separation</li><li>Public chain = competitor can see all flows</li><li>If device seized, everything exposed</li></ul></td>
+            <td><span class="opp-badge critical">Private execution chain + ZK selective disclosure: prove compliance without revealing counterparty</span></td>
+          </tr>
+          <tr>
+            <td><div class="step-name"><span class="step-num">3</span>Internal "Recording"</div></td>
+            <td><div class="emotion neutral"><div class="emotion-dot"></div>Skipped</div></td>
+            <td>Often nothing is recorded internally. Sometimes Kevin writes a one-line note in a personal notebook or tells his secretary to "note it somewhere." Finance team is unaware.</td>
+            <td><ul class="tool-list"><li>Personal notebook</li><li>Verbal instruction</li><li>Sometimes nothing</li></ul></td>
+            <td><ul class="pain-list"><li>Shadow ledger — no formal company record</li><li>Finance team cannot produce financial statements</li><li>Legal liability if this is audited</li></ul></td>
+            <td><span class="opp-badge critical">Shadow-to-light: private management mode with one-click compliance export</span></td>
+          </tr>
+          <tr>
+            <td><div class="step-name"><span class="step-num">4</span>Board Meeting / Reporting</div></td>
+            <td><div class="emotion critical"><div class="emotion-dot"></div>Anxious</div></td>
+            <td>Board asks about the company's digital asset holdings. Kevin gives a verbal summary. CFO has no documentation to back it up. Board minutes record "management confirmed digital asset position" — no verifiable data.</td>
+            <td><ul class="tool-list"><li>Verbal presentation</li><li>PowerPoint estimate</li><li>No blockchain data</li></ul></td>
+            <td><ul class="pain-list"><li>Cannot produce audited digital asset statement</li><li>Director liability if records don't match</li><li>Board trust erosion over time</li></ul></td>
+            <td><span class="opp-badge high">Governance dashboard: board-level read-only view with certified balances</span></td>
+          </tr>
+          <tr>
+            <td><div class="step-name"><span class="step-num">5</span>IRS & Tax Season</div></td>
+            <td><div class="emotion critical"><div class="emotion-dot"></div>Dread</div></td>
+            <td>Kevin has a US green card. CPA reminds him IRS requires global income disclosure. Kevin cannot determine cost basis for USDC received 18 months ago. Files inaccurately or not at all. Waits nervously.</td>
+            <td><ul class="tool-list"><li>CPA (limited crypto knowledge)</li><li>TurboTax (inadequate)</li><li>Manual guesswork</li></ul></td>
+            <td><ul class="pain-list"><li>No cost basis tracking per transaction</li><li>No IRS-compatible reporting format</li><li>Potential backdated tax liability</li><li>No tool that tracks global stablecoin income</li></ul></td>
+            <td><span class="opp-badge high">IRS US tax module: auto-track cost basis, generate 8949 / FBAR-compatible export</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Journey 3: Web3 COO -->
+    <div id="tab-j3" class="tab-content">
+      <div class="journey-header">
+        <div>
+          <h3>Enterprise Treasury & Payroll — Current State</h3>
+          <div class="subtext">Persona: Jake (COO) · Segment C · Trigger: Monthly payroll + investor treasury rebalance</div>
+        </div>
+      </div>
+      <div class="emotion-bar">
+        <div class="emotion-bar-title">Emotional Journey</div>
+        <div class="emotion-track">
+          <div class="emotion-track-segment em-neutral">Treasury<br>Planning</div>
+          <div class="emotion-track-segment em-negative">Approval<br>Chaos</div>
+          <div class="emotion-track-segment em-critical">Execution<br>Risk</div>
+          <div class="emotion-track-segment em-negative">Manual<br>Accounting</div>
+          <div class="emotion-track-segment em-critical">Auditor<br>Rejection</div>
+        </div>
+      </div>
+      <table class="journey-table">
+        <thead><tr>
+          <th style="width:16%">Step</th>
+          <th style="width:12%">Emotion</th>
+          <th style="width:22%">What They Do</th>
+          <th style="width:16%">Tools Used</th>
+          <th style="width:20%">Pain Points</th>
+          <th style="width:14%">Orgstar Opportunity</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><div class="step-name"><span class="step-num">1</span>Monthly Payroll Planning</div></td>
+            <td><div class="emotion neutral"><div class="emotion-dot"></div>Routine</div></td>
+            <td>Finance team compiles employee wallet addresses in a spreadsheet. COO reviews. CFO is asked to approve. But CFO also holds the Gnosis Safe signing key — making them both approver and executor.</td>
+            <td><ul class="tool-list"><li>Notion / Spreadsheet</li><li>Gnosis Safe (basic multisig)</li><li>Telegram group</li></ul></td>
+            <td><ul class="pain-list"><li>CFO is approver AND key holder = SoD violation</li><li>No formal payroll request process</li><li>No link between HR record and wallet address</li></ul></td>
+            <td><span class="opp-badge critical">SoD-enforced RBAC: CFO approves, specialist executes — loopback mechanism</span></td>
+          </tr>
+          <tr>
+            <td><div class="step-name"><span class="step-num">2</span>Multi-Sig Approval</div></td>
+            <td><div class="emotion negative"><div class="emotion-dot"></div>Frustrated</div></td>
+            <td>CFO and one other signer must both sign via Gnosis Safe. One signer is traveling. Approval waits 2 days. No audit record of why it was delayed. No escalation path. Employees paid late.</td>
+            <td><ul class="tool-list"><li>Gnosis Safe</li><li>Telegram (chasing)</li><li>No escalation workflow</li></ul></td>
+            <td><ul class="pain-list"><li>No structured escalation if approver unavailable</li><li>Gnosis Safe has no business workflow logic</li><li>Delay has no audit explanation</li></ul></td>
+            <td><span class="opp-badge high">Workflow engine: time-based escalation + backup approver designation</span></td>
+          </tr>
+          <tr>
+            <td><div class="step-name"><span class="step-num">3</span>Execute Transfers</div></td>
+            <td><div class="emotion critical"><div class="emotion-dot"></div>High Risk</div></td>
+            <td>CFO executes 40+ employee transfers one by one. No simulation. One wrong address costs the company real money. Last month $12K USDC was sent to a mistyped address — irreversible.</td>
+            <td><ul class="tool-list"><li>Gnosis Safe batch</li><li>Manual address verification</li><li>No simulation</li></ul></td>
+            <td><ul class="pain-list"><li>Irreversible errors — $12K lost last month</li><li>No pre-broadcast address verification</li><li>Batch execution is manual and error-prone</li></ul></td>
+            <td><span class="opp-badge critical">Simulation sandbox + KYT scan + batch address verification before broadcast</span></td>
+          </tr>
+          <tr>
+            <td><div class="step-name"><span class="step-num">4</span>Accounting & Reporting</div></td>
+            <td><div class="emotion negative"><div class="emotion-dot"></div>Tedious</div></td>
+            <td>Finance exports Gnosis Safe transaction history as CSV. Manually adds employee names, purpose, department. Formats into accounting template. Takes 2 full days per month. Still missing FX rates.</td>
+            <td><ul class="tool-list"><li>Gnosis Safe CSV export</li><li>Excel</li><li>CoinGecko for FX</li><li>Manual matching</li></ul></td>
+            <td><ul class="pain-list"><li>2 full days of manual work monthly</li><li>FX rate at execution time not captured</li><li>No department / project code tagging</li><li>Cannot auto-match to invoice</li></ul></td>
+            <td><span class="opp-badge high">Auto-accounting layer: on-chain sync + FX lock + dept tagging + one-click export</span></td>
+          </tr>
+          <tr>
+            <td><div class="step-name"><span class="step-num">5</span>Auditor Review</div></td>
+            <td><div class="emotion critical"><div class="emotion-dot"></div>Blocked</div></td>
+            <td>Big4 auditor declines to certify: "We cannot verify the authorization trail. Who approved this? When? Where is the segregation between approver and executor?" Audit fails. Investor reporting delayed by 6 weeks.</td>
+            <td><ul class="tool-list"><li>Auditor questionnaire</li><li>Email back-and-forth</li><li>Manual evidence gathering</li></ul></td>
+            <td><ul class="pain-list"><li>No SoD evidence for auditors</li><li>Authorization trail is chat messages only</li><li>6-week delay impacts investor confidence</li><li>Big4 may eventually refuse engagement</li></ul></td>
+            <td><span class="opp-badge critical">Auditor portal: read-only access, SoD proof, immutable approval chain, certified FX</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Journey 4: CPA -->
+    <div id="tab-j4" class="tab-content">
+      <div class="journey-header">
+        <div>
+          <h3>CPA Audit of Stablecoin Transactions — Current State</h3>
+          <div class="subtext">Persona: Eric / Yukuai (Blockchain CPA) · External Stakeholder · Trigger: Annual audit of crypto-active client</div>
+        </div>
+      </div>
+      <div class="emotion-bar">
+        <div class="emotion-bar-title">Emotional Journey</div>
+        <div class="emotion-track">
+          <div class="emotion-track-segment em-neutral">Engagement<br>Start</div>
+          <div class="emotion-track-segment em-negative">Data<br>Request</div>
+          <div class="emotion-track-segment em-critical">Verification<br>Attempt</div>
+          <div class="emotion-track-segment em-critical">FX Rate<br>Problem</div>
+          <div class="emotion-track-segment em-negative">Classification<br>Guesswork</div>
+          <div class="emotion-track-segment em-critical">Qualified<br>Opinion</div>
+        </div>
+      </div>
+      <table class="journey-table">
+        <thead><tr>
+          <th style="width:16%">Step</th>
+          <th style="width:12%">Emotion</th>
+          <th style="width:22%">What They Do</th>
+          <th style="width:16%">Tools Used</th>
+          <th style="width:20%">Pain Points</th>
+          <th style="width:14%">Orgstar Opportunity</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><div class="step-name"><span class="step-num">1</span>Data Request from Client</div></td>
+            <td><div class="emotion neutral"><div class="emotion-dot"></div>Routine</div></td>
+            <td>CPA asks client for all stablecoin transaction records. Client sends: a partial Excel file, some Etherscan links, screenshots of MetaMask. Data is incomplete and inconsistent.</td>
+            <td><ul class="tool-list"><li>Email request</li><li>Client Excel</li><li>MetaMask screenshots</li></ul></td>
+            <td><ul class="pain-list"><li>No standardized data format from clients</li><li>Screenshots not auditable</li><li>Incomplete records — gaps in transaction history</li></ul></td>
+            <td><span class="opp-badge high">Standardized export: accounting-ready CSV + complete chain history + TxHash links</span></td>
+          </tr>
+          <tr>
+            <td><div class="step-name"><span class="step-num">2</span>Verification of Transactions</div></td>
+            <td><div class="emotion critical"><div class="emotion-dot"></div>Frustrated</div></td>
+            <td>CPA manually cross-references each TxHash on Etherscan. Checks that amount, date, and sender match client records. For 200+ transactions, this takes 3–5 days. Some TxHashes are wrong.</td>
+            <td><ul class="tool-list"><li>Etherscan (manual)</li><li>TronScan</li><li>Cross-check with Excel</li></ul></td>
+            <td><ul class="pain-list"><li>3–5 days of manual verification per client</li><li>No automated cross-reference tool</li><li>Multi-chain (ETH + TRON) makes it harder</li></ul></td>
+            <td><span class="opp-badge high">Read-only auditor portal: CPA logs in, sees all verified on-chain records directly</span></td>
+          </tr>
+          <tr>
+            <td><div class="step-name"><span class="step-num">3</span>FX Rate Certification Problem</div></td>
+            <td><div class="emotion critical"><div class="emotion-dot"></div>Blocked</div></td>
+            <td>CPA needs official FX rate at exact transaction timestamp for TWD conversion. Client used CoinGecko daily closing rate — not acceptable. No official Taiwan source for stablecoin FX rates at timestamp.</td>
+            <td><ul class="tool-list"><li>CoinGecko (not official)</li><li>Central bank rate tables</li><li>Manual interpolation</li></ul></td>
+            <td><ul class="pain-list"><li>No recognized Taiwan official source for crypto FX rates</li><li>Daily rate ≠ exact timestamp rate</li><li>Cannot certify without this</li><li>Each CPA has their own interpretation</li></ul></td>
+            <td><span class="opp-badge critical">FX timestamp lock: auto-capture rate from recognized exchange (MAX) at exact settlement second</span></td>
+          </tr>
+          <tr>
+            <td><div class="step-name"><span class="step-num">4</span>Accounting Classification</div></td>
+            <td><div class="emotion negative"><div class="emotion-dot"></div>Guessing</div></td>
+            <td>CPA tries to classify USDT on client balance sheet. No IFRS / Taiwan GAAP code exists for stablecoins. Files under "inventory" or "other financial assets" — CPA makes a judgment call. Each firm does it differently.</td>
+            <td><ul class="tool-list"><li>IFRS judgment</li><li>Internal firm guidance</li><li>Peer consultation</li></ul></td>
+            <td><ul class="pain-list"><li>No official Taiwan GL code for stablecoins</li><li>IFRS and local GAAP silent on this</li><li>Inconsistent treatment across firms</li><li>Future regulatory change = retroactive restatement</li></ul></td>
+            <td><span class="opp-badge high">GL pre-classification engine: auto-suggest classification based on transaction type + current regulatory guidance</span></td>
+          </tr>
+          <tr>
+            <td><div class="step-name"><span class="step-num">5</span>Issue Audit Opinion</div></td>
+            <td><div class="emotion critical"><div class="emotion-dot"></div>Reluctant</div></td>
+            <td>CPA issues qualified opinion: "We were unable to independently verify the completeness of digital asset transactions due to insufficient records." Client loses ability to apply for bank credit using this financial statement.</td>
+            <td><ul class="tool-list"><li>Audit report template</li><li>Qualified opinion boilerplate</li></ul></td>
+            <td><ul class="pain-list"><li>Qualified opinion = client loses bank financing eligibility</li><li>Reputational risk for CPA firm</li><li>Big4 avoid crypto clients entirely for this reason</li></ul></td>
+            <td><span class="opp-badge critical">Complete audit package: immutable trail + FX rates + SoD proof = clean opinion enabler</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── SECTION 3: GAP SUMMARY ── -->
+  <div class="section">
+    <div class="section-title">Critical Workflow Gaps — What's Unsolved Today</div>
+    <p style="color:var(--muted);margin-bottom:28px;font-size:13px;">These are the structural gaps in users' current workflows that Orgstar must close. Severity is based on frequency and intensity across all interview sessions.</p>
+    <div class="gap-grid">
+      <div class="gap-card critical">
+        <div class="gap-icon">🔴</div>
+        <div class="gap-title">No On-Chain Audit Trail</div>
+        <div class="gap-desc">Transactions happen on public chain but no tool links them to company records, approvals, or invoice documents. Accountants cannot certify. Tax authority enforcement is imminent.</div>
+        <span class="gap-badge critical">CRITICAL · All Segments</span>
+      </div>
+      <div class="gap-card critical">
+        <div class="gap-icon">🔴</div>
+        <div class="gap-title">Zero Segregation of Duties</div>
+        <div class="gap-desc">The same person who approves a payment also executes it. This is an internal control failure that disqualifies companies from Big4 audit certification and board governance standards.</div>
+        <span class="gap-badge critical">CRITICAL · All Segments</span>
+      </div>
+      <div class="gap-card critical">
+        <div class="gap-icon">🔴</div>
+        <div class="gap-title">FX Rate Not Locked at Timestamp</div>
+        <div class="gap-desc">Accountants require the official exchange rate at the exact second of settlement. No tool auto-captures this from a recognized exchange. Without it, financial statements cannot be certified.</div>
+        <span class="gap-badge critical">CRITICAL · Segments A + C</span>
+      </div>
+      <div class="gap-card high">
+        <div class="gap-icon">🟠</div>
+        <div class="gap-title">No Pre-Transfer Verification</div>
+        <div class="gap-desc">Blockchain transfers are irreversible. One wrong address = permanent loss. No simulation sandbox, no address whitelist enforcement, no KYT scan before broadcast exists in current workflow.</div>
+        <span class="gap-badge high">HIGH · Segments A + C</span>
+      </div>
+      <div class="gap-card high">
+        <div class="gap-icon">🟠</div>
+        <div class="gap-title">Personal Wallet = Company Treasury</div>
+        <div class="gap-desc">Founders and CFOs use personal MetaMask/Ledger wallets for company funds. No separation, no access control, no company-level governance. If the individual is compromised, the company is too.</div>
+        <span class="gap-badge high">HIGH · Segments B + A</span>
+      </div>
+      <div class="gap-card high">
+        <div class="gap-icon">🟠</div>
+        <div class="gap-title">No Accountant-Facing Interface</div>
+        <div class="gap-desc">CPAs receive Excel files or Etherscan links and have to manually verify 200+ transactions per client. No read-only portal. No certified data feed. The entire audit process is manual and slow.</div>
+        <span class="gap-badge high">HIGH · External / GTM Channel</span>
+      </div>
+      <div class="gap-card medium">
+        <div class="gap-icon">🔵</div>
+        <div class="gap-title">No Taiwan GL Classification</div>
+        <div class="gap-desc">No official Taiwan GAAP/IFRS account code for stablecoins. Each accountant files differently. Creates retroactive restatement risk when FSC finally issues guidance.</div>
+        <span class="gap-badge medium">MEDIUM · All Segments</span>
+      </div>
+      <div class="gap-card medium">
+        <div class="gap-icon">🔵</div>
+        <div class="gap-title">Privacy vs. Compliance Tension</div>
+        <div class="gap-desc">Clients want governance for their boards but privacy from regulators and competitors. Current tools force a binary choice. No "selective disclosure" architecture exists in any tool they're using.</div>
+        <span class="gap-badge medium">MEDIUM · Segment B</span>
+      </div>
+      <div class="gap-card medium">
+        <div class="gap-icon">🔵</div>
+        <div class="gap-title">No US Tax (IRS) Module</div>
+        <div class="gap-desc">Many Taiwan founders/executives hold US green cards and have IRS global income reporting obligations. No tool tracks stablecoin cost basis or generates IRS-compatible exports. High willingness to pay.</div>
+        <span class="gap-badge medium">MEDIUM · Segment B</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 4: PRODUCT → WORKFLOW MAPPING ── -->
+  <div class="section">
+    <div class="section-title">Product Feature → Workflow Pain Point Mapping</div>
+    <p style="color:var(--muted);margin-bottom:28px;font-size:13px;">How the MVP scope maps against the most critical workflow gaps. Gaps highlighted in red are currently absent from the MVP and represent the highest risk to product-market fit.</p>
+    <table class="mapping-table">
+      <thead><tr>
+        <th style="width:22%">Workflow Pain Point</th>
+        <th style="width:18%">Affected Personas</th>
+        <th style="width:20%">MVP Scope Item</th>
+        <th style="width:12%">Coverage</th>
+        <th style="width:28%">Note / Gap</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>No formal approval trail</strong></td>
+          <td>All</td>
+          <td>Approval flow (Step 6)</td>
+          <td><span class="match">✅ Covered</span></td>
+          <td>Status transitions, approve/reject — core of the product. Well-designed.</td>
+        </tr>
+        <tr>
+          <td><strong>Zero Segregation of Duties</strong></td>
+          <td>David, Jake, Kevin</td>
+          <td>Role & permissions (Step 3)</td>
+          <td><span class="partial">⚠ Partial</span></td>
+          <td>Roles defined but the "loopback execution" mechanism (execution returns to original requester after CFO approval) needs to be explicitly implemented — not just a UI permission.</td>
+        </tr>
+        <tr>
+          <td><strong>No on-chain audit trail</strong></td>
+          <td>All</td>
+          <td>Audit Log (Step 7)</td>
+          <td><span class="partial">⚠ Partial</span></td>
+          <td>Logs who approved what — but does NOT capture on-chain TxHash linked to the record. Need auto-capture from chain to close the loop for accountants.</td>
+        </tr>
+        <tr>
+          <td><strong>FX rate not locked at timestamp</strong></td>
+          <td>David, Jake, Eric/CPA</td>
+          <td><em>Not in MVP scope</em></td>
+          <td><span class="gap-text">❌ Missing</span></td>
+          <td>This is a CRITICAL gap. Accountants cannot certify without this. Should be a must-have field in the accounting-ready data package — even using mock rate pulls initially.</td>
+        </tr>
+        <tr>
+          <td><strong>No pre-transfer simulation / address verification</strong></td>
+          <td>David, Amy, Jake</td>
+          <td><em>Not in MVP scope</em></td>
+          <td><span class="gap-text">❌ Missing</span></td>
+          <td>Key CFO trust blocker. Without a "dry run" or address whitelist check, enterprises will not use this for real transactions. Should be in MVP.</td>
+        </tr>
+        <tr>
+          <td><strong>Personal wallet = company treasury</strong></td>
+          <td>David, Kevin</td>
+          <td>Account / Wallet overview (Step 4)</td>
+          <td><span class="partial">⚠ Partial</span></td>
+          <td>Wallet overview exists (mock data). But the company wallet setup flow — how a company connects and separates from personal wallets — is not defined in the MVP scope.</td>
+        </tr>
+        <tr>
+          <td><strong>No accountant read-only interface</strong></td>
+          <td>Eric / Yukuai (CPA)</td>
+          <td><em>Not in MVP scope</em></td>
+          <td><span class="gap-text">❌ Missing</span></td>
+          <td>This is the GTM channel. Without a CPA read-only portal, the white-label accountant strategy cannot be activated. Should be added as a Viewer role with export + chain verification links.</td>
+        </tr>
+        <tr>
+          <td><strong>Manual data entry / double key-in</strong></td>
+          <td>Amy, Jake</td>
+          <td>Accounting-ready data package (Extra)</td>
+          <td><span class="match">✅ Covered</span></td>
+          <td>Accounting fields, attachment upload, export — all in Extra scope. Good coverage. Transaction purpose classification is also there.</td>
+        </tr>
+        <tr>
+          <td><strong>No GL classification for stablecoins</strong></td>
+          <td>Eric, David</td>
+          <td>Transaction purpose categories (Extra)</td>
+          <td><span class="partial">⚠ Partial</span></td>
+          <td>Purpose categories exist (supplier payment, cross-border, etc.) but GL account code pre-classification per Taiwan GAAP is not defined.</td>
+        </tr>
+        <tr>
+          <td><strong>Privacy vs. compliance tension</strong></td>
+          <td>Kevin</td>
+          <td><em>Not in MVP scope</em></td>
+          <td><span class="gap-text">❌ Missing</span></td>
+          <td>Shadow-to-light mode and ZK selective disclosure are Phase 2. Acceptable to defer but needs to be in the roadmap narrative for Segment B to buy in.</td>
+        </tr>
+        <tr>
+          <td><strong>IRS / US tax reporting gap</strong></td>
+          <td>Kevin</td>
+          <td><em>Not in MVP scope</em></td>
+          <td><span class="gap-text">❌ Missing</span></td>
+          <td>High willingness to pay. Acceptable to defer but should be surfaced as a roadmap item in Segment B demos.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── SECTION 5: DESIGN IMPLICATIONS ── -->
+  <div class="section">
+    <div class="section-title">Design Implications for the Product Team</div>
+    <p style="color:var(--muted);margin-bottom:28px;font-size:13px;">What the workflow research means for product and UX decisions in the current sprint.</p>
+    <div class="fix-grid">
+      <div class="fix-card">
+        <div class="fix-icon">🔁</div>
+        <div>
+          <div class="fix-title">Design the Loopback Execution Flow Explicitly</div>
+          <div class="fix-desc">The current approval flow stops at "approved." The critical design moment is what happens AFTER approval: execution authority must return to the original requester (Amy, not CFO). This anti-SoD violation mechanism is the single most important UX interaction in the entire product — design it as a distinct, unmistakable step.</div>
+          <div class="fix-segment">Segment A + C · Must-Have in current sprint</div>
+        </div>
+      </div>
+      <div class="fix-card">
+        <div class="fix-icon">📌</div>
+        <div>
+          <div class="fix-title">Add FX Rate as a Required Field — Even Mock</div>
+          <div class="fix-desc">In the transaction record view, add an "FX Rate at Settlement" field that pulls from a recognized source. Even if it's not live-connected yet, building the UI field and data schema now means accountants see what they need. The schema decision made today determines if the accounting package is certifiable.</div>
+          <div class="fix-segment">Segment A + C · Add to accounting-ready data layer</div>
+        </div>
+      </div>
+      <div class="fix-card">
+        <div class="fix-icon">👁️</div>
+        <div>
+          <div class="fix-title">Viewer Role = Accountant Portal (Don't Build Two Things)</div>
+          <div class="fix-desc">The "Viewer" role in the RBAC structure is the CPA read-only portal. Don't design these as separate features. Extend the Viewer role with: export button, chain verification links (TxHash links to Etherscan), and a printable audit package. This one feature activates the accountant GTM channel.</div>
+          <div class="fix-segment">External CPA Persona · GTM-critical · Current sprint</div>
+        </div>
+      </div>
+      <div class="fix-card">
+        <div class="fix-icon">🧪</div>
+        <div>
+          <div class="fix-title">Build a "Dry Run" Confirmation Screen Before Every Transfer</div>
+          <div class="fix-desc">Design a mandatory confirmation step that shows: destination address, amount, estimated gas, KYT status (even if "Not checked" initially), and a 10-second countdown or explicit checkbox. This is not just safety — it's the emotional reassurance that lets Amy and David actually use the product without fear. This one screen removes the biggest psychological blocker for operators.</div>
+          <div class="fix-segment">Segment A + C · High impact UX · Next sprint</div>
+        </div>
+      </div>
+      <div class="fix-card">
+        <div class="fix-icon">🌗</div>
+        <div>
+          <div class="fix-title">Design for "Private First, Compliance On Demand"</div>
+          <div class="fix-desc">For Segment B users (Kevin), the mental model is not "governance system" — it's "firewall." The product needs a mode where records exist internally but are not surfaced to external view by default. The compliance export (for board, auditor, tax) is an explicit user action, not a passive always-on data feed. This framing reduces adoption fear dramatically.</div>
+          <div class="fix-segment">Segment B · Roadmap Phase 2 · Frame in demo narrative now</div>
+        </div>
+      </div>
+      <div class="fix-card">
+        <div class="fix-icon">📋</div>
+        <div>
+          <div class="fix-title">Design Two Distinct Demo Scenarios for the Staging Build</div>
+          <div class="fix-desc">The completion criteria says "1–2 enterprise scenarios." Based on the journey maps, the two highest-impact scenarios are: (1) Cross-border supplier payment with full 7-step flow from invoice to auditor export — hits Segment A, (2) Payroll batch with SoD-enforced approval showing loopback — hits Segment C. Design both flows as scripts with specific amounts and company names so every demo feels real, not generic.</div>
+          <div class="fix-segment">All Segments · Staging demo requirement · Current sprint</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="page-footer">
+  Orgstar Innovation Technology · Current Workflow Research & Journey Maps · March 2026 · Principal Product Designer · Confidential
+</div>
+
+<script>
+function showTab(id, el) {
+  // Find the tab group (parent's children)
+  const tabsContainer = el.parentElement;
+  const contentParent = tabsContainer.parentElement;
+
+  // Deactivate all tabs in this group
+  tabsContainer.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+
+  // Find all tab-content siblings and hide them
+  // We need to figure out which set of tab-contents to manage
+  // They are the next siblings of the tabs div
+  let sibling = tabsContainer.nextElementSibling;
+  while (sibling && sibling.classList.contains('tab-content')) {
+    sibling.classList.remove('active');
+    sibling = sibling.nextElementSibling;
+  }
+
+  // Show the target
+  const target = document.getElementById('tab-' + id);
+  if (target) target.classList.add('active');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orgstar — Primary Persona Profiles</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  :root {
+    --navy: #1B3A5C;
+    --navy-light: #243f63;
+    --teal: #0D6E8A;
+    --teal-light: #EAF4F8;
+    --orange: #E07B29;
+    --orange-light: #FEF3E8;
+    --bg: #F0F4F8;
+    --white: #FFFFFF;
+    --text-primary: #111827;
+    --text-secondary: #6B7280;
+    --text-light: #9CA3AF;
+    --border: #E5E7EB;
+    --green: #1A7F5A;
+    --green-light: #ECFDF5;
+    --purple: #7C3AED;
+    --purple-light: #F5F3FF;
+    --red: #DC2626;
+    --red-light: #FEF2F2;
+    --amber: #D97706;
+    --amber-light: #FFFBEB;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+
+  /* ── Header ─────────────────────────────────────────────── */
+  .site-header {
+    background: var(--navy);
+    padding: 32px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-star {
+    width: 40px; height: 40px;
+    background: var(--orange);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+  }
+  .logo-text { color: white; font-size: 22px; font-weight: 700; }
+  .logo-sub { color: rgba(255,255,255,0.5); font-size: 13px; }
+  .header-meta { text-align: right; }
+  .header-meta h1 { color: white; font-size: 24px; font-weight: 700; }
+  .header-meta p { color: rgba(255,255,255,0.55); font-size: 13px; margin-top: 4px; }
+
+  /* ── Intro Bar ───────────────────────────────────────────── */
+  .intro-bar {
+    background: var(--teal);
+    padding: 16px 48px;
+    display: flex;
+    align-items: center;
+    gap: 48px;
+  }
+  .intro-stat { text-align: center; }
+  .intro-stat .num { color: white; font-size: 26px; font-weight: 800; }
+  .intro-stat .lbl { color: rgba(255,255,255,0.7); font-size: 12px; margin-top: 2px; }
+  .intro-divider { width: 1px; height: 40px; background: rgba(255,255,255,0.2); }
+  .intro-desc { color: rgba(255,255,255,0.85); font-size: 13px; flex: 1; line-height: 1.7; }
+
+  /* ── Main Layout ─────────────────────────────────────────── */
+  .main { padding: 40px 48px; max-width: 1360px; margin: 0 auto; }
+
+  /* ── Section Title ───────────────────────────────────────── */
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 32px;
+  }
+
+  /* ── Persona Card ────────────────────────────────────────── */
+  .persona-card {
+    background: var(--white);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07), 0 8px 32px rgba(0,0,0,0.05);
+    margin-bottom: 40px;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+  }
+
+  /* Left column */
+  .persona-left {
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    border-right: 1px solid var(--border);
+  }
+  .persona-avatar {
+    width: 80px; height: 80px;
+    border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px;
+    font-weight: 800;
+    color: white;
+    flex-shrink: 0;
+  }
+  .persona-identity { }
+  .persona-name { font-size: 22px; font-weight: 800; color: var(--navy); }
+  .persona-title { font-size: 14px; color: var(--text-secondary); margin-top: 4px; }
+  .persona-company { font-size: 13px; color: var(--text-light); margin-top: 2px; }
+
+  .role-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    width: fit-content;
+    margin-top: 10px;
+  }
+
+  .persona-quote {
+    background: var(--teal-light);
+    border-left: 3px solid var(--teal);
+    padding: 14px 16px;
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--navy);
+    line-height: 1.7;
+  }
+
+  .profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .profile-item { }
+  .profile-item .pi-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 3px;
+  }
+  .profile-item .pi-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .tech-bar-wrap { }
+  .tech-bar-wrap .pi-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 8px;
+  }
+  .tech-bar {
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 4px;
+  }
+  .tech-bar-fill { height: 100%; border-radius: 4px; }
+  .tech-bar-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-secondary); }
+
+  /* Right column */
+  .persona-right {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  .persona-section {
+    padding: 28px 28px;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+  }
+  .persona-section:nth-child(2n) { border-right: none; }
+  .persona-section:nth-last-child(-n+2) { border-bottom: none; }
+  .persona-section.full-width {
+    grid-column: 1 / -1;
+    border-right: none;
+  }
+
+  .ps-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ps-icon {
+    width: 22px; height: 22px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+  }
+
+  .goal-list, .pain-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .goal-list li, .pain-list li {
+    font-size: 13px;
+    color: var(--text-primary);
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .goal-list li::before {
+    content: "→";
+    position: absolute; left: 0;
+    color: var(--green);
+    font-weight: 700;
+    font-size: 12px;
+  }
+  .pain-list li::before {
+    content: "✕";
+    position: absolute; left: 0;
+    color: var(--red);
+    font-weight: 700;
+    font-size: 11px;
+    top: 2px;
+  }
+
+  .tools-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tool-tag {
+    padding: 4px 10px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .day-steps { display: flex; flex-direction: column; gap: 10px; }
+  .day-step {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .day-time {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--teal);
+    min-width: 44px;
+    font-family: 'Courier New', monospace;
+    margin-top: 2px;
+  }
+  .day-text { font-size: 13px; color: var(--text-primary); line-height: 1.5; }
+
+  .orgstar-fit {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .fit-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .fit-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+  .fit-text { color: var(--text-primary); }
+  .fit-text strong { color: var(--navy); }
+
+  /* ── Relationship Map ────────────────────────────────────── */
+  .relationship-section { margin-top: 48px; }
+  .rel-map {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  }
+  .rel-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .rel-card {
+    text-align: center;
+    padding: 20px 12px;
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+  }
+  .rel-avatar {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    margin: 0 auto 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 800; color: white;
+  }
+  .rel-name { font-size: 14px; font-weight: 700; color: var(--navy); }
+  .rel-role { font-size: 11px; color: var(--text-secondary); margin-top: 3px; }
+  .rel-orgstar-role {
+    margin-top: 10px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-block;
+  }
+  .rel-actions {
+    margin-top: 12px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* ── Footer ──────────────────────────────────────────────── */
+  .site-footer {
+    background: var(--navy);
+    padding: 24px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 64px;
+  }
+  .footer-left { color: rgba(255,255,255,0.5); font-size: 12px; }
+  .footer-right { color: rgba(255,255,255,0.4); font-size: 11px; }
+
+  /* ── Color schemes per persona ───────────────────────────── */
+  .p1 .persona-avatar { background: linear-gradient(135deg, #1B3A5C, #0D6E8A); }
+  .p1 .role-badge { background: rgba(27,58,92,0.1); color: #1B3A5C; }
+  .p1 .ps-title { color: #1B3A5C; }
+  .p1 .ps-icon { background: rgba(27,58,92,0.1); }
+  .p1 .header-accent { background: var(--navy); }
+
+  .p2 .persona-avatar { background: linear-gradient(135deg, #0D6E8A, #0EA5C9); }
+  .p2 .role-badge { background: rgba(13,110,138,0.1); color: #0D6E8A; }
+  .p2 .ps-title { color: #0D6E8A; }
+  .p2 .ps-icon { background: rgba(13,110,138,0.1); }
+
+  .p3 .persona-avatar { background: linear-gradient(135deg, #7C3AED, #A855F7); }
+  .p3 .role-badge { background: rgba(124,58,237,0.1); color: #7C3AED; }
+  .p3 .ps-title { color: #7C3AED; }
+  .p3 .ps-icon { background: rgba(124,58,237,0.1); }
+
+  .p4 .persona-avatar { background: linear-gradient(135deg, #E07B29, #F59E0B); }
+  .p4 .role-badge { background: rgba(224,123,41,0.1); color: #D97706; }
+  .p4 .ps-title { color: #D97706; }
+  .p4 .ps-icon { background: rgba(224,123,41,0.1); }
+
+  .p5 .persona-avatar { background: linear-gradient(135deg, #1A7F5A, #059669); }
+  .p5 .role-badge { background: rgba(26,127,90,0.1); color: #1A7F5A; }
+  .p5 .ps-title { color: #1A7F5A; }
+  .p5 .ps-icon { background: rgba(26,127,90,0.1); }
+
+  .tech-fill-1 { background: linear-gradient(90deg, #1B3A5C, #0D6E8A); }
+  .tech-fill-2 { background: linear-gradient(90deg, #0D6E8A, #0EA5C9); }
+  .tech-fill-3 { background: linear-gradient(90deg, #7C3AED, #A855F7); }
+  .tech-fill-4 { background: linear-gradient(90deg, #E07B29, #F59E0B); }
+  .tech-fill-5 { background: linear-gradient(90deg, #1A7F5A, #059669); }
+
+  .card-top-bar {
+    height: 6px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="site-header">
+  <div class="logo">
+    <div class="logo-star">⭐</div>
+    <div>
+      <div class="logo-text">Orgstar</div>
+      <div class="logo-sub">橙星創新科技</div>
+    </div>
+  </div>
+  <div class="header-meta">
+    <h1>Primary Persona Profiles</h1>
+    <p>Enterprise Stablecoin Governance System · Product Discovery · March 2026</p>
+  </div>
+</header>
+
+<!-- Intro Bar -->
+<div class="intro-bar">
+  <div class="intro-stat"><div class="num">5</div><div class="lbl">Primary Personas</div></div>
+  <div class="intro-divider"></div>
+  <div class="intro-stat"><div class="num">3</div><div class="lbl">User Segments</div></div>
+  <div class="intro-divider"></div>
+  <div class="intro-stat"><div class="num">7</div><div class="lbl">Research Sessions</div></div>
+  <div class="intro-divider"></div>
+  <div class="intro-desc">
+    Personas are grounded in primary research from 7 interview and advisory sessions across CFOs, operators, accountants, regulatory advisors, and Web3-native businesses. All names are representative composites based on interview data.
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- PERSONA 1: DAVID CHEN — CFO / APPROVER -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="section-label" style="margin-top: 8px;">Segment A · Cross-Border Trading Company</div>
+  <div class="section-title">Persona 01 — The Gatekeeper CFO</div>
+
+  <div class="persona-card p1">
+    <div class="card-top-bar" style="background: #1B3A5C; grid-column: 1/-1;"></div>
+    <!-- Left -->
+    <div class="persona-left">
+      <div style="display:flex; gap: 16px; align-items: flex-start;">
+        <div class="persona-avatar">DC</div>
+        <div class="persona-identity">
+          <div class="persona-name">David Chen</div>
+          <div class="persona-title">Chief Financial Officer</div>
+          <div class="persona-company">Mid-size Cross-Border Trading Co., Taiwan</div>
+          <div class="role-badge">🔒 Admin / CFO</div>
+        </div>
+      </div>
+
+      <div class="persona-quote">
+        "If I can't show the accountant exactly what rate we used and who approved it, we have a problem at year-end. The money moved — but can we prove it was legitimate?"
+      </div>
+
+      <div class="profile-grid">
+        <div class="profile-item">
+          <div class="pi-label">Age</div>
+          <div class="pi-value">45–55</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Team Size</div>
+          <div class="pi-value">5–15 finance staff</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Monthly Volume</div>
+          <div class="pi-value">USD 500K – 3M</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Crypto Exposure</div>
+          <div class="pi-value">Low — reluctant user</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Location</div>
+          <div class="pi-value">Taipei / New Taipei</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Primary Fear</div>
+          <div class="pi-value">Regulatory audit failure</div>
+        </div>
+      </div>
+
+      <div class="tech-bar-wrap">
+        <div class="pi-label">Tech Savviness</div>
+        <div class="tech-bar"><div class="tech-bar-fill tech-fill-1" style="width:35%"></div></div>
+        <div class="tech-bar-label"><span>Novice</span><span style="color:#1B3A5C; font-weight:700;">35 / 100</span><span>Expert</span></div>
+      </div>
+    </div>
+
+    <!-- Right -->
+    <div class="persona-right">
+      <div class="persona-section">
+        <div class="ps-title"><div class="ps-icon">🎯</div>Goals</div>
+        <ul class="goal-list">
+          <li>Maintain full visibility and control over all outgoing stablecoin transfers</li>
+          <li>Ensure every transaction has an immutable approval trail for year-end audit</li>
+          <li>Block any transfer he hasn't personally authorized</li>
+          <li>Reduce friction with external CPA at financial close</li>
+        </ul>
+      </div>
+      <div class="persona-section">
+        <div class="ps-title"><div class="ps-icon">⚡</div>Pain Points</div>
+        <ul class="pain-list">
+          <li>No audit trail when transactions are done through personal wallets or LINE messages</li>
+          <li>CPA refuses to certify stablecoin income without official FX timestamps</li>
+          <li>Worries about staff making unauthorized transfers while he's traveling</li>
+          <li>Cannot separate his approver role from execution — violates internal controls</li>
+        </ul>
+      </div>
+      <div class="persona-section">
+        <div class="ps-title"><div class="ps-icon">🛠</div>Current Tools</div>
+        <div class="tools-wrap">
+          <span class="tool-tag">上海銀行 wire</span>
+          <span class="tool-tag">Excel ledger</span>
+          <span class="tool-tag">LINE / WeChat</span>
+          <span class="tool-tag">MetaMask (reluctant)</span>
+          <span class="tool-tag">Printed receipts</span>
+          <span class="tool-tag">Email approval chain</span>
+        </div>
+      </div>
+      <div class="persona-section">
+        <div class="ps-title"><div class="ps-icon">☀️</div>A Day in the Life</div>
+        <div class="day-steps">
+          <div class="day-step"><div class="day-time">09:00</div><div class="day-text">Reviews overnight LINE messages from Amy about pending payments</div></div>
+          <div class="day-step"><div class="day-time">10:30</div><div class="day-text">Verbally approves a 45,000 USDT transfer — no paper trail</div></div>
+          <div class="day-step"><div class="day-time">14:00</div><div class="day-text">Amy executes the transfer; David has no confirmation record</div></div>
+          <div class="day-step"><div class="day-time">16:00</div><div class="day-text">Scrambles to reconstruct FX rate for the accountant from a screenshot</div></div>
+        </div>
+      </div>
+      <div class="persona-section full-width" style="border-bottom: none;">
+        <div class="ps-title"><div class="ps-icon">⭐</div>How Orgstar Fits</div>
+        <div class="orgstar-fit">
+          <div class="fit-row"><div class="fit-icon">✅</div><div class="fit-text"><strong>Approval inbox:</strong> All requests route to David's dashboard — no more LINE approvals</div></div>
+          <div class="fit-row"><div class="fit-icon">✅</div><div class="fit-text"><strong>SoD enforcement:</strong> David approves, but Amy executes — the system prevents David from being both</div></div>
+          <div class="fit-row"><div class="fit-icon">✅</div><div class="fit-text"><strong>Immutable audit log:</strong> Every approval is timestamped and locked — year-end CPA package auto-generated</div></div>
+          <div class="fit-row"><div class="fit-icon">✅</div><div class="fit-text"><strong>Mobile approval:</strong> Approve transfers with PIN from phone while traveling</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- PERSONA 2: AMY LIN — OPERATOR -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="persona-card p2">
+    <div class="card-top-bar" style="background: #0D6E8A; grid-column: 1/-1;"></div>
+    <!-- Left -->
+    <div class="persona-left">
+      <div style="display:flex; gap: 16px; align-items: flex-start;">
+        <div class="persona-avatar">AL</div>
+        <div class="persona-identity">
+          <div class="persona-name">Amy Lin</div>
+          <div class="persona-title">Finance / Operations Manager</div>
+          <div class="persona-company">Mid-size Cross-Border Trading Co., Taiwan</div>
+          <div class="role-badge">⚡ Operator</div>
+        </div>
+      </div>
+
+      <div class="persona-quote">
+        "I'm the one actually moving the money, but every step feels like I could make a mistake that can't be undone. I need to know the rate I used is on record — not just in my screenshot folder."
+      </div>
+
+      <div class="profile-grid">
+        <div class="profile-item">
+          <div class="pi-label">Age</div>
+          <div class="pi-value">28–38</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Transfers / Month</div>
+          <div class="pi-value">15–40 transactions</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Monthly Volume</div>
+          <div class="pi-value">Executes all transfers</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Crypto Exposure</div>
+          <div class="pi-value">Medium — daily user</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Reports To</div>
+          <div class="pi-value">David Chen (CFO)</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Primary Fear</div>
+          <div class="pi-value">Sending to wrong address</div>
+        </div>
+      </div>
+
+      <div class="tech-bar-wrap">
+        <div class="pi-label">Tech Savviness</div>
+        <div class="tech-bar"><div class="tech-bar-fill tech-fill-2" style="width:62%"></div></div>
+        <div class="tech-bar-label"><span>Novice</span><span style="color:#0D6E8A; font-weight:700;">62 / 100</span><span>Expert</span></div>
+      </div>
+    </div>
+
+    <!-- Right -->
+    <div class="persona-right">
+      <div class="persona-section">
+        <div class="ps-title"><div class="ps-icon">🎯</div>Goals</div>
+        <ul class="goal-list">
+          <li>Execute transfers quickly without fear of errors or missing CFO sign-off</li>
+          <li>Have a clear record of which FX rate she used for each transaction</li>
+          <li>Stop managing approval chains via LINE and email</li>
+          <li>Build a saved whitelist of verified wallet addresses</li>
+        </ul>
+      </div>
+      <div class="persona-section">
+        <div class="ps-title"><div class="ps-icon">⚡</div>Pain Points</div>
+        <ul class="pain-list">
+          <li>Terrified of sending to wrong wallet — no simulation or dry-run available</li>
+          <li>Has to screenshot MAX Exchange rate at exact execution time for records</li>
+          <li>CFO approval via LINE is informal and un-trackable</li>
+          <li>No way to scan wallet blacklists before sending — flies blind on compliance</li>
+        </ul>
+      </div>
+      <div class="persona-section">
+        <div class="ps-title"><div class="ps-icon">🛠</div>Current Tools</div>
+        <div class="tools-wrap">
+          <span class="tool-tag">MetaMask</span>
+          <span class="tool-tag">MAX Exchange</span>
+          <span class="tool-tag">LINE (approval)</span>
+          <span class="tool-tag">Google Sheets</span>
+          <span class="tool-tag">Screenshot folder</span>
+          <span class="tool-tag">Phone camera (FX proof)</span>
+        </div>
+      </div>
+      <div class="persona-section">
+        <div class="ps-title"><div class="ps-icon">☀️</div>A Day in the Life</div>
+        <div class="day-steps">
+          <div class="day-step"><div class="day-time">09:30</div><div class="day-text">Sends David payment request via LINE with amount and wallet address</div></div>
+          <div class="day-step"><div class="day-time">11:00</div><div class="day-text">David replies "OK" — Amy screenshots the conversation as proof</div></div>
+          <div class="day-step"><div class="day-time">14:32</div><div class="day-text">Manually checks MAX Exchange rate, screenshots it, then initiates MetaMask transfer</div></div>
+          <div class="day-step"><div class="day-time">14:35</div><div class="day-text">Pastes all screenshots into a Google Sheet row with transaction notes</div></div>
+        </div>
+      </div>
+      <div class="persona-section full-width" style="border-bottom: none;">
+        <div class="ps-title"><div class="ps-icon">⭐</div>How Orgstar Fits</div>
+        <div class="orgstar-fit">
+          <div class="fit-row"><div class="fit-icon">✅</div><div class="fit-text"><strong>Structured initiation form:</strong> Replaces the ad-hoc LINE message with a formal, auditable request</div></div>
+          <div class="fit-row"><div class="fit-icon">✅</div><div class="fit-text"><strong>Transaction simulation:</strong> Dry-run before broadcast — Amy sees it will succeed before committing</div></div>
+          <div class="fit-row"><div class="fit-icon">✅</div><div class="fit-text"><strong>FX timestamp lock:</strong> Rate auto-captured at execution second from MAX Exchange — no more screenshots</div></div>
+          <div class="fit-row"><div class="fit-icon">✅</div><div class="fit-text"><strong>Saved wallet whitelist:</strong> One-click to verified, pre-approved destinations</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- PERSONA 3: KEVIN HSU — 2ND GENERATION SUCCESSOR -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="section-label" style="margin-top: 16px;">Segment B · Listed / Family Business</div>
+  <div class="section-title">Persona 03 — The Successor with Something to Prove</div>
+
+  <div class="persona-card p3">
+    <div class="card-top-bar" style="background: #7C3AED; grid-column: 1/-1;"></div>
+    <!-- Left -->
+    <div class="persona-left">
+      <div style="display:flex; gap: 16px; align-items: flex-start;">
+        <div class="persona-avatar">KH</div>
+        <div class="persona-identity">
+          <div class="persona-name">Kevin Hsu</div>
+          <div class="persona-title">Deputy CEO / 2nd Generation Successor</div>
+          <div class="persona-company">Family-owned Listed Holding Company, Taiwan</div>
+          <div class="role-badge">🔑 Admin / Owner</div>
+        </div>
+      </div>
+
+      <div class="persona-quote">
+        "My father's generation used Swiss accounts. My generation uses stablecoins. The problem is the board and the auditor still live in my father's world — I need the receipts they'll accept."
+      </div>
+
+      <div class="profile-grid">
+        <div class="profile-item">
+          <div class="pi-label">Age</div>
+          <div class="pi-value">30–42</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Asset Scale</div>
+          <div class="pi-value">USD 5M – 50M+</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Stablecoin Use</div>
+          <div class="pi-value">Active — private mode</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Board Pressure</div>
+          <div class="pi-value">High — listed company</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Education</div>
+          <div class="pi-value">US / UK MBA or finance</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Primary Fear</div>
+          <div class="pi-value">Compliance gap exposed</div>
+        </div>
+      </div>
+
+      <div class="tech-bar-wrap">
+        <div class="pi-label">Tech Savviness</div>
+        <div class="tech-bar"><div class="tech-bar-fill tech-fill-3" style="width:72%"></div></div>
+        <div class="tech-bar-label"><span>Novice</span><span style="color:#7C3AED; font-weight:700;">72 / 100</span><span>Expert</span></div>
+      </div>
+    </div>
+
+    <!-- Right -->
+    <div class="persona-right">
+      <div class="persona-section">
+        <div class="ps-title"><div class="ps-icon">🎯</div>Goals</div>
+        <ul class="goal-list">
+          <li>Move significant sums in stablecoins quietly, then surface them with full compliance documentation when needed</li>
+          <li>Satisfy board-level audit requirements for digital asset holdings</li>
+          <li>Modernize family treasury management without triggering regulatory scrutiny prematurely</li>
+          <li>Build a defensible paper trail before the FSC tightens VASP rules further</li>
+        </ul>
+      </div>
+      <div class="persona-section">
+        <div class="ps-title"><div class="ps-icon">⚡</div>Pain Points</div>
+        <ul class="pain-list">
+          <li>Stablecoin transactions not recognized in traditional financial statements</li>
+          <li>Board and external auditors have zero framework for digital asset reconciliation</li>
+          <li>Existing tools (personal wallets, OTC desks) leave no board-presentable records</li>
+          <li>Regulatory grey zone creates personal liability risk as a named officer of a listed company</li>
+        </ul>
+      </div>
+      <div class="persona-section">
+        <div class="ps-title"><div class="ps-icon">🛠</div>Current Tools</div>
+        <div class="tools-wrap">
+          <span class="tool-tag">OTC desk (informal)</span>
+          <span class="tool-tag">Personal Ledger Wallet</span>
+          <span class="tool-tag">Binance / OKX</span>
+          <span class="tool-tag">Offshore account</span>
+          <span class="tool-tag">Family office Excel</span>
+          <span class="tool-tag">Private banker contact</span>
+        </div>
+      </div>
+      <div class="persona-section">
+        <div class="ps-title"><div class="ps-icon">☀️</div>A Day in the Life</div>
+        <div class="day-steps">
+          <div class="day-step"><div class="day-time">08:00</div><div class="day-text">Checks family office holdings across multiple wallets — no unified view</div></div>
+          <div class="day-step"><div class="day-time">10:00</div><div class="day-text">Board meeting — avoids mentioning stablecoin holdings, no compliant format to present</div></div>
+          <div class="day-step"><div class="day-time">14:00</div><div class="day-text">Moves 1.2M USDT through OTC desk — no certified rate, no audit trail</div></div>
+          <div class="day-step"><div class="day-time">17:30</div><div class="day-text">External CPA flags the HK account — Kevin manually explains the transfer source</div></div>
+        </div>
+      </div>
+      <div class="persona-section full-width" style="border-bottom: none;">
+        <div class="ps-title"><div class="ps-icon">⭐</div>How Orgstar Fits</div>
+        <div class="orgstar-fit">
+          <div class="fit-row"><div class="fit-icon">✅</div><div class="fit-text"><strong>Shadow-to-light mode:</strong> Manage transactions privately, then generate a compliant board-ready export when needed</div></div>
+          <div class="fit-row"><div class="fit-icon">✅</div><div class="fit-text"><strong>FX certification:</strong> Every transaction has a legally defensible TWD equivalent with source and timestamp</div></div>
+          <div class="fit-row"><div class="fit-icon">✅</div><div class="fit-text"><strong>Auditor portal:</strong> CPA gets read-only access to certified records — no more manual explanation sessions</div></div>
+          <div class="fit-row"><div class="fit-icon">⚠️</div><div class="fit-text"><strong>Complexity flag:</strong> Kevin's scale (USD 5M+) may require bespoke onboarding and dedicated CPA partnership</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- PERSONA 4: JAKE WU — WEB3 COO -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="section-label" style="margin-top: 16px;">Segment C · Web3-Native Business</div>
+  <div class="section-title">Persona 04 — The Web3 Operator Who Grew Up</div>
+
+  <div class="persona-card p4">
+    <div class="card-top-bar" style="background: #E07B29; grid-column: 1/-1;"></div>
+    <!-- Left -->
+    <div class="persona-left">
+      <div style="display:flex; gap: 16px; align-items: flex-start;">
+        <div class="persona-avatar">JW</div>
+        <div class="persona-identity">
+          <div class="persona-name">Jake Wu</div>
+          <div class="persona-title">COO / Co-founder</div>
+          <div class="persona-company">Web3 / Crypto-native Startup, Taiwan</div>
+          <div class="role-badge">⚙️ Admin / Operator</div>
+        </div>
+      </div>
+
+      <div class="persona-quote">
+        "I've been moving crypto since 2017. The tech isn't the problem — the problem is when I try to pay contractors in USDT and they ask for a receipt that my accountant will accept. That's the gap."
+      </div>
+
+      <div class="profile-grid">
+        <div class="profile-item">
+          <div class="pi-label">Age</div>
+          <div class="pi-value">28–38</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Team Size</div>
+          <div class="pi-value">5–25, globally distributed</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Use Case</div>
+          <div class="pi-value">Payroll + treasury</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Crypto Literacy</div>
+          <div class="pi-value">Very high — daily DeFi</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Pain Trigger</div>
+          <div class="pi-value">Tax season / audits</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Primary Fear</div>
+          <div class="pi-value">Bank account frozen</div>
+        </div>
+      </div>
+
+      <div class="tech-bar-wrap">
+        <div class="pi-label">Tech Savviness</div>
+        <div class="tech-bar"><div class="tech-bar-fill tech-fill-4" style="width:90%"></div></div>
+        <div class="tech-bar-label"><span>Novice</span><span style="color:#D97706; font-weight:700;">90 / 100</span><span>Expert</span></div>
+      </div>
+    </div>
+
+    <!-- Right -->
+    <div class="persona-right">
+      <div class="persona-section">
+        <div class="ps-title"><div class="ps-icon">🎯</div>Goals</div>
+        <ul class="goal-list">
+          <li>Pay global contractors and staff in USDT with compliant payroll records</li>
+          <li>Generate accounting exports that a Taiwan CPA firm will accept without pushback</li>
+          <li>Maintain a clean audit trail so bank accounts aren't flagged as "crypto-linked"</li>
+          <li>Separate treasury management from daily operations with proper role controls</li>
+        </ul>
+      </div>
+      <div class="persona-section">
+        <div class="ps-title"><div class="ps-icon">⚡</div>Pain Points</div>
+        <ul class="pain-list">
+          <li>Paying staff via MetaMask — no payroll record the government recognizes</li>
+          <li>Bank froze company account after detecting large USDT inflows — no recourse</li>
+          <li>CPA charges extra hours every quarter to manually reconstruct stablecoin records</li>
+          <li>No separation between his personal wallet and company treasury</li>
+        </ul>
+      </div>
+      <div class="persona-section">
+        <div class="ps-title"><div class="ps-icon">🛠</div>Current Tools</div>
+        <div class="tools-wrap">
+          <span class="tool-tag">Gnosis Safe</span>
+          <span class="tool-tag">MetaMask</span>
+          <span class="tool-tag">Etherscan (manual)</span>
+          <span class="tool-tag">Notion (fake ledger)</span>
+          <span class="tool-tag">Binance Pay</span>
+          <span class="tool-tag">CoinTracker</span>
+        </div>
+      </div>
+      <div class="persona-section">
+        <div class="ps-title"><div class="ps-icon">☀️</div>A Day in the Life</div>
+        <div class="day-steps">
+          <div class="day-step"><div class="day-time">10:00</div><div class="day-text">Initiates batch payroll transfers from Gnosis Safe to 12 contractor addresses</div></div>
+          <div class="day-step"><div class="day-time">10:30</div><div class="day-text">Pastes TX hashes into Notion — builds a manual "payroll record"</div></div>
+          <div class="day-step"><div class="day-time">14:00</div><div class="day-text">CPA calls — needs TWD equivalent for each contractor payment, Jake scrambles</div></div>
+          <div class="day-step"><div class="day-time">16:00</div><div class="day-text">Checks if bank is still receiving USDT conversions — notices unusual flagging</div></div>
+        </div>
+      </div>
+      <div class="persona-section full-width" style="border-bottom: none;">
+        <div class="ps-title"><div class="ps-icon">⭐</div>How Orgstar Fits</div>
+        <div class="orgstar-fit">
+          <div class="fit-row"><div class="fit-icon">✅</div><div class="fit-text"><strong>Payroll batch flow:</strong> Multi-recipient transfer with per-recipient records and FX timestamps</div></div>
+          <div class="fit-row"><div class="fit-icon">✅</div><div class="fit-text"><strong>Bank defensibility:</strong> KYT scan records + approval chain = evidence that transfers were AML-compliant</div></div>
+          <div class="fit-row"><div class="fit-icon">✅</div><div class="fit-text"><strong>CPA export package:</strong> One-click certified accounting package — ends the quarterly scramble</div></div>
+          <div class="fit-row"><div class="fit-icon">⚠️</div><div class="fit-text"><strong>Adoption risk:</strong> Jake's high tech literacy means he'll scrutinize the product deeply — quality must be high</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- PERSONA 5: ERIC CHEN — CPA ACCOUNTANT -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="section-label" style="margin-top: 16px;">GTM Channel · External Enabler</div>
+  <div class="section-title">Persona 05 — The CPA Who Unlocks the Deal</div>
+
+  <div class="persona-card p5">
+    <div class="card-top-bar" style="background: #1A7F5A; grid-column: 1/-1;"></div>
+    <!-- Left -->
+    <div class="persona-left">
+      <div style="display:flex; gap: 16px; align-items: flex-start;">
+        <div class="persona-avatar">EC</div>
+        <div class="persona-identity">
+          <div class="persona-name">Eric Chen</div>
+          <div class="persona-title">CPA / Blockchain Accountant</div>
+          <div class="persona-company">Crowe TW / Independent CPA Practice</div>
+          <div class="role-badge">📋 Viewer / Auditor</div>
+        </div>
+      </div>
+
+      <div class="persona-quote">
+        "I have 30 clients asking me about stablecoin accounting. My answer is always the same: I need an exchange rate from a recognized source, a timestamp, and a clear chain of who authorized it. No one has been able to give me all three — until now."
+      </div>
+
+      <div class="profile-grid">
+        <div class="profile-item">
+          <div class="pi-label">Age</div>
+          <div class="pi-value">35–50</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Stablecoin Clients</div>
+          <div class="pi-value">10–30 active</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Blockchain Literacy</div>
+          <div class="pi-value">Medium — growing fast</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Orgstar Access</div>
+          <div class="pi-value">Read-only portal</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Influence</div>
+          <div class="pi-value">Very high — gate opener</div>
+        </div>
+        <div class="profile-item">
+          <div class="pi-label">Primary Need</div>
+          <div class="pi-value">Certifiable FX proof</div>
+        </div>
+      </div>
+
+      <div class="tech-bar-wrap">
+        <div class="pi-label">Tech Savviness</div>
+        <div class="tech-bar"><div class="tech-bar-fill tech-fill-5" style="width:48%"></div></div>
+        <div class="tech-bar-label"><span>Novice</span><span style="color:#1A7F5A; font-weight:700;">48 / 100</span><span>Expert</span></div>
+      </div>
+    </div>
+
+    <!-- Right -->
+    <div class="persona-right">
+      <div class="persona-section">
+        <div class="ps-title"><div class="ps-icon">🎯</div>Goals</div>
+        <ul class="goal-list">
+          <li>Certify stablecoin transactions with confidence — using recognized exchange rates</li>
+          <li>Access client transaction records without having to chase them via email</li>
+          <li>Reduce time spent manually reconstructing digital asset ledgers at year-end</li>
+          <li>Stay ahead of FSC regulatory changes and advise clients proactively</li>
+        </ul>
+      </div>
+      <div class="persona-section">
+        <div class="ps-title"><div class="ps-icon">⚡</div>Pain Points</div>
+        <ul class="pain-list">
+          <li>Clients send screenshots of FX rates — legally unacceptable as certified proof</li>
+          <li>No standardized format for stablecoin transaction records in Taiwan</li>
+          <li>Spends 5–10 hours per client per quarter manually building a stablecoin ledger</li>
+          <li>Cannot verify approval chain — does not know if transfers were authorized</li>
+        </ul>
+      </div>
+      <div class="persona-section">
+        <div class="ps-title"><div class="ps-icon">🛠</div>Current Tools</div>
+        <div class="tools-wrap">
+          <span class="tool-tag">Etherscan (manual)</span>
+          <span class="tool-tag">Client Excel files</span>
+          <span class="tool-tag">Email threads</span>
+          <span class="tool-tag">CoinGecko (FX ref)</span>
+          <span class="tool-tag">TWSE rate tables</span>
+          <span class="tool-tag">Audit software</span>
+        </div>
+      </div>
+      <div class="persona-section">
+        <div class="ps-title"><div class="ps-icon">☀️</div>A Day in the Life</div>
+        <div class="day-steps">
+          <div class="day-step"><div class="day-time">09:00</div><div class="day-text">Client emails 47 MetaMask transaction screenshots — requests Q1 cert</div></div>
+          <div class="day-step"><div class="day-time">10:30</div><div class="day-text">Manually cross-references each TX hash on Etherscan with CoinGecko rates</div></div>
+          <div class="day-step"><div class="day-time">14:00</div><div class="day-text">Discovers 3 transactions have no identifiable rate source — calls client</div></div>
+          <div class="day-step"><div class="day-time">16:30</div><div class="day-text">Adds a qualified disclaimer to the audit report — can't fully certify</div></div>
+        </div>
+      </div>
+      <div class="persona-section full-width" style="border-bottom: none;">
+        <div class="ps-title"><div class="ps-icon">⭐</div>How Orgstar Fits — GTM Significance</div>
+        <div class="orgstar-fit">
+          <div class="fit-row"><div class="fit-icon">✅</div><div class="fit-text"><strong>Read-only auditor portal:</strong> Eric logs in directly — no more email chains, no data gaps</div></div>
+          <div class="fit-row"><div class="fit-icon">✅</div><div class="fit-text"><strong>FX certification package:</strong> MAX Exchange rate + timestamp + TX hash in one certified export</div></div>
+          <div class="fit-row"><div class="fit-icon">✅</div><div class="fit-text"><strong>Approval chain visibility:</strong> Eric can see who authorized each transaction — meets audit standards</div></div>
+          <div class="fit-row"><div class="fit-icon">🚀</div><div class="fit-text"><strong>Channel multiplier:</strong> Eric has 30 stablecoin clients. If Orgstar solves his workflow, he recommends it to all 30. He is the GTM unlock.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- RELATIONSHIP MAP -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="relationship-section">
+    <div class="section-label">System View</div>
+    <div class="section-title">How Personas Interact Inside Orgstar</div>
+
+    <div class="rel-map">
+      <div style="display: grid; grid-template-columns: repeat(5,1fr); gap: 16px;">
+
+        <div class="rel-card">
+          <div class="rel-avatar" style="background: linear-gradient(135deg, #1B3A5C, #0D6E8A);">DC</div>
+          <div class="rel-name">David Chen</div>
+          <div class="rel-role">CFO</div>
+          <div class="rel-orgstar-role" style="background: rgba(27,58,92,0.1); color: #1B3A5C;">Admin / Approver</div>
+          <div class="rel-actions">Reviews requests<br>Approves transfers<br>Views all reports</div>
+        </div>
+
+        <div class="rel-card">
+          <div class="rel-avatar" style="background: linear-gradient(135deg, #0D6E8A, #0EA5C9);">AL</div>
+          <div class="rel-name">Amy Lin</div>
+          <div class="rel-role">Operator</div>
+          <div class="rel-orgstar-role" style="background: rgba(13,110,138,0.1); color: #0D6E8A;">Initiator / Executor</div>
+          <div class="rel-actions">Initiates transfers<br>Runs KYT scan<br>Executes post-approval</div>
+        </div>
+
+        <div class="rel-card">
+          <div class="rel-avatar" style="background: linear-gradient(135deg, #7C3AED, #A855F7);">KH</div>
+          <div class="rel-name">Kevin Hsu</div>
+          <div class="rel-role">Deputy CEO</div>
+          <div class="rel-orgstar-role" style="background: rgba(124,58,237,0.1); color: #7C3AED;">Admin / Owner</div>
+          <div class="rel-actions">Manages private holdings<br>Generates board reports<br>Controls all access</div>
+        </div>
+
+        <div class="rel-card">
+          <div class="rel-avatar" style="background: linear-gradient(135deg, #E07B29, #F59E0B);">JW</div>
+          <div class="rel-name">Jake Wu</div>
+          <div class="rel-role">COO / Co-founder</div>
+          <div class="rel-orgstar-role" style="background: rgba(224,123,41,0.1); color: #D97706;">Admin + Operator</div>
+          <div class="rel-actions">Manages payroll<br>Controls treasury<br>Generates CPA exports</div>
+        </div>
+
+        <div class="rel-card">
+          <div class="rel-avatar" style="background: linear-gradient(135deg, #1A7F5A, #059669);">EC</div>
+          <div class="rel-name">Eric Chen</div>
+          <div class="rel-role">CPA / Auditor</div>
+          <div class="rel-orgstar-role" style="background: rgba(26,127,90,0.1); color: #1A7F5A;">Viewer / Auditor</div>
+          <div class="rel-actions">Reviews records<br>Downloads exports<br>Certifies transactions</div>
+        </div>
+
+      </div>
+
+      <!-- Flow diagram description -->
+      <div style="margin-top: 32px; background: #F0F4F8; border-radius: 12px; padding: 24px;">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--teal); margin-bottom: 16px;">Core Transaction Flow — Segregation of Duties</div>
+        <div style="display: flex; align-items: center; gap: 0; flex-wrap: wrap; gap: 8px;">
+          <div style="background: #0D6E8A; color: white; padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600;">① Amy Initiates</div>
+          <div style="color: var(--text-light); font-size: 18px; font-weight: 300;">→</div>
+          <div style="background: white; border: 2px solid #0D6E8A; color: #0D6E8A; padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600;">KYT Auto-Scan</div>
+          <div style="color: var(--text-light); font-size: 18px; font-weight: 300;">→</div>
+          <div style="background: #1B3A5C; color: white; padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600;">② David Approves</div>
+          <div style="color: var(--text-light); font-size: 18px; font-weight: 300;">→</div>
+          <div style="background: #E07B29; color: white; padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600;">③ Amy Executes</div>
+          <div style="color: var(--text-light); font-size: 18px; font-weight: 300;">→</div>
+          <div style="background: white; border: 2px dashed #E07B29; color: #D97706; padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600;">FX Rate Locked</div>
+          <div style="color: var(--text-light); font-size: 18px; font-weight: 300;">→</div>
+          <div style="background: #1A7F5A; color: white; padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600;">④ Eric Certifies</div>
+        </div>
+        <div style="margin-top: 14px; font-size: 12px; color: var(--text-secondary);">
+          ⚠️ Key design principle: David cannot execute. Amy cannot approve. Eric cannot modify. Each persona's capabilities are bounded by their role — by design.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-left">Orgstar 橙星創新科技 · Primary Persona Profiles · Product Discovery · March 2026 · CONFIDENTIAL</div>
+  <div class="footer-right">Based on 7 primary research sessions · Synthesized by Product Design</div>
+</footer>
+
+</body>
+</html>
